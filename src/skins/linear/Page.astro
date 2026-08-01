@@ -1,0 +1,1387 @@
+---
+/**
+ * SKIN: Linear Dark  ·  swipe ref: linear-dark  ·  archetype: Dark SaaS
+ *
+ * Near-black base, one electric violet accent, hairline structure, fine grain.
+ * Motion is slow and eased. Nothing bounces. No hard shadows, no pure white.
+ */
+import { content as c } from '../../lib/content';
+
+const year = 2026;
+---
+
+<div class="lin">
+  <div class="lin-grain" aria-hidden="true"></div>
+
+  <header class="lin-nav">
+    <div class="lin-wrap lin-nav__in">
+      <a class="lin-brand" href="#">
+        <span class="lin-brand__mark">{c.brand.mark}</span>
+        <span class="lin-brand__name">{c.brand.name}</span>
+      </a>
+      <nav class="lin-nav__links" aria-label="Primary">
+        {c.nav.links.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+      <div class="lin-nav__act">
+        <a class="lin-nav__login" href="#">Log in</a>
+        <a class="lin-btn lin-btn--sm" href={c.nav.cta.href}>{c.nav.cta.label}</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="lin-hero">
+    <div class="lin-hero__glow" aria-hidden="true"></div>
+    <div class="lin-wrap lin-hero__in">
+      <a class="lin-pill" href="#" data-reveal>
+        <span class="lin-pill__dot"></span>
+        {c.hero.eyebrow}
+        <span class="lin-pill__arrow">&rsaquo;</span>
+      </a>
+      <h1 class="lin-h1" data-reveal style="--reveal-delay:60ms">
+        {c.hero.headline}<br /><span class="lin-h1__accent">{c.hero.headlineAccent}</span>
+      </h1>
+      <p class="lin-sub" data-reveal style="--reveal-delay:120ms">{c.hero.sub}</p>
+      <div class="lin-hero__cta" data-reveal style="--reveal-delay:180ms">
+        <a class="lin-btn" href={c.hero.ctaPrimary.href}>{c.hero.ctaPrimary.label}</a>
+        <a class="lin-btn lin-btn--ghost" href={c.hero.ctaSecondary.href}>
+          {c.hero.ctaSecondary.label}
+        </a>
+      </div>
+      <p class="lin-note" data-reveal style="--reveal-delay:240ms">{c.hero.note}</p>
+
+      <div class="lin-app" data-reveal style="--reveal-delay:300ms">
+        <div class="lin-app__bar">
+          <span class="lin-app__dots"><i></i><i></i><i></i></span>
+          <span class="lin-app__url">{c.brand.domain}/inbox</span>
+        </div>
+        <div class="lin-app__body">
+          <aside class="lin-app__side">
+            <div class="lin-app__sideItem is-on">Inbox<em>12</em></div>
+            <div class="lin-app__sideItem">Projects<em>8</em></div>
+            <div class="lin-app__sideItem">Approvals<em>3</em></div>
+            <div class="lin-app__sideItem">Billing</div>
+            <div class="lin-app__sideItem">Capacity</div>
+            <div class="lin-app__sideSep"></div>
+            <div class="lin-app__sideItem lin-app__sideItem--dim">Northline</div>
+            <div class="lin-app__sideItem lin-app__sideItem--dim">Fielder &amp; Co</div>
+            <div class="lin-app__sideItem lin-app__sideItem--dim">Halcyon</div>
+          </aside>
+          <div class="lin-app__main">
+            <div class="lin-app__row lin-app__row--head">
+              <span>Item</span><span>Client</span><span>Owner</span><span>Due</span>
+            </div>
+            {
+              [
+                ['Q3 brand system', 'Northline', 'DW', 'Today', 'is-hot'],
+                ['Invoice 2418 approval', 'Halcyon', 'PR', 'Today', 'is-hot'],
+                ['Site copy, round two', 'Fielder & Co', 'MI', 'Tue', ''],
+                ['Capacity plan, Sep', 'Internal', 'DW', 'Wed', ''],
+                ['Onboarding call notes', 'Brightpath', 'JS', 'Thu', ''],
+                ['Contract renewal', 'Sable Studio', 'PR', 'Fri', ''],
+              ].map(([item, client, owner, due, hot]) => (
+                <div class={`lin-app__row ${hot}`}>
+                  <span class="lin-app__item">
+                    <i class="lin-app__tick"></i>
+                    {item}
+                  </span>
+                  <span class="lin-app__muted">{client}</span>
+                  <span class="lin-app__av">{owner}</span>
+                  <span class="lin-app__muted">{due}</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lin-logos">
+    <div class="lin-wrap">
+      <p class="lin-logos__label" data-reveal>{c.logos.label}</p>
+      <div class="lin-logos__row" data-reveal>
+        {c.logos.items.map((n) => <span class="lin-logos__item">{n}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="lin-sec" id="features">
+    <div class="lin-wrap">
+      <div class="lin-head" data-reveal>
+        <p class="lin-eyebrow">{c.features.eyebrow}</p>
+        <h2 class="lin-h2">{c.features.headline}</h2>
+        <p class="lin-lead">{c.features.sub}</p>
+      </div>
+      <div class="lin-grid">
+        {
+          c.features.items.map((f, i) => (
+            <article class="lin-card" data-reveal style={`--reveal-delay:${i * 60}ms`}>
+              <span class="lin-card__glyph">{f.glyph}</span>
+              <h3 class="lin-card__t">{f.title}</h3>
+              <p class="lin-card__b">{f.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="lin-sec lin-sec--tight" id="showcase">
+    <div class="lin-wrap lin-split">
+      <div class="lin-split__copy" data-reveal>
+        <p class="lin-eyebrow">{c.showcase.eyebrow}</p>
+        <h2 class="lin-h2">{c.showcase.headline}</h2>
+        <p class="lin-lead">{c.showcase.body}</p>
+        <ul class="lin-checks">
+          {
+            c.showcase.bullets.map((b) => (
+              <li>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path
+                    d="m2.8 7.2 2.8 2.8 5.6-6"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                {b}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="lin-split__vis" data-reveal style="--reveal-delay:120ms">
+        <div class="lin-flow">
+          {
+            [
+              ['Google Workspace', 'Calendar, Drive, Gmail'],
+              ['Slack', 'Threads and approvals'],
+              ['Stripe', 'Invoices and payouts'],
+            ].map(([t, s]) => (
+              <div class="lin-flow__node">
+                <span class="lin-flow__dot" />
+                <span>
+                  <strong>{t}</strong>
+                  <em>{s}</em>
+                </span>
+              </div>
+            ))
+          }
+          <div class="lin-flow__line" aria-hidden="true"></div>
+          <div class="lin-flow__hub">
+            <span class="lin-flow__hubMark">{c.brand.mark}</span>
+            <strong>{c.brand.name}</strong>
+            <em>One source of truth</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lin-stats">
+    <div class="lin-wrap lin-stats__row">
+      {
+        c.stats.map((s, i) => (
+          <div class="lin-stat" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+            <strong>{s.value}</strong>
+            <span>{s.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="lin-sec" id="proof">
+    <div class="lin-wrap">
+      <div class="lin-head" data-reveal>
+        <p class="lin-eyebrow">{c.proof.eyebrow}</p>
+        <h2 class="lin-h2">{c.proof.headline}</h2>
+      </div>
+      <div class="lin-quotes">
+        {
+          c.testimonials.map((t, i) => (
+            <figure class="lin-quote" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+              <blockquote>{t.quote}</blockquote>
+              <figcaption>
+                <span class="lin-quote__av">{t.name.charAt(0)}</span>
+                <span>
+                  <strong>{t.name}</strong>
+                  <em>
+                    {t.role}, {t.company}
+                  </em>
+                </span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="lin-sec" id="pricing">
+    <div class="lin-wrap">
+      <div class="lin-head" data-reveal>
+        <p class="lin-eyebrow">{c.pricing.eyebrow}</p>
+        <h2 class="lin-h2">{c.pricing.headline}</h2>
+        <p class="lin-lead">{c.pricing.sub}</p>
+      </div>
+      <div class="lin-plans">
+        {
+          c.pricing.plans.map((p, i) => (
+            <article
+              class:list={['lin-plan', { 'is-feat': p.featured }]}
+              data-reveal
+              style={`--reveal-delay:${i * 70}ms`}
+            >
+              {p.featured && <span class="lin-plan__tag">Most teams</span>}
+              <h3 class="lin-plan__n">{p.name}</h3>
+              <p class="lin-plan__blurb">{p.blurb}</p>
+              <p class="lin-plan__price">
+                <strong>{p.price}</strong>
+                <span>{p.period}</span>
+              </p>
+              <a class:list={['lin-btn', 'lin-btn--full', { 'lin-btn--ghost': !p.featured }]} href="#cta">
+                {p.cta}
+              </a>
+              <ul class="lin-plan__list">
+                {p.features.map((f) => (
+                  <li>
+                    <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                      <path
+                        d="m2.8 7.2 2.8 2.8 5.6-6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="lin-sec lin-sec--tight">
+    <div class="lin-wrap lin-faq">
+      <div class="lin-faq__head" data-reveal>
+        <p class="lin-eyebrow">{c.faqHead.eyebrow}</p>
+        <h2 class="lin-h2">{c.faqHead.headline}</h2>
+      </div>
+      <div class="lin-faq__list" data-reveal style="--reveal-delay:80ms">
+        {
+          c.faq.map((f, i) => (
+            <details class="lin-faq__item" open={i === 0}>
+              <summary>
+                {f.q}
+                <span class="lin-faq__ico" aria-hidden="true" />
+              </summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="lin-cta" id="cta">
+    <div class="lin-cta__glow" aria-hidden="true"></div>
+    <div class="lin-wrap lin-cta__in" data-reveal>
+      <h2 class="lin-h1 lin-h1--sm">{c.cta.headline}</h2>
+      <p class="lin-sub">{c.cta.sub}</p>
+      <div class="lin-hero__cta">
+        <a class="lin-btn" href={c.cta.button.href}>{c.cta.button.label}</a>
+      </div>
+      <p class="lin-note">{c.cta.note}</p>
+    </div>
+  </section>
+
+  <footer class="lin-foot">
+    <div class="lin-wrap lin-foot__in">
+      <div class="lin-foot__brand">
+        <a class="lin-brand" href="#">
+          <span class="lin-brand__mark">{c.brand.mark}</span>
+          <span class="lin-brand__name">{c.brand.name}</span>
+        </a>
+        <p>{c.brand.tagline}</p>
+      </div>
+      {
+        c.footer.columns.map((col) => (
+          <div class="lin-foot__col">
+            <h4>{col.title}</h4>
+            <ul>
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href}>{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div class="lin-wrap lin-foot__legal">
+      <span>&copy; {year} {c.brand.name}</span>
+      <span>{c.footer.legal}</span>
+    </div>
+  </footer>
+</div>
+
+<script is:inline>
+  (function () {
+    var hero = document.querySelector('.lin-hero');
+    var glow = document.querySelector('.lin-hero__glow');
+    if (!hero || !glow) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(hover: none)').matches) return;
+    var raf = 0;
+    hero.addEventListener('pointermove', function (e) {
+      if (raf) return;
+      raf = requestAnimationFrame(function () {
+        raf = 0;
+        var r = hero.getBoundingClientRect();
+        glow.style.setProperty('--mx', ((e.clientX - r.left) / r.width) * 100 + '%');
+        glow.style.setProperty('--my', ((e.clientY - r.top) / r.height) * 100 + '%');
+      });
+    });
+  })();
+</script>
+
+<style is:global>
+  .lin {
+    --bg: #08090a;
+    --bg-2: #0e0f11;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-2: rgba(255, 255, 255, 0.14);
+    --fg: #f7f8f8;
+    --fg-2: #b4b8bf;
+    --fg-3: #8a8f98;
+    --acc: #5e6ad2;
+    --acc-2: #7c74f6;
+    --acc-3: #3f8ff0;
+
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
+    letter-spacing: -0.011em;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .lin-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .lin-wrap {
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+
+  /* ---------- nav ---------- */
+  .lin-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid var(--line);
+    background: rgba(8, 9, 10, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .lin-nav__in {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 60px;
+  }
+
+  .lin-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    text-decoration: none;
+    font-weight: 560;
+    letter-spacing: -0.02em;
+    flex: none;
+  }
+
+  .lin-brand__mark {
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
+    background: linear-gradient(150deg, var(--acc-2), var(--acc));
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .lin-nav__links {
+    display: flex;
+    gap: 26px;
+    margin-right: auto;
+    font-size: 13.5px;
+    color: var(--fg-3);
+  }
+
+  .lin-nav__links a {
+    text-decoration: none;
+    transition: color 0.18s ease;
+  }
+
+  .lin-nav__links a:hover {
+    color: var(--fg);
+  }
+
+  .lin-nav__act {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: none;
+  }
+
+  .lin-nav__login {
+    font-size: 13.5px;
+    color: var(--fg-3);
+    text-decoration: none;
+    transition: color 0.18s ease;
+  }
+
+  .lin-nav__login:hover {
+    color: var(--fg);
+  }
+
+  /* ---------- buttons ---------- */
+  .lin-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 42px;
+    padding: 0 20px;
+    border-radius: 8px;
+    background: var(--fg);
+    color: #0b0c0e;
+    font-size: 14px;
+    font-weight: 550;
+    text-decoration: none;
+    letter-spacing: -0.012em;
+    border: 1px solid transparent;
+    transition: opacity 0.18s ease, transform 0.18s ease, background 0.18s ease;
+  }
+
+  .lin-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  .lin-btn--sm {
+    height: 32px;
+    padding: 0 14px;
+    font-size: 13px;
+    border-radius: 7px;
+  }
+
+  .lin-btn--ghost {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--fg);
+    border-color: var(--line-2);
+  }
+
+  .lin-btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .lin-btn--full {
+    width: 100%;
+  }
+
+  /* ---------- hero ---------- */
+  .lin-hero {
+    position: relative;
+    padding: 96px 0 0;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lin-hero__glow {
+    --mx: 50%;
+    --my: 22%;
+    position: absolute;
+    inset: -20% -10% auto;
+    height: 780px;
+    pointer-events: none;
+    background:
+      radial-gradient(560px 380px at var(--mx) var(--my), rgba(124, 116, 246, 0.22), transparent 70%),
+      radial-gradient(900px 520px at 50% -10%, rgba(63, 143, 240, 0.16), transparent 68%);
+    transition: background-position 0.4s ease;
+    animation: lin-drift 22s ease-in-out infinite alternate;
+  }
+
+  @keyframes lin-drift {
+    from {
+      transform: translate3d(-2%, 0, 0) scale(1);
+    }
+    to {
+      transform: translate3d(2%, 2%, 0) scale(1.06);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lin-hero__glow {
+      animation: none;
+    }
+  }
+
+  .lin-hero__in {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .lin-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px 5px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: rgba(255, 255, 255, 0.03);
+    font-size: 12.5px;
+    color: var(--fg-2);
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .lin-pill:hover {
+    border-color: rgba(124, 116, 246, 0.5);
+    color: var(--fg);
+  }
+
+  .lin-pill__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--acc-2);
+    box-shadow: 0 0 0 3px rgba(124, 116, 246, 0.18);
+  }
+
+  .lin-pill__arrow {
+    color: var(--fg-3);
+  }
+
+  .lin-h1 {
+    margin: 26px auto 0;
+    max-width: 15ch;
+    font-size: clamp(2.6rem, 6.2vw, 4.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    font-weight: 600;
+  }
+
+  .lin-h1--sm {
+    font-size: clamp(2.2rem, 4.6vw, 3.4rem);
+  }
+
+  .lin-h1__accent {
+    background: linear-gradient(96deg, #a9a3ff 0%, #7c74f6 42%, #58a8f5 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lin-sub {
+    margin: 22px auto 0;
+    max-width: 58ch;
+    font-size: clamp(1rem, 1.35vw, 1.125rem);
+    line-height: 1.62;
+    color: var(--fg-2);
+  }
+
+  .lin-hero__cta {
+    margin-top: 30px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .lin-note {
+    margin-top: 16px;
+    font-size: 12.5px;
+    color: var(--fg-3);
+  }
+
+  /* ---------- app mock ---------- */
+  .lin-app {
+    margin: 62px auto -1px;
+    max-width: 1000px;
+    border: 1px solid var(--line-2);
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    background: linear-gradient(180deg, #101114, #0b0c0e);
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.06) inset, 0 40px 120px -30px rgba(94, 106, 210, 0.28);
+    overflow: hidden;
+    text-align: left;
+  }
+
+  .lin-app__bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 38px;
+    padding-inline: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lin-app__dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .lin-app__dots i {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.13);
+  }
+
+  .lin-app__url {
+    font-size: 11.5px;
+    color: var(--fg-3);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lin-app__body {
+    display: grid;
+    grid-template-columns: 188px 1fr;
+    min-height: 340px;
+  }
+
+  .lin-app__side {
+    border-right: 1px solid var(--line);
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .lin-app__sideItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 9px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    color: var(--fg-2);
+  }
+
+  .lin-app__sideItem em {
+    font-style: normal;
+    font-size: 11px;
+    color: var(--fg-3);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lin-app__sideItem.is-on {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--fg);
+  }
+
+  .lin-app__sideItem--dim {
+    color: var(--fg-3);
+    font-size: 12px;
+  }
+
+  .lin-app__sideSep {
+    height: 1px;
+    background: var(--line);
+    margin: 10px 9px;
+  }
+
+  .lin-app__main {
+    padding: 8px 0;
+  }
+
+  .lin-app__row {
+    display: grid;
+    grid-template-columns: 1fr 130px 52px 62px;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+  }
+
+  .lin-app__row--head {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-3);
+    padding-block: 8px;
+  }
+
+  .lin-app__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--fg);
+  }
+
+  .lin-app__tick {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(255, 255, 255, 0.22);
+    flex: none;
+  }
+
+  .lin-app__row.is-hot .lin-app__tick {
+    border-color: var(--acc-2);
+    box-shadow: inset 0 0 0 2.5px rgba(124, 116, 246, 0.55);
+  }
+
+  .lin-app__muted {
+    color: var(--fg-3);
+    font-size: 12.5px;
+  }
+
+  .lin-app__av {
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--fg-2);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--line);
+  }
+
+  /* ---------- logos ---------- */
+  .lin-logos {
+    padding: 52px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lin-logos__label {
+    text-align: center;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--fg-3);
+  }
+
+  .lin-logos__row {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px 46px;
+  }
+
+  .lin-logos__item {
+    font-size: 17px;
+    font-weight: 560;
+    letter-spacing: -0.02em;
+    color: rgba(247, 248, 248, 0.42);
+    transition: color 0.2s ease;
+  }
+
+  .lin-logos__item:hover {
+    color: rgba(247, 248, 248, 0.8);
+  }
+
+  /* ---------- sections ---------- */
+  .lin-sec {
+    padding: 104px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lin-sec--tight {
+    padding: 88px 0;
+  }
+
+  .lin-head {
+    max-width: 640px;
+    margin-bottom: 52px;
+  }
+
+  .lin-eyebrow {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--acc-2);
+    margin-bottom: 14px;
+  }
+
+  .lin-h2 {
+    font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+  }
+
+  .lin-lead {
+    margin-top: 16px;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--fg-2);
+    max-width: 56ch;
+  }
+
+  /* ---------- feature grid ---------- */
+  .lin-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .lin-card {
+    background: var(--bg);
+    padding: 32px 28px 34px;
+    position: relative;
+    transition: background 0.25s ease;
+  }
+
+  .lin-card:hover {
+    background: #0d0e11;
+  }
+
+  .lin-card__glyph {
+    display: block;
+    font-size: 11.5px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.1em;
+    color: var(--fg-3);
+    margin-bottom: 20px;
+  }
+
+  .lin-card__t {
+    font-size: 1.0625rem;
+    font-weight: 560;
+    letter-spacing: -0.02em;
+  }
+
+  .lin-card__b {
+    margin-top: 10px;
+    font-size: 14.5px;
+    line-height: 1.62;
+    color: var(--fg-3);
+  }
+
+  /* ---------- split ---------- */
+  .lin-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: center;
+  }
+
+  .lin-checks {
+    margin-top: 28px;
+    display: grid;
+    gap: 13px;
+  }
+
+  .lin-checks li {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    font-size: 14.5px;
+    color: var(--fg-2);
+    line-height: 1.5;
+  }
+
+  .lin-checks svg {
+    flex: none;
+    margin-top: 3px;
+    color: var(--acc-2);
+  }
+
+  .lin-flow {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+    display: grid;
+    gap: 12px;
+  }
+
+  .lin-flow__node {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 15px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .lin-flow__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--fg-3);
+    flex: none;
+  }
+
+  .lin-flow__node strong {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 550;
+  }
+
+  .lin-flow__node em {
+    display: block;
+    font-style: normal;
+    font-size: 12px;
+    color: var(--fg-3);
+    margin-top: 2px;
+  }
+
+  .lin-flow__line {
+    height: 26px;
+    margin: 2px auto;
+    width: 1px;
+    background: linear-gradient(180deg, var(--line-2), rgba(124, 116, 246, 0.6));
+  }
+
+  .lin-flow__hub {
+    padding: 20px;
+    border: 1px solid rgba(124, 116, 246, 0.34);
+    border-radius: 11px;
+    background: radial-gradient(120% 140% at 50% 0%, rgba(124, 116, 246, 0.16), transparent 70%);
+    text-align: center;
+  }
+
+  .lin-flow__hubMark {
+    width: 28px;
+    height: 28px;
+    margin: 0 auto 10px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    background: linear-gradient(150deg, var(--acc-2), var(--acc));
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .lin-flow__hub strong {
+    display: block;
+    font-size: 14.5px;
+    font-weight: 560;
+  }
+
+  .lin-flow__hub em {
+    display: block;
+    font-style: normal;
+    font-size: 12px;
+    color: var(--fg-3);
+    margin-top: 3px;
+  }
+
+  /* ---------- stats ---------- */
+  .lin-stats {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(94, 106, 210, 0.06), transparent);
+  }
+
+  .lin-stats__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+  }
+
+  .lin-stat strong {
+    display: block;
+    font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lin-stat span {
+    display: block;
+    margin-top: 7px;
+    font-size: 13px;
+    color: var(--fg-3);
+  }
+
+  /* ---------- quotes ---------- */
+  .lin-quotes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .lin-quote {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .lin-quote blockquote {
+    font-size: 15px;
+    line-height: 1.62;
+    color: var(--fg);
+    flex: 1;
+  }
+
+  .lin-quote figcaption {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+
+  .lin-quote__av {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    background: rgba(124, 116, 246, 0.16);
+    color: #c3bfff;
+    border: 1px solid rgba(124, 116, 246, 0.3);
+    flex: none;
+  }
+
+  .lin-quote figcaption strong {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 550;
+  }
+
+  .lin-quote figcaption em {
+    display: block;
+    font-style: normal;
+    font-size: 12px;
+    color: var(--fg-3);
+    margin-top: 2px;
+  }
+
+  /* ---------- pricing ---------- */
+  .lin-plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    align-items: start;
+  }
+
+  .lin-plan {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    padding: 30px 26px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.022), transparent);
+  }
+
+  .lin-plan.is-feat {
+    border-color: rgba(124, 116, 246, 0.42);
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgba(124, 116, 246, 0.13), transparent 62%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
+  }
+
+  .lin-plan__tag {
+    position: absolute;
+    top: -10px;
+    left: 26px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 550;
+    letter-spacing: 0.02em;
+    background: linear-gradient(120deg, var(--acc-2), var(--acc));
+    color: #fff;
+  }
+
+  .lin-plan__n {
+    font-size: 15px;
+    font-weight: 560;
+  }
+
+  .lin-plan__blurb {
+    margin-top: 7px;
+    font-size: 13px;
+    color: var(--fg-3);
+    line-height: 1.55;
+    min-height: 40px;
+  }
+
+  .lin-plan__price {
+    margin: 22px 0 20px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .lin-plan__price strong {
+    font-size: 2.2rem;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lin-plan__price span {
+    font-size: 12.5px;
+    color: var(--fg-3);
+  }
+
+  .lin-plan__list {
+    margin-top: 24px;
+    display: grid;
+    gap: 11px;
+  }
+
+  .lin-plan__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--fg-2);
+    line-height: 1.5;
+  }
+
+  .lin-plan__list svg {
+    flex: none;
+    margin-top: 4px;
+    color: var(--acc-2);
+  }
+
+  /* ---------- faq ---------- */
+  .lin-faq {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .lin-faq__item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lin-faq__item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    font-size: 15px;
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+    transition: color 0.18s ease;
+  }
+
+  .lin-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .lin-faq__item summary:hover {
+    color: #fff;
+  }
+
+  .lin-faq__ico {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    flex: none;
+  }
+
+  .lin-faq__ico::before,
+  .lin-faq__ico::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1.5px;
+    background: var(--fg-3);
+    border-radius: 2px;
+    transition: transform 0.22s ease;
+  }
+
+  .lin-faq__ico::after {
+    transform: rotate(90deg);
+  }
+
+  .lin-faq__item[open] .lin-faq__ico::after {
+    transform: rotate(0deg);
+  }
+
+  .lin-faq__item p {
+    padding: 0 0 22px;
+    max-width: 62ch;
+    font-size: 14.5px;
+    line-height: 1.68;
+    color: var(--fg-3);
+  }
+
+  /* ---------- cta ---------- */
+  .lin-cta {
+    position: relative;
+    padding: 110px 0;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lin-cta__glow {
+    position: absolute;
+    inset: auto -20% -60%;
+    height: 620px;
+    pointer-events: none;
+    background: radial-gradient(620px 300px at 50% 100%, rgba(124, 116, 246, 0.24), transparent 70%);
+  }
+
+  .lin-cta__in {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  /* ---------- footer ---------- */
+  .lin-foot {
+    padding: 64px 0 0;
+  }
+
+  .lin-foot__in {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 40px;
+    padding-bottom: 52px;
+  }
+
+  .lin-foot__brand p {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--fg-3);
+    max-width: 26ch;
+    line-height: 1.6;
+  }
+
+  .lin-foot__col h4 {
+    font-size: 12px;
+    font-weight: 550;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--fg-3);
+    margin-bottom: 16px;
+  }
+
+  .lin-foot__col ul {
+    display: grid;
+    gap: 11px;
+  }
+
+  .lin-foot__col a {
+    font-size: 13.5px;
+    color: var(--fg-2);
+    text-decoration: none;
+    transition: color 0.18s ease;
+  }
+
+  .lin-foot__col a:hover {
+    color: var(--fg);
+  }
+
+  .lin-foot__legal {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 22px 24px 96px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--fg-3);
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 940px) {
+    .lin-grid,
+    .lin-quotes,
+    .lin-plans {
+      grid-template-columns: 1fr 1fr;
+    }
+    .lin-split,
+    .lin-faq {
+      grid-template-columns: 1fr;
+      gap: 44px;
+    }
+    .lin-nav__links {
+      display: none;
+    }
+    .lin-nav__in {
+      gap: 16px;
+    }
+    .lin-nav__act {
+      margin-left: auto;
+    }
+    .lin-foot__in {
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+    .lin-app__body {
+      grid-template-columns: 1fr;
+    }
+    .lin-app__side {
+      display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .lin-hero {
+      padding-top: 64px;
+    }
+    .lin-sec,
+    .lin-sec--tight {
+      padding: 72px 0;
+    }
+    .lin-grid,
+    .lin-quotes,
+    .lin-plans,
+    .lin-stats__row {
+      grid-template-columns: 1fr;
+    }
+    .lin-stats__row {
+      gap: 24px;
+    }
+    .lin-app__row {
+      grid-template-columns: 1fr 60px;
+    }
+    .lin-app__row > *:nth-child(2),
+    .lin-app__row > *:nth-child(3) {
+      display: none;
+    }
+    .lin-foot__legal {
+      padding-bottom: 88px;
+    }
+  }
+</style>

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+qa-shots/
+.DS_Store
+.env
+.env.*
+.vercel

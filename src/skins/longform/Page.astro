@@ -1,0 +1,2487 @@
+---
+/**
+ * SKIN: AG1 Long-Form Science Sales  ·  swipe ref: ag1-longform  ·  archetype: Long-Form Sales
+ *
+ * Warm sand and bone bands, deep forest green brand, muted gold accent, Fraunces
+ * for the emotional headlines and Inter for everything that has to look clinical.
+ * The layout carries the funnel: quiz entry, problem, mechanism, ingredient panel,
+ * numbers, press, reviews, offer, guarantee, FAQ, close. Motion is calm, never bouncy.
+ */
+import { content as c } from '../../lib/content';
+
+const year = 2026;
+
+const stars = [0, 1, 2, 3, 4];
+const seal = Array.from({ length: 24 }, (_, i) => i * 15);
+
+const featured = c.pricing.plans.find((p) => p.featured) ?? c.pricing.plans[0];
+const countStat = c.stats.find((s) => s.value.includes('+')) ?? c.stats[c.stats.length - 1];
+const badgeStat = c.stats[0];
+
+const steps = c.showcase.bullets.slice(0, 3);
+const restBullets = c.showcase.bullets.slice(3);
+const stepLabels = ['Step one', 'Step two', 'Step three'];
+---
+
+<div class="lf">
+  <div class="lf-announce">
+    <div class="lf-wrap lf-announce__in">
+      <span class="lf-announce__dot" aria-hidden="true"></span>
+      <span>{c.hero.note}</span>
+    </div>
+  </div>
+
+  <header class="lf-nav">
+    <div class="lf-wrap lf-nav__in">
+      <a class="lf-brand" href="#">
+        <span class="lf-brand__mark">{c.brand.mark}</span>
+        <span class="lf-brand__name">{c.brand.name}</span>
+      </a>
+      <nav class="lf-nav__links" aria-label="Primary">
+        {c.nav.links.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+      <div class="lf-nav__act">
+        <a class="lf-nav__login" href="#">Log in</a>
+        <a class="lf-btn lf-btn--sm" href={c.nav.cta.href}>{c.nav.cta.label}</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="lf-hero">
+    <div class="lf-hero__wash" aria-hidden="true"></div>
+    <div class="lf-wrap lf-hero__in">
+      <div class="lf-hero__copy">
+        <p class="lf-eyebrow" data-reveal>{c.hero.eyebrow}</p>
+        <h1 class="lf-h1" data-reveal style="--reveal-delay:60ms">
+          {c.hero.headline}
+          <span class="lf-h1__accent">{c.hero.headlineAccent}</span>
+        </h1>
+        <p class="lf-lead" data-reveal style="--reveal-delay:120ms">{c.hero.sub}</p>
+
+        <div class="lf-hero__cta" data-reveal style="--reveal-delay:180ms">
+          <a class="lf-btn lf-btn--lg" href={c.hero.ctaPrimary.href}>{c.hero.ctaPrimary.label}</a>
+          <a class="lf-link" href={c.hero.ctaSecondary.href}>
+            {c.hero.ctaSecondary.label}
+            <span aria-hidden="true">&rsaquo;</span>
+          </a>
+        </div>
+
+        <div class="lf-rating" data-reveal style="--reveal-delay:240ms">
+          <span class="lf-stars" aria-hidden="true">
+            {
+              stars.map(() => (
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M10 1.6l2.4 5.3 5.8.6-4.3 3.9 1.2 5.7L10 14.2 4.9 17.1l1.2-5.7L1.8 7.5l5.8-.6z" />
+                </svg>
+              ))
+            }
+          </span>
+          <span class="lf-rating__txt">
+            <strong>{countStat.value}</strong>
+            {countStat.label}
+          </span>
+        </div>
+      </div>
+
+      <div class="lf-hero__vis" data-reveal style="--reveal-delay:300ms">
+        <div class="lf-plinth" aria-hidden="true"></div>
+        <div class="lf-obj">
+          <span class="lf-obj__lid" aria-hidden="true"></span>
+          <span class="lf-obj__neck" aria-hidden="true"></span>
+          <div class="lf-obj__body">
+            <div class="lf-obj__label">
+              <span class="lf-obj__mark">{c.brand.mark}</span>
+              <strong class="lf-obj__name">{c.brand.name}</strong>
+              <span class="lf-obj__rule" aria-hidden="true"></span>
+              <span class="lf-obj__tag">{c.brand.tagline}</span>
+              <span class="lf-obj__dom">{c.brand.domain}</span>
+            </div>
+            <span class="lf-obj__gloss" aria-hidden="true"></span>
+          </div>
+          <span class="lf-obj__shadow" aria-hidden="true"></span>
+        </div>
+        <div class="lf-badge">
+          <strong>{badgeStat.value}</strong>
+          <span>{badgeStat.label}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lf-logos">
+    <div class="lf-wrap">
+      <p class="lf-logos__label" data-reveal>{c.logos.label}</p>
+      <div class="lf-logos__row" data-reveal style="--reveal-delay:80ms">
+        {c.logos.items.map((n) => <span class="lf-logos__item">{n}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="lf-sec lf-sec--sand">
+    <div class="lf-wrap">
+      <div class="lf-head lf-head--center" data-reveal>
+        <p class="lf-eyebrow">{c.problem.eyebrow}</p>
+        <h2 class="lf-h2">{c.problem.headline}</h2>
+        <p class="lf-lead">{c.problem.body}</p>
+      </div>
+      <div class="lf-probs">
+        {
+          c.problem.points.map((p, i) => (
+            <article class="lf-prob" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+              <span class="lf-prob__n" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3 class="lf-prob__t">{p.title}</h3>
+              <p class="lf-prob__b">{p.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="lf-sec lf-sec--bone" id="showcase">
+    <div class="lf-wrap">
+      <div class="lf-head lf-head--center" data-reveal>
+        <p class="lf-eyebrow">{c.showcase.eyebrow}</p>
+        <h2 class="lf-h2">{c.showcase.headline}</h2>
+        <p class="lf-lead">{c.showcase.body}</p>
+      </div>
+
+      <div class="lf-steps">
+        <span class="lf-steps__line" aria-hidden="true"></span>
+        {
+          steps.map((b, i) => (
+            <div class="lf-step" data-reveal style={`--reveal-delay:${i * 90}ms`}>
+              <span class="lf-step__n">{String(i + 1).padStart(2, '0')}</span>
+              <span class="lf-step__k">{stepLabels[i]}</span>
+              <p class="lf-step__b">{b}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      {
+        restBullets.length > 0 && (
+          <ul class="lf-steps__note" data-reveal style="--reveal-delay:280ms">
+            {restBullets.map((b) => (
+              <li>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path
+                    d="m2.8 7.2 2.8 2.8 5.6-6"
+                    stroke="currentColor"
+                    stroke-width="1.9"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                {b}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="lf-sec lf-sec--sand" id="features">
+    <div class="lf-wrap">
+      <div class="lf-head lf-head--center" data-reveal>
+        <p class="lf-eyebrow">{c.features.eyebrow}</p>
+        <h2 class="lf-h2">{c.features.headline}</h2>
+      </div>
+
+      <div class="lf-panel" data-reveal style="--reveal-delay:80ms">
+        <div class="lf-panel__head">
+          <span class="lf-panel__label">{c.features.eyebrow}</span>
+          <span class="lf-panel__sub">{c.features.sub}</span>
+        </div>
+        <div class="lf-panel__rows">
+          {
+            c.features.items.map((f) => (
+              <article class="lf-ing">
+                <span class="lf-ing__g" aria-hidden="true">
+                  {f.glyph}
+                </span>
+                <div>
+                  <h3 class="lf-ing__t">{f.title}</h3>
+                  <p class="lf-ing__b">{f.body}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lf-stats">
+    <div class="lf-wrap lf-stats__row">
+      {
+        c.stats.map((s, i) => (
+          <div class="lf-stat" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+            <strong class="lf-stat__v" data-count>
+              {s.value}
+            </strong>
+            <span class="lf-stat__l">{s.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="lf-press">
+    <div class="lf-wrap lf-press__in">
+      <blockquote class="lf-press__quote" data-reveal>
+        <span class="lf-press__mark" aria-hidden="true">&ldquo;</span>
+        {c.problem.body}
+      </blockquote>
+      <div class="lf-press__seen" data-reveal style="--reveal-delay:100ms">
+        <p class="lf-press__label">As seen in</p>
+        <div class="lf-press__row">
+          {c.logos.items.map((n) => <span class="lf-press__name">{n}</span>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lf-sec lf-sec--bone" id="proof">
+    <div class="lf-wrap">
+      <div class="lf-head lf-head--center" data-reveal>
+        <div class="lf-rating lf-rating--center">
+          <span class="lf-stars" aria-hidden="true">
+            {
+              stars.map(() => (
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M10 1.6l2.4 5.3 5.8.6-4.3 3.9 1.2 5.7L10 14.2 4.9 17.1l1.2-5.7L1.8 7.5l5.8-.6z" />
+                </svg>
+              ))
+            }
+          </span>
+          <span class="lf-rating__txt">
+            <strong>{countStat.value}</strong>
+            {countStat.label}
+          </span>
+        </div>
+        <h2 class="lf-h2">Reviews</h2>
+      </div>
+
+      <div class="lf-reviews">
+        {
+          c.testimonials.map((t, i) => (
+            <figure class="lf-review" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+              <span class="lf-stars lf-stars--sm" aria-hidden="true">
+                {stars.map(() => (
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 1.6l2.4 5.3 5.8.6-4.3 3.9 1.2 5.7L10 14.2 4.9 17.1l1.2-5.7L1.8 7.5l5.8-.6z" />
+                  </svg>
+                ))}
+              </span>
+              <blockquote>{t.quote}</blockquote>
+              <figcaption>
+                <span class="lf-review__av" aria-hidden="true">
+                  {t.name.charAt(0)}
+                </span>
+                <span class="lf-review__who">
+                  <strong>{t.name}</strong>
+                  <em>
+                    {t.role}, {t.company}
+                  </em>
+                </span>
+                <span class="lf-review__ver">
+                  <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path
+                      d="m2.8 7.2 2.8 2.8 5.6-6"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  Verified
+                </span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="lf-sec lf-sec--sand" id="pricing">
+    <div class="lf-wrap">
+      <div class="lf-head lf-head--center" data-reveal>
+        <p class="lf-eyebrow">{c.pricing.eyebrow}</p>
+        <h2 class="lf-h2">{c.pricing.headline}</h2>
+        <p class="lf-lead">{c.pricing.sub}</p>
+      </div>
+
+      <div class="lf-plans">
+        {
+          c.pricing.plans.map((p, i) => (
+            <article
+              class:list={['lf-plan', { 'is-feat': p.featured }]}
+              data-reveal
+              style={`--reveal-delay:${i * 80}ms`}
+            >
+              {p.featured && <span class="lf-plan__tag">{c.hero.eyebrow}</span>}
+              <h3 class="lf-plan__n">{p.name}</h3>
+              <p class="lf-plan__blurb">{p.blurb}</p>
+              <p class="lf-plan__price">
+                <strong>{p.price}</strong>
+                <span>{p.period}</span>
+              </p>
+              <a
+                class:list={['lf-btn', 'lf-btn--full', { 'lf-btn--ghost': !p.featured }]}
+                href="#cta"
+              >
+                {p.cta}
+              </a>
+              <ul class="lf-plan__list">
+                {p.features.map((f) => (
+                  <li>
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                      <path
+                        d="m2.8 7.2 2.8 2.8 5.6-6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="lf-guar">
+    <div class="lf-wrap lf-guar__in">
+      <div class="lf-guar__sealWrap" data-reveal>
+        <svg class="lf-seal" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+          <circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="1" opacity=".38"
+          ></circle>
+          {
+            seal.map((a) => (
+              <line
+                x1="60"
+                y1="4"
+                x2="60"
+                y2="11"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                opacity=".55"
+                transform={`rotate(${a} 60 60)`}
+              />
+            ))
+          }
+          <circle cx="60" cy="60" r="47" fill="none" stroke="currentColor" stroke-width="2"></circle>
+          <circle
+            cx="60"
+            cy="60"
+            r="40"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-dasharray="1.5 6"
+            stroke-linecap="round"
+            opacity=".7"></circle>
+          <path
+            d="M34 82a36 36 0 0 1 0-44"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            opacity=".5"></path>
+          <path
+            d="M86 82a36 36 0 0 0 0-44"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            opacity=".5"></path>
+          <path
+            d="M45 61.5 55 71.5 76 48"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </div>
+      <div class="lf-guar__copy" data-reveal style="--reveal-delay:100ms">
+        <h2 class="lf-h2 lf-h2--light">{c.guarantee.headline}</h2>
+        <p class="lf-guar__b">{c.guarantee.body}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lf-sec lf-sec--bone">
+    <div class="lf-wrap lf-faq">
+      <div class="lf-faq__head" data-reveal>
+        <p class="lf-eyebrow">{c.faqHead.eyebrow}</p>
+        <h2 class="lf-h2">{c.faqHead.headline}</h2>
+      </div>
+      <div class="lf-faq__list" data-reveal style="--reveal-delay:80ms">
+        {
+          c.faq.map((f, i) => (
+            <details class="lf-faq__item" open={i === 0}>
+              <summary>
+                <span>{f.q}</span>
+                <span class="lf-faq__ico" aria-hidden="true" />
+              </summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="lf-sec lf-sec--sand lf-sec--close" id="cta">
+    <div class="lf-wrap">
+      <div class="lf-close" data-reveal>
+        <span class="lf-close__rule" aria-hidden="true"></span>
+        <h2 class="lf-h2 lf-h2--light lf-h2--big">{c.cta.headline}</h2>
+        <p class="lf-close__sub">{c.cta.sub}</p>
+        <a class="lf-btn lf-btn--lg lf-btn--gold" href={c.cta.button.href}>{c.cta.button.label}</a>
+        <p class="lf-close__note">{c.cta.note}</p>
+        <div class="lf-close__rating">
+          <span class="lf-stars lf-stars--sm" aria-hidden="true">
+            {
+              stars.map(() => (
+                <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M10 1.6l2.4 5.3 5.8.6-4.3 3.9 1.2 5.7L10 14.2 4.9 17.1l1.2-5.7L1.8 7.5l5.8-.6z" />
+                </svg>
+              ))
+            }
+          </span>
+          <span>
+            {countStat.value} {countStat.label}
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="lf-foot">
+    <div class="lf-wrap lf-foot__in">
+      <div class="lf-foot__brand">
+        <a class="lf-brand" href="#">
+          <span class="lf-brand__mark">{c.brand.mark}</span>
+          <span class="lf-brand__name">{c.brand.name}</span>
+        </a>
+        <p>{c.brand.tagline}</p>
+        <p class="lf-foot__dom">{c.brand.domain}</p>
+      </div>
+      {
+        c.footer.columns.map((col) => (
+          <div class="lf-foot__col">
+            <h3>{col.title}</h3>
+            <ul>
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href}>{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div class="lf-wrap lf-foot__legal">
+      <span>&copy; {year} {c.brand.name}</span>
+      <span>{c.footer.legal}</span>
+    </div>
+  </footer>
+
+  <div class="lf-sticky" data-lf-sticky>
+    <div class="lf-wrap lf-sticky__in">
+      <span class="lf-sticky__brand">
+        <span class="lf-brand__mark">{c.brand.mark}</span>
+        <span class="lf-sticky__name">{c.brand.name}</span>
+      </span>
+      <span class="lf-sticky__price">
+        <strong>{featured.price}</strong>
+        <em>{featured.period}</em>
+      </span>
+      <a class="lf-btn lf-btn--sticky" href={c.hero.ctaPrimary.href}>{c.hero.ctaPrimary.label}</a>
+    </div>
+  </div>
+
+  <div
+    class="lf-quiz"
+    data-lf-quiz
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="lf-quiz-title"
+    hidden
+  >
+    <div class="lf-quiz__scrim" data-lf-quiz-close aria-hidden="true"></div>
+    <div class="lf-quiz__card" role="document">
+      <button class="lf-quiz__x" type="button" data-lf-quiz-close aria-label="Close this question">
+        <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path
+            d="M3 3l8 8M11 3l-8 8"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+          ></path>
+        </svg>
+      </button>
+      <p class="lf-quiz__step">Step 1 of 1</p>
+      <p class="lf-quiz__eyebrow">{c.problem.eyebrow}</p>
+      <h2 class="lf-quiz__t" id="lf-quiz-title">{c.problem.headline}</h2>
+      <div class="lf-quiz__opts">
+        {
+          c.problem.points.map((p, i) => (
+            <button class="lf-quiz__opt" type="button" data-lf-quiz-close>
+              <span class="lf-quiz__key" aria-hidden="true">
+                {String.fromCharCode(65 + i)}
+              </span>
+              <span class="lf-quiz__optT">{p.title}</span>
+              <span class="lf-quiz__arrow" aria-hidden="true">
+                &rsaquo;
+              </span>
+            </button>
+          ))
+        }
+      </div>
+      <button class="lf-quiz__skip" type="button" data-lf-quiz-close>Skip for now</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    /* ---- quiz entry modal ---- */
+    var KEY = 'lf-quiz-seen-v1';
+    var modal = document.querySelector('[data-lf-quiz]');
+    if (modal) {
+      var opener = null;
+      var seen = false;
+      try {
+        seen = sessionStorage.getItem(KEY) === '1';
+      } catch (e) {
+        seen = false;
+      }
+
+      var onKey = function (e) {
+        if (e.key === 'Escape') {
+          closeQuiz();
+          return;
+        }
+        if (e.key !== 'Tab') return;
+        var f = modal.querySelectorAll('button');
+        if (!f.length) return;
+        var first = f[0];
+        var last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      };
+
+      var closeQuiz = function () {
+        if (modal.hidden) return;
+        modal.classList.remove('is-open');
+        document.removeEventListener('keydown', onKey);
+        document.documentElement.style.removeProperty('overflow');
+        try {
+          sessionStorage.setItem(KEY, '1');
+        } catch (e) {}
+        window.setTimeout(function () {
+          modal.hidden = true;
+        }, 320);
+        if (opener && opener.focus) opener.focus();
+      };
+
+      var openQuiz = function () {
+        opener = document.activeElement;
+        modal.hidden = false;
+        document.documentElement.style.overflow = 'hidden';
+        window.requestAnimationFrame(function () {
+          modal.classList.add('is-open');
+        });
+        document.addEventListener('keydown', onKey);
+        var first = modal.querySelector('.lf-quiz__opt');
+        if (first) first.focus({ preventScroll: true });
+      };
+
+      modal.addEventListener('click', function (e) {
+        var t = e.target;
+        if (t && t.closest && t.closest('[data-lf-quiz-close]')) closeQuiz();
+      });
+
+      if (!seen) window.setTimeout(openQuiz, 900);
+    }
+
+    /* ---- sticky CTA, shown once the hero has scrolled past ---- */
+    var hero = document.querySelector('.lf-hero');
+    var bar = document.querySelector('[data-lf-sticky]');
+    if (hero && bar) {
+      if ('IntersectionObserver' in window) {
+        var sio = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) bar.classList.remove('is-on');
+              else bar.classList.add('is-on');
+            });
+          },
+          { threshold: 0 }
+        );
+        sio.observe(hero);
+      } else {
+        bar.classList.add('is-on');
+      }
+    }
+
+    /* ---- stat count-up. Real values are already in the HTML. ---- */
+    var nums = document.querySelectorAll('[data-count]');
+    if (!nums.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!('IntersectionObserver' in window)) return;
+
+    var run = function (el) {
+      var raw = (el.textContent || '').trim();
+      var m = raw.match(/^([^0-9]*)([0-9][0-9,.]*)([\s\S]*)$/);
+      if (!m) return;
+      var pre = m[1];
+      var numStr = m[2];
+      var post = m[3];
+      var clean = numStr.replace(/,/g, '');
+      var target = parseFloat(clean);
+      if (!isFinite(target)) return;
+      var dec = (clean.split('.')[1] || '').length;
+      var grouped = numStr.indexOf(',') > -1;
+      var dur = 1200;
+      var t0 = 0;
+
+      var fmt = function (v) {
+        var s = v.toFixed(dec);
+        if (grouped)
+          s = Number(s).toLocaleString('en-US', {
+            minimumFractionDigits: dec,
+            maximumFractionDigits: dec,
+          });
+        return pre + s + post;
+      };
+
+      var step = function (ts) {
+        if (!t0) t0 = ts;
+        var p = Math.min((ts - t0) / dur, 1);
+        var e = 1 - Math.pow(1 - p, 3);
+        if (p < 1) {
+          el.textContent = fmt(target * e);
+          window.requestAnimationFrame(step);
+        } else {
+          el.textContent = raw;
+        }
+      };
+
+      window.requestAnimationFrame(step);
+    };
+
+    var nio = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          nio.unobserve(entry.target);
+          run(entry.target);
+        });
+      },
+      { threshold: 0.45 }
+    );
+    nums.forEach(function (el) {
+      nio.observe(el);
+    });
+  })();
+</script>
+
+<style is:global>
+  .lf {
+    --sand: #efe9de;
+    --sand-2: #e7dfd1;
+    --bone: #f7f3ec;
+    --paper: #fbf9f5;
+    --forest: #1e3a2b;
+    --forest-2: #162c20;
+    --forest-3: #2f5942;
+    --ink: #1b1a17;
+    --ink-2: #56524a;
+    --ink-3: #857f73;
+    --gold: #b08d3f;
+    --gold-2: #d6b876;
+    --line: rgba(27, 26, 23, 0.11);
+    --line-2: rgba(27, 26, 23, 0.2);
+    --card: 0 1px 1px rgba(27, 26, 23, 0.03), 0 20px 44px -30px rgba(27, 26, 23, 0.28);
+    --serif: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+    --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    background: var(--bone);
+    color: var(--ink);
+    font-family: var(--sans);
+    letter-spacing: -0.009em;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .lf-wrap {
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+
+  /* ---------- announcement ---------- */
+  .lf-announce {
+    background: var(--forest);
+    color: #e8efe9;
+  }
+
+  .lf-announce__in {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 38px;
+    padding-block: 9px;
+    font-size: 12.5px;
+    line-height: 1.4;
+    text-align: center;
+    letter-spacing: 0.005em;
+  }
+
+  .lf-announce__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--gold-2);
+    flex: none;
+  }
+
+  /* ---------- nav ---------- */
+  .lf-nav {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: rgba(247, 243, 236, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lf-nav__in {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+    height: 66px;
+  }
+
+  .lf-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex: none;
+  }
+
+  .lf-brand__mark {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--forest);
+    color: #f4efe4;
+    font-family: var(--serif);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    flex: none;
+  }
+
+  .lf-brand__name {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .lf-nav__links {
+    display: flex;
+    gap: 28px;
+    margin-right: auto;
+    font-size: 13.5px;
+    color: var(--ink-2);
+  }
+
+  .lf-nav__links a {
+    text-decoration: none;
+    padding-block: 4px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .lf-nav__links a:hover {
+    color: var(--ink);
+    border-color: var(--gold);
+  }
+
+  .lf-nav__act {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex: none;
+  }
+
+  .lf-nav__login {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .lf-nav__login:hover {
+    color: var(--ink);
+  }
+
+  /* ---------- buttons ---------- */
+  .lf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 46px;
+    padding: 0 24px;
+    border-radius: 999px;
+    background: var(--forest);
+    color: #f5f1e7;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    text-decoration: none;
+    border: 1px solid var(--forest);
+    text-align: center;
+    transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+  }
+
+  .lf-btn:hover {
+    background: var(--forest-2);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 26px -16px rgba(30, 58, 43, 0.7);
+  }
+
+  .lf-btn--sm {
+    height: 36px;
+    padding: 0 17px;
+    font-size: 13px;
+  }
+
+  .lf-btn--lg {
+    height: 54px;
+    padding: 0 32px;
+    font-size: 15px;
+  }
+
+  .lf-btn--full {
+    width: 100%;
+  }
+
+  .lf-btn--ghost {
+    background: transparent;
+    color: var(--forest);
+    border-color: var(--line-2);
+  }
+
+  .lf-btn--ghost:hover {
+    background: rgba(30, 58, 43, 0.06);
+    border-color: var(--forest);
+  }
+
+  .lf-btn--gold {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #221c0c;
+  }
+
+  .lf-btn--gold:hover {
+    background: var(--gold-2);
+    border-color: var(--gold-2);
+    box-shadow: 0 12px 26px -16px rgba(176, 141, 63, 0.8);
+  }
+
+  .lf-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--ink-2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 2px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .lf-link:hover {
+    color: var(--forest);
+    border-color: var(--forest);
+  }
+
+  /* ---------- type ---------- */
+  .lf-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .lf-h1 {
+    margin-top: 20px;
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 5.2vw, 3.9rem);
+    line-height: 1.04;
+    letter-spacing: -0.028em;
+    font-weight: 600;
+    max-width: 15ch;
+  }
+
+  .lf-h1__accent {
+    display: block;
+    color: var(--forest);
+    font-weight: 400;
+  }
+
+  .lf-h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.65rem, 3.1vw, 2.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.022em;
+    font-weight: 600;
+  }
+
+  .lf-h2--light {
+    color: #f2ede2;
+  }
+
+  .lf-h2--big {
+    font-size: clamp(2rem, 4.4vw, 3.1rem);
+  }
+
+  .lf-lead {
+    margin-top: 18px;
+    font-size: clamp(1rem, 1.2vw, 1.0625rem);
+    line-height: 1.68;
+    color: var(--ink-2);
+    max-width: 56ch;
+  }
+
+  /* ---------- hero ---------- */
+  .lf-hero {
+    position: relative;
+    background: var(--sand);
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lf-hero__wash {
+    position: absolute;
+    inset: -30% -10% auto;
+    height: 820px;
+    pointer-events: none;
+    background:
+      radial-gradient(600px 420px at 78% 30%, rgba(251, 249, 245, 0.9), transparent 68%),
+      radial-gradient(700px 480px at 12% 8%, rgba(255, 255, 255, 0.55), transparent 70%);
+  }
+
+  .lf-hero__in {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+    padding: 86px 24px 96px;
+  }
+
+  .lf-hero__cta {
+    margin-top: 34px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  /* ---------- rating ---------- */
+  .lf-rating {
+    margin-top: 26px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .lf-rating--center {
+    justify-content: center;
+    margin: 0 0 16px;
+  }
+
+  .lf-stars {
+    display: inline-flex;
+    gap: 3px;
+    color: var(--gold);
+  }
+
+  .lf-stars--sm {
+    gap: 2px;
+  }
+
+  .lf-rating__txt {
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .lf-rating__txt strong {
+    font-weight: 600;
+    color: var(--ink);
+    margin-right: 5px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- hero product ---------- */
+  .lf-hero__vis {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 460px;
+  }
+
+  .lf-plinth {
+    position: absolute;
+    width: min(430px, 96%);
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(251, 249, 245, 0.95), rgba(231, 223, 209, 0.6) 62%, transparent 72%);
+    border: 1px solid rgba(27, 26, 23, 0.06);
+  }
+
+  /* The hero object. Deliberately NOT a product-category shape (no bottle, no
+     box). A neutral premium card so the skin reads as long-form sales for a
+     service or an app, not only for physical goods. */
+  .lf-obj {
+    position: relative;
+    width: min(340px, 86%);
+    z-index: 2;
+  }
+
+  .lf-obj__lid {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 38px;
+    padding-inline: 16px;
+    border-radius: 16px 16px 0 0;
+    background: linear-gradient(100deg, var(--forest-3) 0%, var(--forest) 42%, var(--forest-2) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  }
+
+  .lf-obj__lid::before,
+  .lf-obj__lid::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.24);
+  }
+
+  .lf-obj__neck {
+    display: none;
+  }
+
+  .lf-obj__body {
+    position: relative;
+    aspect-ratio: 5 / 4.4;
+    border-radius: 0 0 16px 16px;
+    background: linear-gradient(158deg, #fefdfb 0%, var(--paper) 52%, #ece5d8 100%);
+    border: 1px solid rgba(27, 26, 23, 0.09);
+    border-top: none;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 34px 64px -36px rgba(27, 26, 23, 0.45);
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    padding: 22px;
+  }
+
+  .lf-obj__gloss {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 46%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+    pointer-events: none;
+  }
+
+  .lf-obj__label {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 24px 16px 20px;
+    border: 1px solid rgba(27, 26, 23, 0.14);
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(239, 233, 222, 0.55));
+    text-align: center;
+    display: grid;
+    justify-items: center;
+    gap: 9px;
+  }
+
+  .lf-obj__mark {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    border: 1px solid var(--gold);
+    color: var(--forest);
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .lf-obj__name {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1;
+  }
+
+  .lf-obj__rule {
+    width: 34px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .lf-obj__tag {
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 22ch;
+  }
+
+  .lf-obj__dom {
+    margin-top: 4px;
+    font-size: 8.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--ink-3);
+  }
+
+  .lf-obj__shadow {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    bottom: -26px;
+    height: 34px;
+    border-radius: 999px;
+    background: radial-gradient(closest-side, rgba(27, 26, 23, 0.24), transparent 78%);
+    filter: blur(2px);
+  }
+
+  .lf-badge {
+    position: absolute;
+    z-index: 3;
+    right: 2%;
+    bottom: 12%;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    box-shadow: var(--card);
+    text-align: left;
+    max-width: 168px;
+  }
+
+  .lf-badge strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--forest);
+  }
+
+  .lf-badge span {
+    display: block;
+    margin-top: 6px;
+    font-size: 11.5px;
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+
+  /* ---------- logos ---------- */
+  .lf-logos {
+    background: var(--bone);
+    padding: 46px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lf-logos__label {
+    text-align: center;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-3);
+  }
+
+  .lf-logos__row {
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 44px;
+  }
+
+  .lf-logos__item {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: rgba(27, 26, 23, 0.42);
+    transition: color 0.22s ease;
+  }
+
+  .lf-logos__item:hover {
+    color: var(--forest);
+  }
+
+  /* ---------- section shells ---------- */
+  .lf-sec {
+    padding: 104px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lf-sec--sand {
+    background: var(--sand);
+  }
+
+  .lf-sec--bone {
+    background: var(--bone);
+  }
+
+  .lf-head {
+    max-width: 660px;
+    margin-bottom: 54px;
+  }
+
+  .lf-head--center {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .lf-head--center .lf-lead {
+    margin-inline: auto;
+  }
+
+  .lf-head .lf-h2 {
+    margin-top: 16px;
+  }
+
+  /* ---------- problem ---------- */
+  .lf-probs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .lf-prob {
+    position: relative;
+    padding: 34px 28px 32px;
+    border-radius: 16px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    box-shadow: var(--card);
+  }
+
+  .lf-prob__n {
+    display: block;
+    font-family: var(--serif);
+    font-size: 2.4rem;
+    line-height: 1;
+    font-weight: 600;
+    color: rgba(176, 141, 63, 0.42);
+    letter-spacing: -0.03em;
+  }
+
+  .lf-prob__t {
+    margin-top: 18px;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .lf-prob__b {
+    margin-top: 10px;
+    font-size: 14.5px;
+    line-height: 1.66;
+    color: var(--ink-2);
+  }
+
+  /* ---------- mechanism ---------- */
+  .lf-steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .lf-steps__line {
+    position: absolute;
+    top: 31px;
+    left: 17%;
+    right: 17%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-2) 12%, var(--line-2) 88%, transparent);
+  }
+
+  .lf-step {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: grid;
+    justify-items: center;
+  }
+
+  .lf-step__n {
+    width: 62px;
+    height: 62px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--paper);
+    border: 1px solid var(--gold);
+    box-shadow: 0 0 0 6px var(--bone);
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--forest);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lf-step__k {
+    margin-top: 20px;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+  }
+
+  .lf-step__b {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 26ch;
+  }
+
+  .lf-steps__note {
+    margin: 56px auto 0;
+    max-width: 640px;
+    display: grid;
+    gap: 12px;
+    padding: 22px 26px;
+    border-radius: 14px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+
+  .lf-steps__note li {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .lf-steps__note svg {
+    flex: none;
+    margin-top: 3px;
+    color: var(--forest);
+  }
+
+  /* ---------- ingredient panel ---------- */
+  .lf-panel {
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    background: var(--paper);
+    overflow: hidden;
+    box-shadow: var(--card);
+  }
+
+  .lf-panel__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 22px 28px;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .lf-panel__label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .lf-panel__sub {
+    font-size: 13px;
+    color: var(--ink-2);
+    max-width: 52ch;
+  }
+
+  .lf-panel__rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+  }
+
+  .lf-ing {
+    background: var(--paper);
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 20px;
+    transition: background 0.22s ease;
+  }
+
+  .lf-ing:hover {
+    background: #fffdf9;
+  }
+
+  .lf-ing__g {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--gold);
+    border-top: 2px solid var(--gold);
+    padding-top: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lf-ing__t {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .lf-ing__b {
+    margin-top: 9px;
+    font-size: 14.5px;
+    line-height: 1.66;
+    color: var(--ink-2);
+  }
+
+  /* ---------- stats ---------- */
+  .lf-stats {
+    background: var(--paper);
+    padding: 72px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lf-stats__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .lf-stat {
+    text-align: center;
+    padding: 6px 18px;
+    border-left: 1px solid var(--line);
+  }
+
+  .lf-stat:first-child {
+    border-left: none;
+  }
+
+  .lf-stat__v {
+    display: block;
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.6vw, 2.9rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.032em;
+    color: var(--forest);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lf-stat__l {
+    display: block;
+    margin-top: 12px;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+
+  /* ---------- press ---------- */
+  .lf-press {
+    background: var(--sand);
+    padding: 78px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lf-press__in {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .lf-press__quote {
+    position: relative;
+    font-family: var(--serif);
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    line-height: 1.5;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    padding-left: 34px;
+  }
+
+  .lf-press__mark {
+    position: absolute;
+    left: 0;
+    top: -6px;
+    font-family: var(--serif);
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--gold);
+  }
+
+  .lf-press__label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-3);
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line-2);
+  }
+
+  .lf-press__row {
+    margin-top: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+  }
+
+  .lf-press__name {
+    font-family: var(--serif);
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: rgba(27, 26, 23, 0.5);
+  }
+
+  /* ---------- reviews ---------- */
+  .lf-reviews {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .lf-review {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 28px 26px 24px;
+    border-radius: 16px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    box-shadow: var(--card);
+  }
+
+  .lf-review blockquote {
+    font-size: 15px;
+    line-height: 1.66;
+    color: var(--ink);
+    flex: 1;
+  }
+
+  .lf-review figcaption {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    flex-wrap: wrap;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+
+  .lf-review__av {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--forest);
+    background: rgba(30, 58, 43, 0.09);
+    border: 1px solid rgba(30, 58, 43, 0.16);
+    flex: none;
+  }
+
+  .lf-review__who {
+    margin-right: auto;
+  }
+
+  .lf-review__who strong {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  .lf-review__who em {
+    display: block;
+    font-style: normal;
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+
+  .lf-review__ver {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px 4px 7px;
+    border-radius: 999px;
+    background: rgba(30, 58, 43, 0.07);
+    color: var(--forest);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    flex: none;
+  }
+
+  /* ---------- pricing ---------- */
+  .lf-plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+
+  .lf-plan {
+    position: relative;
+    padding: 34px 28px;
+    border-radius: 16px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    box-shadow: var(--card);
+  }
+
+  .lf-plan.is-feat {
+    border-color: var(--forest);
+    box-shadow: 0 1px 1px rgba(27, 26, 23, 0.03), 0 26px 56px -32px rgba(30, 58, 43, 0.55);
+  }
+
+  .lf-plan__tag {
+    position: absolute;
+    top: -12px;
+    left: 28px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--gold);
+    color: #221c0c;
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .lf-plan__n {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .lf-plan__blurb {
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    min-height: 42px;
+  }
+
+  .lf-plan__price {
+    margin: 22px 0 22px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lf-plan__price strong {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--forest);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lf-plan__price span {
+    font-size: 12.5px;
+    color: var(--ink-3);
+  }
+
+  .lf-plan__list {
+    margin-top: 24px;
+    display: grid;
+    gap: 12px;
+  }
+
+  .lf-plan__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .lf-plan__list svg {
+    flex: none;
+    margin-top: 4px;
+    color: var(--gold);
+  }
+
+  /* ---------- guarantee ---------- */
+  .lf-guar {
+    background: linear-gradient(165deg, var(--forest-3) 0%, var(--forest) 42%, var(--forest-2) 100%);
+    color: #e6ece7;
+    padding: 92px 0;
+  }
+
+  .lf-guar__in {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .lf-guar__sealWrap {
+    display: grid;
+    place-items: center;
+  }
+
+  .lf-seal {
+    width: 170px;
+    height: 170px;
+    color: var(--gold-2);
+  }
+
+  .lf-guar__b {
+    margin-top: 18px;
+    font-size: 1rem;
+    line-height: 1.72;
+    color: rgba(230, 236, 231, 0.78);
+    max-width: 60ch;
+  }
+
+  /* ---------- faq ---------- */
+  .lf-faq {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .lf-faq__head .lf-h2 {
+    margin-top: 14px;
+  }
+
+  .lf-faq__item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lf-faq__item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 22px 0;
+    font-size: 15.5px;
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .lf-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .lf-faq__item summary:hover {
+    color: var(--forest);
+  }
+
+  .lf-faq__ico {
+    position: relative;
+    width: 13px;
+    height: 13px;
+    flex: none;
+  }
+
+  .lf-faq__ico::before,
+  .lf-faq__ico::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1.6px;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: transform 0.24s ease;
+  }
+
+  .lf-faq__ico::after {
+    transform: rotate(90deg);
+  }
+
+  .lf-faq__item[open] .lf-faq__ico::after {
+    transform: rotate(0deg);
+  }
+
+  .lf-faq__item p {
+    padding: 0 0 24px;
+    max-width: 64ch;
+    font-size: 14.5px;
+    line-height: 1.72;
+    color: var(--ink-2);
+  }
+
+  /* ---------- close ---------- */
+  .lf-sec--close {
+    border-bottom: none;
+  }
+
+  .lf-close {
+    position: relative;
+    max-width: 820px;
+    margin-inline: auto;
+    padding: 72px 40px 66px;
+    border-radius: 22px;
+    background: linear-gradient(168deg, var(--forest-3) 0%, var(--forest) 46%, var(--forest-2) 100%);
+    text-align: center;
+    box-shadow: 0 40px 80px -46px rgba(30, 58, 43, 0.75);
+    overflow: hidden;
+  }
+
+  .lf-close__rule {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 84px;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 0 0 3px 3px;
+  }
+
+  .lf-close__sub {
+    margin: 18px auto 32px;
+    max-width: 46ch;
+    font-size: 1.0625rem;
+    line-height: 1.66;
+    color: rgba(230, 236, 231, 0.78);
+  }
+
+  .lf-close__note {
+    margin-top: 18px;
+    font-size: 12.5px;
+    color: rgba(230, 236, 231, 0.6);
+  }
+
+  .lf-close__rating {
+    margin-top: 26px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(230, 236, 231, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 12.5px;
+    color: rgba(230, 236, 231, 0.72);
+  }
+
+  .lf-close__rating .lf-stars {
+    color: var(--gold-2);
+  }
+
+  /* ---------- footer ---------- */
+  .lf-foot {
+    background: var(--bone);
+    padding: 72px 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .lf-foot__in {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 40px;
+    padding-bottom: 52px;
+  }
+
+  .lf-foot__brand p {
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 26ch;
+  }
+
+  .lf-foot__dom {
+    font-size: 10.5px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-3) !important;
+    margin-top: 12px !important;
+  }
+
+  .lf-foot__col h3 {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-3);
+    margin-bottom: 18px;
+  }
+
+  .lf-foot__col ul {
+    display: grid;
+    gap: 12px;
+  }
+
+  .lf-foot__col a {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .lf-foot__col a:hover {
+    color: var(--forest);
+  }
+
+  .lf-foot__legal {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 24px 24px 220px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  /* ---------- sticky cta ---------- */
+  .lf-sticky {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 72px;
+    z-index: 80;
+    padding-inline: 12px;
+    transform: translateY(140%);
+    visibility: hidden;
+    transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.42s;
+    pointer-events: none;
+  }
+
+  .lf-sticky.is-on {
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .lf-sticky__in {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    max-width: 780px;
+    padding: 12px 12px 12px 20px;
+    border-radius: 999px;
+    background: rgba(251, 249, 245, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--line-2);
+    box-shadow: 0 18px 44px -22px rgba(27, 26, 23, 0.45);
+  }
+
+  .lf-sticky__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex: none;
+  }
+
+  .lf-sticky__name {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .lf-sticky__price {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    margin-right: auto;
+    min-width: 0;
+    padding-left: 18px;
+    border-left: 1px solid var(--line);
+  }
+
+  .lf-sticky__price strong {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--forest);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lf-sticky__price em {
+    font-style: normal;
+    font-size: 11.5px;
+    color: var(--ink-3);
+  }
+
+  .lf-btn--sticky {
+    height: 42px;
+    padding: 0 22px;
+    flex: none;
+  }
+
+  /* ---------- quiz modal ---------- */
+  .lf-quiz {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+  }
+
+  .lf-quiz[hidden] {
+    display: none;
+  }
+
+  .lf-quiz__scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(27, 26, 23, 0.42);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity 0.34s ease;
+  }
+
+  .lf-quiz.is-open .lf-quiz__scrim {
+    opacity: 1;
+  }
+
+  .lf-quiz__card {
+    position: relative;
+    z-index: 2;
+    width: min(560px, 100%);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    padding: 40px 40px 32px;
+    border-radius: 20px;
+    background: var(--paper);
+    border: 1px solid var(--line-2);
+    box-shadow: 0 40px 90px -40px rgba(27, 26, 23, 0.6);
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.36s ease, transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .lf-quiz.is-open .lf-quiz__card {
+    opacity: 1;
+    transform: none;
+  }
+
+  .lf-quiz__x {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    color: var(--ink-3);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .lf-quiz__x:hover {
+    background: rgba(27, 26, 23, 0.06);
+    color: var(--ink);
+  }
+
+  .lf-quiz__step {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-3);
+  }
+
+  .lf-quiz__eyebrow {
+    margin-top: 20px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .lf-quiz__t {
+    margin-top: 12px;
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 3.4vw, 1.75rem);
+    line-height: 1.16;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+
+  .lf-quiz__opts {
+    margin-top: 28px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .lf-quiz__opt {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    text-align: left;
+    padding: 17px 18px;
+    border-radius: 13px;
+    background: var(--bone);
+    border: 1px solid var(--line);
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  }
+
+  .lf-quiz__opt:hover {
+    border-color: var(--forest);
+    background: #fff;
+    transform: translateY(-1px);
+  }
+
+  .lf-quiz__key {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: rgba(30, 58, 43, 0.08);
+    color: var(--forest);
+    font-size: 12px;
+    font-weight: 600;
+    flex: none;
+  }
+
+  .lf-quiz__optT {
+    flex: 1;
+    font-size: 14.5px;
+    line-height: 1.45;
+    font-weight: 500;
+  }
+
+  .lf-quiz__arrow {
+    color: var(--ink-3);
+    flex: none;
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .lf-quiz__skip {
+    display: block;
+    margin: 22px auto 0;
+    font-size: 13px;
+    color: var(--ink-3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+
+  .lf-quiz__skip:hover {
+    color: var(--ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lf-quiz__scrim,
+    .lf-quiz__card,
+    .lf-sticky {
+      transition: none;
+    }
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 940px) {
+    .lf-nav__links {
+      display: none;
+    }
+
+    .lf-nav__in {
+      gap: 16px;
+      height: 60px;
+    }
+
+    .lf-nav__act {
+      margin-left: auto;
+    }
+
+    .lf-hero__in {
+      grid-template-columns: 1fr;
+      gap: 56px;
+      padding: 64px 24px 80px;
+      text-align: center;
+    }
+
+    .lf-h1,
+    .lf-hero__copy .lf-lead {
+      margin-inline: auto;
+    }
+
+    .lf-hero__cta,
+    .lf-rating {
+      justify-content: center;
+    }
+
+    .lf-hero__vis {
+      min-height: 420px;
+    }
+
+    .lf-sec {
+      padding: 84px 0;
+    }
+
+    .lf-probs,
+    .lf-reviews,
+    .lf-plans {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .lf-panel__rows {
+      grid-template-columns: 1fr;
+    }
+
+    .lf-steps {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      max-width: 460px;
+      margin-inline: auto;
+    }
+
+    .lf-steps__line {
+      display: none;
+    }
+
+    .lf-press__in,
+    .lf-faq {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .lf-guar__in {
+      grid-template-columns: 1fr;
+      gap: 34px;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .lf-guar__b {
+      margin-inline: auto;
+    }
+
+    .lf-foot__in {
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .lf-wrap {
+      padding-inline: 18px;
+    }
+
+    .lf-sec {
+      padding: 68px 0;
+    }
+
+    .lf-head {
+      margin-bottom: 40px;
+    }
+
+    .lf-hero__in {
+      padding: 48px 18px 68px;
+    }
+
+    .lf-hero__vis {
+      min-height: 380px;
+    }
+
+    .lf-obj {
+      width: min(280px, 82%);
+    }
+
+    .lf-badge {
+      right: 0;
+      bottom: 6%;
+      padding: 12px 14px;
+      max-width: 146px;
+    }
+
+    .lf-probs,
+    .lf-reviews,
+    .lf-plans,
+    .lf-stats__row {
+      grid-template-columns: 1fr;
+    }
+
+    .lf-stats {
+      padding: 56px 0;
+    }
+
+    .lf-stats__row {
+      gap: 0;
+    }
+
+    .lf-stat {
+      border-left: none;
+      border-top: 1px solid var(--line);
+      padding: 22px 0;
+    }
+
+    .lf-stat:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .lf-logos__row {
+      gap: 12px 26px;
+    }
+
+    .lf-ing {
+      padding: 24px 22px;
+      grid-template-columns: 40px 1fr;
+      gap: 16px;
+    }
+
+    .lf-panel__head {
+      padding: 20px 22px;
+    }
+
+    .lf-prob,
+    .lf-review,
+    .lf-plan {
+      padding: 26px 22px;
+    }
+
+    .lf-press {
+      padding: 60px 0;
+    }
+
+    .lf-press__quote {
+      padding-left: 26px;
+    }
+
+    .lf-guar {
+      padding: 72px 0;
+    }
+
+    .lf-seal {
+      width: 132px;
+      height: 132px;
+    }
+
+    .lf-close {
+      padding: 52px 22px 48px;
+      border-radius: 18px;
+    }
+
+    .lf-foot__in {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .lf-foot__legal {
+      padding: 24px 18px 240px;
+    }
+
+    .lf-sticky {
+      bottom: 64px;
+      padding-inline: 10px;
+    }
+
+    .lf-sticky__in {
+      gap: 12px;
+      padding: 10px 10px 10px 16px;
+    }
+
+    .lf-sticky__brand {
+      display: none;
+    }
+
+    .lf-sticky__price {
+      padding-left: 0;
+      border-left: none;
+    }
+
+    .lf-btn--sticky {
+      height: 40px;
+      padding: 0 18px;
+      font-size: 13px;
+    }
+
+    .lf-quiz {
+      padding: 14px;
+    }
+
+    .lf-quiz__card {
+      padding: 32px 22px 26px;
+      border-radius: 16px;
+    }
+
+    .lf-quiz__opt {
+      padding: 15px 14px;
+      gap: 11px;
+    }
+  }
+</style>

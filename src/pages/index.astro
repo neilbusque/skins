@@ -1,0 +1,458 @@
+---
+import Skin from '../layouts/Skin.astro';
+import { skins } from '../lib/skins';
+import { content as c } from '../lib/content';
+
+const fonts =
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=EB+Garamond:wght@400;500&family=Archivo:wght@400;700;900&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap';
+---
+
+<Skin
+  title="Skins — reusable landing page skins"
+  description="Six landing page skins built from the swipe library. One content file, six looks. Astro, static, no dependencies."
+  fonts={fonts}
+  themeColor="#08090A"
+  bar={false}
+>
+  <div class="gal">
+    <div class="gal-grain" aria-hidden="true"></div>
+
+    <header class="gal-top">
+      <div class="gal-wrap">
+        <div class="gal-mark">
+          <span class="gal-mark__box"></span>
+          <span>Skins</span>
+        </div>
+        <h1 class="gal-h1">
+          One content file.<br /><span class="gal-h1__accent">{skins.length} finished looks.</span>
+        </h1>
+        <p class="gal-lead">
+          Every page below renders the exact same object from <code>src/lib/content.ts</code>. Swap that
+          file for a real project and you have {skins.length} deployable landing pages before you have
+          written a line of CSS. Design DNA lifted from
+          <a href="https://swipe.neilb.app" target="_blank" rel="noopener">swipe.neilb.app</a>.
+        </p>
+        <div class="gal-meta">
+          <span>Astro 5 static</span>
+          <span>No runtime JS framework</span>
+          <span>No external assets</span>
+          <span>Google Fonts only</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="gal-wrap gal-grid">
+      {
+        skins.map((s, i) => (
+          <a
+            class="gal-card"
+            href={`/s/${s.id}/`}
+            data-reveal
+            style={`--reveal-delay:${i * 70}ms; --cbg:${s.cardBg}; --cfg:${s.cardFg}; --cmut:${s.cardMuted}; --cacc:${s.cardAccent}; --cfont:${s.cardFont}; --cweight:${s.cardWeight}; --ctrack:${s.cardTracking};`}
+          >
+            <div class="gal-card__preview">
+              <span class="gal-card__arch">{s.archetype}</span>
+              <span class="gal-card__title">{c.hero.headline}</span>
+              <span class="gal-card__accent">{c.hero.headlineAccent}</span>
+              <span class="gal-card__rule" />
+              <span class="gal-card__body">{c.brand.tagline}</span>
+              <span class="gal-card__btn">{c.hero.ctaPrimary.label}</span>
+            </div>
+            <div class="gal-card__foot">
+              <div class="gal-card__row">
+                <h2 class="gal-card__name">{s.name}</h2>
+                <span class="gal-card__swatches">
+                  {s.swatches.map((sw) => (
+                    <i style={`background:${sw}`} />
+                  ))}
+                </span>
+              </div>
+              <p class="gal-card__use">{s.useFor}</p>
+              <p class="gal-card__ref">
+                {s.swipeRef ? `swipe ref · ${s.swipeRef}` : 'no reference · structural only'}
+                <span class="gal-card__go">View &rarr;</span>
+              </p>
+            </div>
+          </a>
+        ))
+      }
+    </main>
+
+    <section class="gal-wrap gal-how">
+      <h2 class="gal-h2">Reusing one on a real project</h2>
+      <ol class="gal-steps">
+        <li data-reveal>
+          <span class="gal-steps__n">01</span>
+          <h3>Wireframe it first</h3>
+          <p>
+            Drop the real copy into <code>src/lib/content.ts</code> and open <code>/s/wire/</code>.
+            Greyscale, annotated, no visual opinion. Argue about the structure and the words there,
+            not on a page that already looks finished.
+          </p>
+        </li>
+        <li data-reveal style="--reveal-delay:70ms">
+          <span class="gal-steps__n">02</span>
+          <h3>Pick the skin by job, not by taste</h3>
+          <p>
+            Product launch takes Linear. Client and B2B work takes Stripe. Personal brand and high
+            ticket takes Aesop. A loud offer takes Gumroad. Anything that needs a full argument before
+            the ask takes Longform.
+          </p>
+        </li>
+        <li data-reveal style="--reveal-delay:140ms">
+          <span class="gal-steps__n">03</span>
+          <h3>Copy two files out</h3>
+          <p>
+            <code>src/skins/&lt;id&gt;/Page.astro</code> and <code>src/lib/content.ts</code> are the
+            whole skin. Every selector is prefixed, every visual is CSS or inline SVG, so it drops
+            into any Astro project without collisions. Then recolour the custom properties at the top
+            of the style block to the client palette.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <footer class="gal-foot">
+      <div class="gal-wrap">
+        <span>Built from swipe.neilb.app</span>
+        <span>{c.footer.legal}</span>
+      </div>
+    </footer>
+  </div>
+
+  <style is:global>
+    .gal {
+      --bg: #08090a;
+      --line: rgba(255, 255, 255, 0.09);
+      --fg: #f7f8f8;
+      --fg-2: #b4b8bf;
+      --fg-3: #8a8f98;
+      --acc: #7c74f6;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', system-ui, sans-serif;
+      letter-spacing: -0.011em;
+      min-height: 100vh;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .gal-grain {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.035;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .gal-wrap {
+      width: 100%;
+      max-width: 1160px;
+      margin-inline: auto;
+      padding-inline: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .gal-top {
+      padding: 88px 0 64px;
+      background: radial-gradient(900px 460px at 50% -10%, rgba(124, 116, 246, 0.16), transparent 68%);
+    }
+
+    .gal-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13px;
+      font-weight: 550;
+      color: var(--fg-2);
+      margin-bottom: 34px;
+    }
+
+    .gal-mark__box {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: linear-gradient(150deg, #ff90e8 0%, #7c74f6 50%, #efe9de 100%);
+    }
+
+    .gal-h1 {
+      font-size: clamp(2.4rem, 5.4vw, 3.9rem);
+      line-height: 1.03;
+      letter-spacing: -0.045em;
+      font-weight: 600;
+    }
+
+    .gal-h1__accent {
+      background: linear-gradient(96deg, #a9a3ff, #7c74f6 45%, #58a8f5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .gal-lead {
+      margin-top: 22px;
+      max-width: 62ch;
+      font-size: 1.0625rem;
+      line-height: 1.68;
+      color: var(--fg-2);
+    }
+
+    .gal-lead code,
+    .gal-steps code {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 0.86em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--fg);
+    }
+
+    .gal-lead a {
+      color: var(--acc);
+      text-underline-offset: 3px;
+    }
+
+    .gal-meta {
+      margin-top: 26px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .gal-meta span {
+      padding: 5px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--fg-3);
+    }
+
+    /* ---------- cards ---------- */
+    .gal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding-bottom: 88px;
+    }
+
+    .gal-card {
+      display: block;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0b0c0e;
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease;
+    }
+
+    .gal-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .gal-card__preview {
+      aspect-ratio: 4 / 3;
+      background: var(--cbg);
+      color: var(--cfg);
+      padding: 30px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .gal-card__arch {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--cmut);
+      margin-bottom: 16px;
+    }
+
+    .gal-card__title,
+    .gal-card__accent {
+      font-family: var(--cfont);
+      font-weight: var(--cweight);
+      letter-spacing: var(--ctrack);
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      line-height: 1.08;
+    }
+
+    .gal-card__accent {
+      color: var(--cacc);
+    }
+
+    .gal-card__rule {
+      width: 34px;
+      height: 2px;
+      background: var(--cacc);
+      margin: 16px 0;
+      border-radius: 2px;
+    }
+
+    .gal-card__body {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--cmut);
+      max-width: 26ch;
+    }
+
+    .gal-card__btn {
+      margin-top: 18px;
+      padding: 7px 15px;
+      border-radius: 5px;
+      background: var(--cacc);
+      color: var(--cbg);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+
+    .gal-card__foot {
+      padding: 20px 22px 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .gal-card__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .gal-card__name {
+      font-size: 15px;
+      font-weight: 560;
+      letter-spacing: -0.02em;
+    }
+
+    .gal-card__swatches {
+      display: flex;
+      gap: 4px;
+      flex: none;
+    }
+
+    .gal-card__swatches i {
+      width: 11px;
+      height: 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .gal-card__use {
+      margin-top: 9px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--fg-3);
+      min-height: 40px;
+    }
+
+    .gal-card__ref {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10.5px;
+      color: var(--fg-3);
+    }
+
+    .gal-card__go {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 12px;
+      color: var(--fg-2);
+      flex: none;
+    }
+
+    .gal-card:hover .gal-card__go {
+      color: var(--fg);
+    }
+
+    /* ---------- how ---------- */
+    .gal-how {
+      padding: 72px 24px 88px;
+      border-top: 1px solid var(--line);
+    }
+
+    .gal-h2 {
+      font-size: clamp(1.5rem, 2.6vw, 2rem);
+      letter-spacing: -0.035em;
+      font-weight: 600;
+      margin-bottom: 40px;
+    }
+
+    .gal-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      counter-reset: none;
+    }
+
+    .gal-steps__n {
+      display: block;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--acc);
+      margin-bottom: 14px;
+    }
+
+    .gal-steps h3 {
+      font-size: 1rem;
+      font-weight: 560;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .gal-steps p {
+      font-size: 14px;
+      line-height: 1.66;
+      color: var(--fg-3);
+    }
+
+    /* ---------- foot ---------- */
+    .gal-foot {
+      border-top: 1px solid var(--line);
+      padding: 24px 0 40px;
+    }
+
+    .gal-foot .gal-wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--fg-3);
+    }
+
+    @media (max-width: 980px) {
+      .gal-grid,
+      .gal-steps {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .gal-top {
+        padding: 60px 0 44px;
+      }
+      .gal-grid,
+      .gal-steps {
+        grid-template-columns: 1fr;
+      }
+      .gal-card__use {
+        min-height: 0;
+      }
+    }
+  </style>
+</Skin>

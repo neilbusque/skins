@@ -1,0 +1,213 @@
+---
+import '../styles/base.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Google Fonts href, or null for system-only skins. */
+  fonts?: string | null;
+  /** Browser chrome / theme colour. */
+  themeColor?: string;
+  /** Show the floating "back to gallery / switch skin" bar. */
+  bar?: boolean;
+  skinId?: string;
+}
+
+const {
+  title,
+  description,
+  fonts = null,
+  themeColor = '#000000',
+  bar = true,
+  skinId = '',
+} = Astro.props;
+
+import { skins } from '../lib/skins';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={themeColor} />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {
+      fonts && (
+        <>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link rel="stylesheet" href={fonts} />
+        </>
+      )
+    }
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <slot />
+
+    {
+      bar && (
+        <div class="skinbar" data-skinbar>
+          <a class="skinbar__home" href="/" aria-label="Back to the skin gallery">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path
+                d="M8.5 3 4.5 7l4 4"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span>Skins</span>
+          </a>
+          <div class="skinbar__list">
+            {skins.map((s) => (
+              <a
+                class:list={['skinbar__item', { 'is-active': s.id === skinId }]}
+                href={`/s/${s.id}/`}
+                title={s.name}
+              >
+                {s.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      )
+    }
+
+    <style is:global>
+      .skinbar {
+        position: fixed;
+        left: 50%;
+        bottom: 16px;
+        transform: translateX(-50%);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 5px;
+        border-radius: 999px;
+        background: rgba(12, 12, 14, 0.96);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(16px) saturate(140%);
+        -webkit-backdrop-filter: blur(16px) saturate(140%);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        font-size: 12px;
+        line-height: 1;
+        color: #fff;
+        max-width: calc(100vw - 24px);
+        /* Low enough to stay out of the way, high enough that page text does not
+           bleed through it and read as a rendering bug. */
+        opacity: 0.55;
+        transition: opacity 0.25s ease;
+      }
+
+      .skinbar:hover,
+      .skinbar:focus-within {
+        opacity: 1;
+      }
+
+      .skinbar__home {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 8px 12px 8px 9px;
+        border-radius: 999px;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .skinbar__home:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .skinbar__list {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .skinbar__list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .skinbar__item {
+        padding: 8px 11px;
+        border-radius: 999px;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.62);
+        white-space: nowrap;
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+
+      .skinbar__item:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .skinbar__item.is-active {
+        color: #0b0b0d;
+        background: #fff;
+        font-weight: 550;
+      }
+
+      @media (max-width: 720px) {
+        .skinbar {
+          opacity: 1;
+          bottom: 10px;
+        }
+        .skinbar__home span {
+          display: none;
+        }
+      }
+
+      @media print {
+        .skinbar {
+          display: none;
+        }
+      }
+    </style>
+
+    <script is:inline>
+      (function () {
+        var els = document.querySelectorAll('[data-reveal]');
+        if (!els.length) return;
+        if (!('IntersectionObserver' in window)) {
+          els.forEach(function (el) {
+            el.classList.add('is-in');
+          });
+          return;
+        }
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-in');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }
+        );
+        els.forEach(function (el) {
+          io.observe(el);
+        });
+      })();
+    </script>
+  </body>
+</html>

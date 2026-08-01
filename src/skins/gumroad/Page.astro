@@ -1,0 +1,1459 @@
+---
+/**
+ * SKIN: Gumroad Bold Type-Driven  ·  archetype: Bold Type-Driven
+ *
+ * Flat saturated color blocks stacked on white, oversized black Archivo
+ * headlines, thick black borders, hard offset drop shadows (never blurred),
+ * chunky rectangular buttons. No gradients, no blur, no muted palettes.
+ */
+import { content as c } from '../../lib/content';
+
+const year = 2026;
+const featuredPlan = c.pricing.plans.find((p) => p.featured) ?? c.pricing.plans[0];
+const pop = ['#FF90E8', '#FFC900', '#23A6F0', '#90E86B'];
+---
+
+<div class="gum">
+  <header class="gum-nav">
+    <div class="gum-wrap gum-nav__in">
+      <a class="gum-brand" href="#">
+        <span class="gum-brand__mark">{c.brand.mark}</span>
+        <span class="gum-brand__name">{c.brand.name}</span>
+      </a>
+      <nav class="gum-nav__links" aria-label="Primary">
+        {c.nav.links.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+      <div class="gum-nav__act">
+        <a class="gum-nav__login" href="#">Log in</a>
+        <a class="gum-btn gum-btn--sm" href={c.nav.cta.href}>{c.nav.cta.label}</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="gum-hero">
+    <div class="gum-wrap gum-hero__in">
+      <span class="gum-sticker" data-reveal>{c.hero.eyebrow}</span>
+      <h1 class="gum-h1" data-reveal style="--reveal-delay:60ms">
+        {c.hero.headline}<br /><span class="gum-h1__accent">{c.hero.headlineAccent}</span>
+      </h1>
+      <p class="gum-sub" data-reveal style="--reveal-delay:120ms">{c.hero.sub}</p>
+      <div class="gum-hero__cta" data-reveal style="--reveal-delay:180ms">
+        <a class="gum-btn gum-btn--shadowPink" href={c.hero.ctaPrimary.href}>{c.hero.ctaPrimary.label}</a>
+        <a class="gum-btn gum-btn--ghost" href={c.hero.ctaSecondary.href}>{c.hero.ctaSecondary.label}</a>
+      </div>
+      <p class="gum-note" data-reveal style="--reveal-delay:240ms">{c.hero.note}</p>
+
+      <div class="gum-card" data-reveal style="--reveal-delay:300ms">
+        <div class="gum-card__bar">
+          <span class="gum-card__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="gum-card__url">{c.brand.domain}</span>
+        </div>
+        <div class="gum-card__body">
+          <div class="gum-card__thumb" aria-hidden="true">
+            <span class="gum-card__shape gum-card__shape--a"></span>
+            <span class="gum-card__shape gum-card__shape--b"></span>
+            <span class="gum-card__shape gum-card__shape--c"></span>
+          </div>
+          <div class="gum-card__info">
+            <h3>{c.brand.name}</h3>
+            <p>{c.brand.tagline}</p>
+            <div class="gum-card__chips">
+              {
+                c.stats.slice(0, 2).map((s) => (
+                  <span class="gum-chip">
+                    <strong>{s.value}</strong>
+                    {s.label}
+                  </span>
+                ))
+              }
+            </div>
+            <div class="gum-card__buy">
+              <span class="gum-card__price">
+                {featuredPlan.price}
+                <em>{featuredPlan.period}</em>
+              </span>
+              <a class="gum-btn gum-btn--sm gum-btn--shadowCyan" href="#pricing">{featuredPlan.cta}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gum-logos">
+    <div class="gum-wrap">
+      <p class="gum-logos__label" data-reveal>{c.logos.label}</p>
+    </div>
+    <div class="gum-marquee" data-reveal style="--reveal-delay:80ms">
+      <div class="gum-marquee__track">
+        {[...c.logos.items, ...c.logos.items].map((n) => <span class="gum-marquee__item">{n}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="gum-sec gum-sec--cyan" id="features">
+    <div class="gum-wrap">
+      <div class="gum-head" data-reveal>
+        <p class="gum-eyebrow">{c.features.eyebrow}</p>
+        <h2 class="gum-h2">{c.features.headline}</h2>
+        <p class="gum-lead">{c.features.sub}</p>
+      </div>
+      <div class="gum-grid">
+        {
+          c.features.items.map((f, i) => (
+            <article class="gum-fcard" data-reveal style={`--reveal-delay:${i * 60}ms; --shadow:${pop[i % pop.length]}`}>
+              <span class="gum-fcard__glyph">{f.glyph}</span>
+              <h3 class="gum-fcard__t">{f.title}</h3>
+              <p class="gum-fcard__b">{f.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="gum-sec gum-sec--lime" id="showcase">
+    <div class="gum-wrap gum-split">
+      <div class="gum-split__copy" data-reveal>
+        <p class="gum-eyebrow">{c.showcase.eyebrow}</p>
+        <h2 class="gum-h2">{c.showcase.headline}</h2>
+        <p class="gum-lead">{c.showcase.body}</p>
+        <ul class="gum-checks">
+          {
+            c.showcase.bullets.map((b) => (
+              <li>
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path
+                    d="m2.8 7.2 2.8 2.8 5.6-6"
+                    stroke="#000"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                {b}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="gum-split__vis" data-reveal style="--reveal-delay:120ms">
+        <div class="gum-pile" aria-hidden="true">
+          <span class="gum-pile__card gum-pile__card--a">
+            <svg width="30" height="30" viewBox="0 0 34 34"><circle cx="17" cy="17" r="13" fill="#000" /></svg>
+          </span>
+          <span class="gum-pile__card gum-pile__card--b">
+            <svg width="30" height="30" viewBox="0 0 34 34"><polygon points="17,4 30,28 4,28" fill="#000" /></svg>
+          </span>
+          <span class="gum-pile__card gum-pile__card--c">
+            <svg width="30" height="30" viewBox="0 0 34 34"><rect x="6" y="6" width="22" height="22" fill="#000" /></svg>
+          </span>
+          <span class="gum-pile__card gum-pile__card--d">
+            <svg width="30" height="30" viewBox="0 0 34 34">
+              <path d="M17 3 L21 14 L32 14 L23 21 L26 32 L17 25 L8 32 L11 21 L2 14 L13 14 Z" fill="#000" />
+            </svg>
+          </span>
+        </div>
+        <div class="gum-pile__chip">
+          <span class="gum-brand__mark">{c.brand.mark}</span>
+          <span>
+            <strong>{c.brand.name}</strong>
+            <em>{c.brand.tagline}</em>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gum-stats">
+    <div class="gum-wrap gum-stats__row">
+      {
+        c.stats.map((s, i) => (
+          <div class="gum-stat" data-reveal style={`--reveal-delay:${i * 70}ms; --dot:${pop[i % pop.length]}`}>
+            <strong>{s.value}</strong>
+            <span>{s.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="gum-sec gum-sec--pink" id="proof">
+    <div class="gum-wrap">
+      <div class="gum-head" data-reveal>
+        <p class="gum-eyebrow">{c.proof.eyebrow}</p>
+        <h2 class="gum-h2">{c.proof.headline}</h2>
+      </div>
+      <div class="gum-quotes">
+        {
+          c.testimonials.map((t, i) => (
+            <figure class="gum-quote" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+              <blockquote>{t.quote}</blockquote>
+              <figcaption>
+                <span class="gum-quote__av">{t.name.charAt(0)}</span>
+                <span>
+                  <strong>{t.name}</strong>
+                  <em>
+                    {t.role}, {t.company}
+                  </em>
+                </span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="gum-sec gum-sec--white" id="pricing">
+    <div class="gum-wrap">
+      <div class="gum-head" data-reveal>
+        <p class="gum-eyebrow">{c.pricing.eyebrow}</p>
+        <h2 class="gum-h2">{c.pricing.headline}</h2>
+        <p class="gum-lead">{c.pricing.sub}</p>
+      </div>
+      <div class="gum-plans">
+        {
+          c.pricing.plans.map((p, i) => (
+            <article
+              class:list={['gum-plan', `gum-plan--${i}`, { 'is-feat': p.featured }]}
+              data-reveal
+              style={`--reveal-delay:${i * 70}ms`}
+            >
+              {p.featured && <span class="gum-sticker gum-plan__tag">Most picked</span>}
+              <h3 class="gum-plan__n">{p.name}</h3>
+              <p class="gum-plan__blurb">{p.blurb}</p>
+              <p class="gum-plan__price">
+                <strong>{p.price}</strong>
+                <span>{p.period}</span>
+              </p>
+              <a
+                class:list={['gum-btn', 'gum-btn--full', p.featured ? 'gum-btn--shadowPink' : 'gum-btn--shadowBlack']}
+                href="#cta"
+              >
+                {p.cta}
+              </a>
+              <ul class="gum-plan__list">
+                {p.features.map((f) => (
+                  <li>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                      <path
+                        d="m2.8 7.2 2.8 2.8 5.6-6"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="gum-sec gum-sec--yellow">
+    <div class="gum-wrap gum-faq">
+      <div class="gum-faq__head" data-reveal>
+        <p class="gum-eyebrow">{c.faqHead.eyebrow}</p>
+        <h2 class="gum-h2">{c.faqHead.headline}</h2>
+      </div>
+      <div class="gum-faq__list" data-reveal style="--reveal-delay:80ms">
+        {
+          c.faq.map((f, i) => (
+            <details class="gum-faq__item" open={i === 0}>
+              <summary>
+                {f.q}
+                <span class="gum-faq__ico" aria-hidden="true" />
+              </summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="gum-cta" id="cta">
+    <div class="gum-wrap gum-cta__in" data-reveal>
+      <h2 class="gum-h1 gum-h1--sm">{c.cta.headline}</h2>
+      <p class="gum-sub">{c.cta.sub}</p>
+      <div class="gum-hero__cta">
+        <a class="gum-btn gum-btn--shadowYellow" href={c.cta.button.href}>{c.cta.button.label}</a>
+      </div>
+      <p class="gum-note">{c.cta.note}</p>
+    </div>
+  </section>
+
+  <div class="gum-stripe" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <footer class="gum-foot">
+    <div class="gum-wrap gum-foot__in">
+      <div class="gum-foot__brand">
+        <a class="gum-brand gum-brand--dark" href="#">
+          <span class="gum-brand__mark">{c.brand.mark}</span>
+          <span class="gum-brand__name">{c.brand.name}</span>
+        </a>
+        <p>{c.brand.tagline}</p>
+      </div>
+      {
+        c.footer.columns.map((col) => (
+          <div class="gum-foot__col">
+            <h4>{col.title}</h4>
+            <ul>
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href}>{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div class="gum-wrap gum-foot__legal">
+      <span>&copy; {year} {c.brand.name}</span>
+      <span>{c.footer.legal}</span>
+    </div>
+  </footer>
+</div>
+
+<style is:global>
+  .gum,
+  .gum *,
+  .gum *::before,
+  .gum *::after {
+    box-sizing: border-box;
+  }
+
+  .gum {
+    --pink: #ff90e8;
+    --yellow: #ffc900;
+    --cyan: #23a6f0;
+    --lime: #90e86b;
+    --ink: #000000;
+    --paper: #ffffff;
+
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    letter-spacing: -0.01em;
+    position: relative;
+  }
+
+  .gum-wrap {
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+
+  /* ---------- nav ---------- */
+  .gum-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--paper);
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .gum-nav__in {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    height: 68px;
+  }
+
+  .gum-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    flex: none;
+  }
+
+  .gum-brand__mark {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 4px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 15px;
+    font-weight: 900;
+    border: 2px solid var(--ink);
+    flex: none;
+  }
+
+  .gum-brand__name {
+    font-size: 17px;
+  }
+
+  .gum-nav__links {
+    display: flex;
+    gap: 26px;
+    margin-right: auto;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .gum-nav__links a {
+    text-decoration: none;
+    color: var(--ink);
+    padding-bottom: 3px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.12s ease;
+  }
+
+  .gum-nav__links a:hover {
+    border-color: var(--ink);
+  }
+
+  .gum-nav__act {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex: none;
+  }
+
+  .gum-nav__login {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .gum-nav__login:hover {
+    text-decoration: underline;
+  }
+
+  /* ---------- buttons ---------- */
+  .gum-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    padding: 0 22px;
+    border-radius: 4px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 15px;
+    font-weight: 800;
+    text-decoration: none;
+    border: 3px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  .gum-btn:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  .gum-btn:active {
+    transform: translate(6px, 6px);
+    box-shadow: 0 0 0 var(--ink);
+  }
+
+  .gum-btn--sm {
+    height: 38px;
+    padding: 0 16px;
+    font-size: 13.5px;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .gum-btn--sm:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .gum-btn--ghost {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .gum-btn--full {
+    width: 100%;
+  }
+
+  .gum-btn--shadowPink {
+    box-shadow: 6px 6px 0 var(--pink);
+  }
+  .gum-btn--shadowPink:hover {
+    box-shadow: 3px 3px 0 var(--pink);
+  }
+
+  .gum-btn--shadowCyan {
+    box-shadow: 4px 4px 0 var(--cyan);
+  }
+  .gum-btn--shadowCyan:hover {
+    box-shadow: 2px 2px 0 var(--cyan);
+  }
+
+  .gum-btn--shadowYellow {
+    box-shadow: 6px 6px 0 var(--yellow);
+  }
+  .gum-btn--shadowYellow:hover {
+    box-shadow: 3px 3px 0 var(--yellow);
+  }
+
+  .gum-btn--shadowBlack {
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+
+  /* ---------- hero ---------- */
+  .gum-hero {
+    background: var(--yellow);
+    border-bottom: 4px solid var(--ink);
+    padding: 120px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gum-hero__in {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .gum-sticker {
+    display: inline-block;
+    background: var(--pink);
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    border-radius: 4px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transform: rotate(-4deg);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .gum-h1 {
+    margin: 30px auto 0;
+    max-width: 16ch;
+    font-size: clamp(3rem, 9vw, 7rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-weight: 900;
+    color: var(--ink);
+  }
+
+  .gum-h1--sm {
+    font-size: clamp(2.4rem, 5.6vw, 4rem);
+    max-width: 14ch;
+  }
+
+  .gum-h1__accent {
+    display: inline-block;
+    background: var(--pink);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    padding: 4px 12px;
+  }
+
+  .gum-sub {
+    margin: 24px auto 0;
+    max-width: 58ch;
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    line-height: 1.6;
+    font-weight: 600;
+    color: #161616;
+  }
+
+  .gum-hero__cta {
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .gum-note {
+    margin-top: 18px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #2a2a2a;
+  }
+
+  /* ---------- hero product card ---------- */
+  .gum-card {
+    margin: 64px auto 0;
+    max-width: 860px;
+    text-align: left;
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    background: var(--paper);
+    box-shadow: 8px 8px 0 var(--ink);
+    overflow: hidden;
+  }
+
+  .gum-card__bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 42px;
+    padding-inline: 16px;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .gum-card__dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .gum-card__dots i {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--ink);
+    display: block;
+  }
+
+  .gum-card__url {
+    font-size: 12px;
+    font-weight: 700;
+    color: #555;
+  }
+
+  .gum-card__body {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+  }
+
+  .gum-card__thumb {
+    position: relative;
+    background: var(--cyan);
+    border-right: 3px solid var(--ink);
+    min-height: 220px;
+  }
+
+  .gum-card__shape {
+    position: absolute;
+    border: 3px solid var(--ink);
+    display: block;
+  }
+
+  .gum-card__shape--a {
+    width: 90px;
+    height: 90px;
+    border-radius: 999px;
+    background: var(--yellow);
+    top: 24px;
+    left: 24px;
+  }
+
+  .gum-card__shape--b {
+    width: 66px;
+    height: 66px;
+    background: var(--pink);
+    bottom: 22px;
+    right: 22px;
+    transform: rotate(8deg);
+  }
+
+  .gum-card__shape--c {
+    width: 46px;
+    height: 46px;
+    background: var(--lime);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-10deg);
+  }
+
+  .gum-card__info {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .gum-card__info h3 {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .gum-card__info p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+
+  .gum-card__chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+
+  .gum-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .gum-chip strong {
+    font-weight: 900;
+  }
+
+  .gum-card__buy {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .gum-card__price {
+    font-size: 24px;
+    font-weight: 900;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .gum-card__price em {
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 700;
+    color: #666;
+  }
+
+  /* ---------- logos / marquee ---------- */
+  .gum-logos {
+    padding: 48px 0 40px;
+    border-bottom: 3px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .gum-logos__label {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #666;
+    margin-bottom: 26px;
+  }
+
+  .gum-marquee {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .gum-marquee__track {
+    display: flex;
+    gap: 56px;
+    width: max-content;
+    align-items: center;
+    animation: gum-scroll 24s linear infinite;
+  }
+
+  .gum-marquee:hover .gum-marquee__track {
+    animation-play-state: paused;
+  }
+
+  .gum-marquee__item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    white-space: nowrap;
+    padding-bottom: 2px;
+  }
+
+  .gum-marquee__item::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: var(--ink);
+  }
+
+  @keyframes gum-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gum-marquee__track {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+  }
+
+  /* ---------- sections ---------- */
+  .gum-sec {
+    padding: 104px 0;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .gum-sec--cyan {
+    background: var(--cyan);
+  }
+  .gum-sec--lime {
+    background: var(--lime);
+  }
+  .gum-sec--pink {
+    background: var(--pink);
+  }
+  .gum-sec--white {
+    background: var(--paper);
+  }
+  .gum-sec--yellow {
+    background: var(--yellow);
+  }
+
+  .gum-head {
+    max-width: 640px;
+    margin-bottom: 52px;
+  }
+
+  .gum-eyebrow {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 14px;
+  }
+
+  .gum-h2 {
+    font-size: clamp(1.9rem, 3.6vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-weight: 900;
+  }
+
+  .gum-lead {
+    margin-top: 16px;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    font-weight: 600;
+    max-width: 56ch;
+  }
+
+  /* ---------- feature grid ---------- */
+  .gum-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .gum-fcard {
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    padding: 28px 24px;
+    box-shadow: 6px 6px 0 var(--shadow, var(--ink));
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  .gum-fcard:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 3px 3px 0 var(--shadow, var(--ink));
+  }
+
+  .gum-fcard__glyph {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 4px 8px;
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .gum-fcard__t {
+    font-size: 1.125rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .gum-fcard__b {
+    margin-top: 10px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #262626;
+    font-weight: 600;
+  }
+
+  /* ---------- showcase split ---------- */
+  .gum-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .gum-checks {
+    margin-top: 26px;
+    display: grid;
+    gap: 14px;
+  }
+
+  .gum-checks li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .gum-checks svg {
+    flex: none;
+    margin-top: 3px;
+  }
+
+  .gum-pile {
+    position: relative;
+    height: 300px;
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    background: var(--paper);
+    overflow: hidden;
+  }
+
+  .gum-pile__card {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+
+  .gum-pile__card--a {
+    top: 14%;
+    left: 10%;
+    background: var(--yellow);
+    transform: rotate(-8deg);
+  }
+  .gum-pile__card--b {
+    top: 20%;
+    right: 12%;
+    background: var(--pink);
+    transform: rotate(10deg);
+  }
+  .gum-pile__card--c {
+    bottom: 16%;
+    left: 18%;
+    background: var(--cyan);
+    transform: rotate(6deg);
+  }
+  .gum-pile__card--d {
+    bottom: 18%;
+    right: 20%;
+    background: var(--lime);
+    transform: rotate(-10deg);
+  }
+
+  .gum-pile__chip {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    background: var(--paper);
+    padding: 14px 18px;
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+
+  .gum-pile__chip strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 900;
+  }
+
+  .gum-pile__chip em {
+    display: block;
+    font-style: normal;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 2px;
+  }
+
+  /* ---------- stats ---------- */
+  .gum-stats {
+    padding: 72px 0;
+    background: var(--ink);
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .gum-stats__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+  }
+
+  .gum-stat {
+    text-align: center;
+    border-top: 4px solid var(--dot, var(--pink));
+    padding-top: 18px;
+  }
+
+  .gum-stat strong {
+    display: block;
+    font-size: clamp(2.1rem, 3.6vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .gum-stat span {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  /* ---------- testimonials ---------- */
+  .gum-quotes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+
+  .gum-quote {
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    padding: 28px;
+    box-shadow: 6px 6px 0 var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .gum-quote blockquote {
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 700;
+    flex: 1;
+  }
+
+  .gum-quote figcaption {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .gum-quote__av {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 900;
+    background: var(--ink);
+    color: var(--paper);
+    border: 2px solid var(--ink);
+    flex: none;
+  }
+
+  .gum-quote figcaption strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .gum-quote figcaption em {
+    display: block;
+    font-style: normal;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #444;
+    margin-top: 2px;
+  }
+
+  /* ---------- pricing ---------- */
+  .gum-plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    align-items: stretch;
+  }
+
+  .gum-plan {
+    position: relative;
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    padding: 32px 26px;
+    background: var(--paper);
+    box-shadow: 6px 6px 0 var(--ink);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gum-plan--0 {
+    background: var(--pink);
+  }
+
+  .gum-plan--2 {
+    background: var(--cyan);
+  }
+
+  .gum-plan.is-feat {
+    background: var(--ink);
+    color: var(--paper);
+    box-shadow: 8px 8px 0 var(--pink);
+  }
+
+  .gum-plan.is-feat .gum-plan__blurb,
+  .gum-plan.is-feat .gum-plan__price span {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .gum-plan.is-feat .gum-btn {
+    background: var(--paper);
+    color: var(--ink);
+    border-color: var(--paper);
+  }
+
+  .gum-plan__tag {
+    position: absolute;
+    top: -18px;
+    left: 24px;
+  }
+
+  .gum-plan__n {
+    font-size: 17px;
+    font-weight: 900;
+  }
+
+  .gum-plan__blurb {
+    margin-top: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.55;
+    min-height: 40px;
+  }
+
+  .gum-plan__price {
+    margin: 22px 0 20px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .gum-plan__price strong {
+    font-size: 2.4rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+  }
+
+  .gum-plan__price span {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #444;
+  }
+
+  .gum-plan__list {
+    margin-top: 24px;
+    display: grid;
+    gap: 12px;
+  }
+
+  .gum-plan__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .gum-plan__list svg {
+    flex: none;
+    margin-top: 4px;
+  }
+
+  /* ---------- faq ---------- */
+  .gum-faq {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .gum-faq__item {
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    background: var(--paper);
+    margin-bottom: 14px;
+    overflow: hidden;
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+
+  .gum-faq__item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 20px;
+    font-size: 15px;
+    font-weight: 800;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .gum-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .gum-faq__ico {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    flex: none;
+  }
+
+  .gum-faq__ico::before,
+  .gum-faq__ico::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 3px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: transform 0.18s ease;
+  }
+
+  .gum-faq__ico::after {
+    transform: rotate(90deg);
+  }
+
+  .gum-faq__item[open] .gum-faq__ico::after {
+    transform: rotate(0deg);
+  }
+
+  .gum-faq__item p {
+    padding: 0 20px 20px;
+    max-width: 62ch;
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.65;
+  }
+
+  /* ---------- cta ---------- */
+  .gum-cta {
+    background: var(--lime);
+    padding: 110px 0;
+    border-bottom: 4px solid var(--ink);
+  }
+
+  .gum-cta__in {
+    text-align: center;
+  }
+
+  /* ---------- stripe divider ---------- */
+  .gum-stripe {
+    display: flex;
+    height: 14px;
+  }
+
+  .gum-stripe span {
+    flex: 1;
+  }
+
+  .gum-stripe span:nth-child(1) {
+    background: var(--pink);
+  }
+  .gum-stripe span:nth-child(2) {
+    background: var(--yellow);
+  }
+  .gum-stripe span:nth-child(3) {
+    background: var(--cyan);
+  }
+  .gum-stripe span:nth-child(4) {
+    background: var(--lime);
+  }
+  .gum-stripe span:nth-child(5) {
+    background: var(--ink);
+  }
+
+  /* ---------- footer ---------- */
+  .gum-foot {
+    background: var(--ink);
+    color: var(--paper);
+    padding-top: 64px;
+  }
+
+  .gum-foot__in {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 40px;
+    padding-bottom: 52px;
+  }
+
+  .gum-brand--dark .gum-brand__mark {
+    background: var(--paper);
+    color: var(--ink);
+    border-color: var(--paper);
+  }
+
+  .gum-brand--dark .gum-brand__name {
+    color: var(--paper);
+  }
+
+  .gum-foot__brand p {
+    margin-top: 14px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65);
+    max-width: 26ch;
+    line-height: 1.6;
+    font-weight: 600;
+  }
+
+  .gum-foot__col h4 {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 16px;
+  }
+
+  .gum-foot__col ul {
+    display: grid;
+    gap: 11px;
+  }
+
+  .gum-foot__col a {
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .gum-foot__col a:hover {
+    text-decoration: underline;
+  }
+
+  .gum-foot__legal {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 22px 24px 96px;
+    border-top: 3px solid rgba(255, 255, 255, 0.2);
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 940px) {
+    .gum-grid,
+    .gum-quotes,
+    .gum-plans {
+      grid-template-columns: 1fr 1fr;
+    }
+    .gum-split,
+    .gum-faq {
+      grid-template-columns: 1fr;
+      gap: 44px;
+    }
+    .gum-nav__links {
+      display: none;
+    }
+    .gum-nav__in {
+      gap: 16px;
+    }
+    .gum-nav__act {
+      margin-left: auto;
+    }
+    .gum-foot__in {
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+    .gum-card__body {
+      grid-template-columns: 1fr;
+    }
+    .gum-card__thumb {
+      min-height: 160px;
+      border-right: none;
+      border-bottom: 3px solid var(--ink);
+    }
+    .gum-stats__row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gum-hero {
+      padding: 76px 0 56px;
+    }
+    .gum-sec {
+      padding: 72px 0;
+    }
+    .gum-grid,
+    .gum-quotes,
+    .gum-plans,
+    .gum-stats__row {
+      grid-template-columns: 1fr;
+    }
+    .gum-h1 {
+      font-size: clamp(2.6rem, 13vw, 3.6rem);
+    }
+    .gum-card {
+      margin-top: 44px;
+    }
+    .gum-pile {
+      height: 220px;
+    }
+    .gum-pile__card {
+      width: 52px;
+      height: 52px;
+    }
+    .gum-hero__cta {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .gum-hero__cta .gum-btn {
+      width: 100%;
+    }
+    .gum-foot__legal {
+      padding-bottom: 112px;
+    }
+  }
+</style>

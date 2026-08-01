@@ -1,0 +1,1091 @@
+---
+/**
+ * SKIN: Wireframe  ·  archetype: Structure Only
+ *
+ * No visual opinion. Greyscale blocks, dashed media placeholders, mono
+ * annotations, and the real copy in place so you can judge the skeleton and the
+ * words before anyone argues about colour.
+ *
+ * Two toggles, top right: Notes (annotation layer) and Grid (12-col overlay).
+ */
+import { content as c } from '../../lib/content';
+
+const year = 2026;
+
+/** Wireframe-only annotations. Bespoke to this skin, so they live here, not in content.ts. */
+const notes = {
+  nav: 'Sticky. Logo left, 4 links, one primary action right. Collapses to logo + action under 940.',
+  hero: 'Above the fold. One promise, one sub, one primary action. Secondary action is optional and must not compete.',
+  media: 'Hero media. Product shot, dashboard, or video still. 16:10. This is the single most expensive asset on the page.',
+  logos: 'Social proof band. 5 to 7 marks. If you have fewer than 4, cut the band, do not pad it.',
+  problem: 'Agitation. Only ship this section on long-form. Short pages jump straight from hero to features.',
+  features: 'Benefit grid. 6 is the ceiling. Each item is a title of 2 to 4 words and one sentence of proof.',
+  showcase: 'Mechanism. Show how it works, one visual plus a checklist. This is where scepticism dies.',
+  stats: 'Numbers. 4 max. Every one of them needs a source you can point to.',
+  proof: 'Testimonials. Name, role, company. A quote with no attribution is worth nothing.',
+  pricing: 'Offer. 3 tiers, middle one featured. Anchor high on the right, entry on the left.',
+  faq: 'Objection handling. Order by how often the objection actually shows up on calls.',
+  cta: 'Closer. Repeat the primary action. No new information here.',
+  footer: '3 link columns and a legal line. Nothing above the fold belongs here.',
+};
+---
+
+<div class="wf" data-notes="on" data-grid="off">
+  <div class="wf-gridoverlay" aria-hidden="true">
+    {Array.from({ length: 12 }).map(() => <span />)}
+  </div>
+
+  <div class="wf-tools">
+    <span class="wf-tools__label">Wireframe</span>
+    <button class="wf-tools__btn is-on" data-toggle="notes" type="button" aria-pressed="true">Notes</button>
+    <button class="wf-tools__btn" data-toggle="grid" type="button" aria-pressed="false">Grid</button>
+  </div>
+
+  <!-- ================= nav ================= -->
+  <header class="wf-nav">
+    <div class="wf-wrap wf-nav__in">
+      <div class="wf-logo">
+        <span class="wf-logo__box">{c.brand.mark}</span>
+        <span>{c.brand.name}</span>
+      </div>
+      <nav class="wf-nav__links" aria-label="Primary">
+        {c.nav.links.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+      <span class="wf-btn wf-btn--sm">{c.nav.cta.label}</span>
+    </div>
+    <p class="wf-note wf-note--nav">{notes.nav}</p>
+  </header>
+
+  <!-- ================= hero ================= -->
+  <section class="wf-sec" data-sec="01" data-name="HERO">
+    <div class="wf-wrap">
+      <p class="wf-note">{notes.hero}</p>
+      <div class="wf-hero">
+        <div class="wf-hero__copy">
+          <span class="wf-tag">eyebrow</span>
+          <p class="wf-eyebrow">{c.hero.eyebrow}</p>
+
+          <span class="wf-tag">h1 · 48 to 72px</span>
+          <h1 class="wf-h1">{c.hero.headline} {c.hero.headlineAccent}</h1>
+
+          <span class="wf-tag">sub · max 60ch</span>
+          <p class="wf-body wf-body--lg">{c.hero.sub}</p>
+
+          <span class="wf-tag">actions</span>
+          <div class="wf-row">
+            <span class="wf-btn">{c.hero.ctaPrimary.label}</span>
+            <span class="wf-btn wf-btn--ghost">{c.hero.ctaSecondary.label}</span>
+          </div>
+
+          <span class="wf-tag">risk reversal</span>
+          <p class="wf-micro">{c.hero.note}</p>
+        </div>
+
+        <div class="wf-hero__media">
+          <div class="wf-media wf-media--wide">
+            <span class="wf-media__label">HERO MEDIA · 16:10</span>
+          </div>
+          <p class="wf-note wf-note--tight">{notes.media}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= logos ================= -->
+  <section class="wf-sec wf-sec--band" data-sec="02" data-name="TRUST BAR">
+    <div class="wf-wrap">
+      <p class="wf-note">{notes.logos}</p>
+      <p class="wf-eyebrow wf-center">{c.logos.label}</p>
+      <div class="wf-logos">
+        {c.logos.items.map((n) => <span class="wf-logos__item">{n}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= problem ================= -->
+  <section class="wf-sec" data-sec="03" data-name="PROBLEM · optional">
+    <div class="wf-wrap">
+      <p class="wf-note">{notes.problem}</p>
+      <div class="wf-head">
+        <p class="wf-eyebrow">{c.problem.eyebrow}</p>
+        <h2 class="wf-h2">{c.problem.headline}</h2>
+        <p class="wf-body">{c.problem.body}</p>
+      </div>
+      <div class="wf-cols wf-cols--3">
+        {
+          c.problem.points.map((p, i) => (
+            <div class="wf-block">
+              <span class="wf-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="wf-h3">{p.title}</h3>
+              <p class="wf-body wf-body--sm">{p.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= features ================= -->
+  <section class="wf-sec wf-sec--band" data-sec="04" data-name="FEATURES" id="features">
+    <div class="wf-wrap">
+      <p class="wf-note">{notes.features}</p>
+      <div class="wf-head">
+        <p class="wf-eyebrow">{c.features.eyebrow}</p>
+        <h2 class="wf-h2">{c.features.headline}</h2>
+        <p class="wf-body">{c.features.sub}</p>
+      </div>
+      <div class="wf-cols wf-cols--3">
+        {
+          c.features.items.map((f) => (
+            <div class="wf-block">
+              <div class="wf-media wf-media--icon">
+                <span class="wf-media__label">ICON</span>
+              </div>
+              <span class="wf-num">{f.glyph}</span>
+              <h3 class="wf-h3">{f.title}</h3>
+              <p class="wf-body wf-body--sm">{f.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= showcase ================= -->
+  <section class="wf-sec" data-sec="05" data-name="MECHANISM" id="showcase">
+    <div class="wf-wrap">
+      <p class="wf-note">{notes.showcase}</p>
+      <div class="wf-split">
+        <div>
+          <p class="wf-eyebrow">{c.showcase.eyebrow}</p>
+          <h2 class="wf-h2">{c.showcase.headline}</h2>
+          <p class="wf-body">{c.showcase.body}</p>
+          <span class="wf-tag">proof list</span>
+          <ul class="wf-list">
+            {
+              c.showcase.bullets.map((b) => (
+                <li>
+                  <span class="wf-check" aria-hidden="true" />
+                  {b}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="wf-media wf-media--tall">
+          <span class="wf-media__label">DIAGRAM OR SCREEN · 4:5</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= stats ================= -->
+  <section class="wf-sec wf-sec--band" data-sec="06" data-name="STATS">
+    <div class="wf-wrap">
+      <p class="wf-note">{notes.stats}</p>
+      <div class="wf-cols wf-cols--4">
+        {
+          c.stats.map((s) => (
+            <div class="wf-stat">
+              <strong>{s.value}</strong>
+              <span>{s.label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= proof ================= -->
+  <section class="wf-sec" data-sec="07" data-name="TESTIMONIALS" id="proof">
+    <div class="wf-wrap">
+      <p class="wf-note">{notes.proof}</p>
+      <div class="wf-cols wf-cols--3">
+        {
+          c.testimonials.map((t) => (
+            <figure class="wf-block wf-block--quote">
+              <span class="wf-tag">quote</span>
+              <blockquote class="wf-body">{t.quote}</blockquote>
+              <figcaption>
+                <span class="wf-avatar" aria-hidden="true" />
+                <span>
+                  <strong>{t.name}</strong>
+                  <em>
+                    {t.role}, {t.company}
+                  </em>
+                </span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= pricing ================= -->
+  <section class="wf-sec wf-sec--band" data-sec="08" data-name="OFFER" id="pricing">
+    <div class="wf-wrap">
+      <p class="wf-note">{notes.pricing}</p>
+      <div class="wf-head">
+        <p class="wf-eyebrow">{c.pricing.eyebrow}</p>
+        <h2 class="wf-h2">{c.pricing.headline}</h2>
+        <p class="wf-body">{c.pricing.sub}</p>
+      </div>
+      <div class="wf-cols wf-cols--3 wf-cols--top">
+        {
+          c.pricing.plans.map((p) => (
+            <div class:list={['wf-block', 'wf-plan', { 'is-feat': p.featured }]}>
+              {p.featured && <span class="wf-tag wf-tag--solid">featured tier</span>}
+              <h3 class="wf-h3">{p.name}</h3>
+              <p class="wf-body wf-body--sm">{p.blurb}</p>
+              <p class="wf-price">
+                <strong>{p.price}</strong>
+                <span>{p.period}</span>
+              </p>
+              <span class="wf-btn wf-btn--full">{p.cta}</span>
+              <ul class="wf-list wf-list--sm">
+                {p.features.map((f) => (
+                  <li>
+                    <span class="wf-check" aria-hidden="true" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+      <div class="wf-guarantee">
+        <span class="wf-tag">guarantee · optional</span>
+        <h3 class="wf-h3">{c.guarantee.headline}</h3>
+        <p class="wf-body wf-body--sm">{c.guarantee.body}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= faq ================= -->
+  <section class="wf-sec" data-sec="09" data-name="FAQ">
+    <div class="wf-wrap">
+      <p class="wf-note">{notes.faq}</p>
+      <div class="wf-split wf-split--faq">
+        <h2 class="wf-h2">{c.faqHead.headline}</h2>
+        <div class="wf-faq">
+          {
+            c.faq.map((f, i) => (
+              <details class="wf-faq__item" open={i === 0}>
+                <summary>
+                  {f.q}
+                  <span class="wf-faq__ico" aria-hidden="true" />
+                </summary>
+                <p class="wf-body wf-body--sm">{f.a}</p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= cta ================= -->
+  <section class="wf-sec wf-sec--band" data-sec="10" data-name="CLOSER" id="cta">
+    <div class="wf-wrap wf-center">
+      <p class="wf-note">{notes.cta}</p>
+      <h2 class="wf-h2">{c.cta.headline}</h2>
+      <p class="wf-body">{c.cta.sub}</p>
+      <div class="wf-row wf-row--center">
+        <span class="wf-btn">{c.cta.button.label}</span>
+      </div>
+      <p class="wf-micro">{c.cta.note}</p>
+    </div>
+  </section>
+
+  <!-- ================= footer ================= -->
+  <footer class="wf-sec wf-foot" data-sec="11" data-name="FOOTER">
+    <div class="wf-wrap">
+      <p class="wf-note">{notes.footer}</p>
+      <div class="wf-foot__in">
+        <div>
+          <div class="wf-logo">
+            <span class="wf-logo__box">{c.brand.mark}</span>
+            <span>{c.brand.name}</span>
+          </div>
+          <p class="wf-body wf-body--sm">{c.brand.tagline}</p>
+        </div>
+        {
+          c.footer.columns.map((col) => (
+            <div>
+              <h4 class="wf-eyebrow">{col.title}</h4>
+              <ul class="wf-foot__links">
+                {col.links.map((l) => (
+                  <li>
+                    <a href={l.href}>{l.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+      <p class="wf-micro wf-foot__legal">
+        &copy; {year} {c.brand.name}. {c.footer.legal}
+      </p>
+    </div>
+  </footer>
+</div>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('.wf');
+    if (!root) return;
+    var KEYS = { notes: 'wf:notes', grid: 'wf:grid' };
+
+    function apply(name, on) {
+      root.setAttribute('data-' + name, on ? 'on' : 'off');
+      var btn = root.querySelector('[data-toggle="' + name + '"]');
+      if (btn) {
+        btn.classList.toggle('is-on', on);
+        btn.setAttribute('aria-pressed', String(on));
+      }
+      try {
+        localStorage.setItem(KEYS[name], on ? '1' : '0');
+      } catch (e) {}
+    }
+
+    ['notes', 'grid'].forEach(function (name) {
+      var saved = null;
+      try {
+        saved = localStorage.getItem(KEYS[name]);
+      } catch (e) {}
+      if (saved !== null) apply(name, saved === '1');
+      var btn = root.querySelector('[data-toggle="' + name + '"]');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          apply(name, root.getAttribute('data-' + name) !== 'on');
+        });
+      }
+    });
+  })();
+</script>
+
+<style is:global>
+  .wf {
+    --paper: #fafafa;
+    --band: #f2f2f2;
+    --ink: #171717;
+    --ink-2: #525252;
+    --ink-3: #8a8a8a;
+    --line: #d4d4d4;
+    --line-2: #b8b8b8;
+    --block: #ebebeb;
+    --note: #1d4ed8;
+
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    position: relative;
+  }
+
+  .wf-wrap {
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: 24px;
+    position: relative;
+  }
+
+  .wf-center {
+    text-align: center;
+  }
+
+  /* ---------- tools ---------- */
+  /* Bottom left. Top right collides with the sticky nav's primary action, and
+     bottom centre belongs to the skin switcher. */
+  .wf-tools {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px;
+    border: 1px solid var(--line-2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+  }
+
+  .wf-tools__label {
+    padding: 0 8px 0 6px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .wf-tools__btn {
+    padding: 5px 10px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: #fff;
+    color: var(--ink-2);
+    font-family: inherit;
+    font-size: 11px;
+    transition: all 0.12s ease;
+  }
+
+  .wf-tools__btn:hover {
+    border-color: var(--ink);
+  }
+
+  .wf-tools__btn.is-on {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+  }
+
+  /* ---------- 12 col overlay ---------- */
+  .wf-gridoverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9997;
+    pointer-events: none;
+    display: none;
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: 24px;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+  }
+
+  .wf[data-grid='on'] .wf-gridoverlay {
+    display: grid;
+  }
+
+  .wf-gridoverlay span {
+    background: rgba(29, 78, 216, 0.06);
+    border-left: 1px solid rgba(29, 78, 216, 0.14);
+    border-right: 1px solid rgba(29, 78, 216, 0.14);
+  }
+
+  /* ---------- annotations ---------- */
+  .wf-note {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11.5px;
+    line-height: 1.55;
+    color: var(--note);
+    border-left: 2px solid var(--note);
+    padding: 6px 0 6px 12px;
+    margin-bottom: 28px;
+    max-width: 76ch;
+    background: rgba(29, 78, 216, 0.04);
+  }
+
+  .wf-note--tight {
+    margin: 12px 0 0;
+  }
+
+  .wf-note--nav {
+    max-width: 1120px;
+    margin: 12px auto 0;
+    padding-inline: 12px;
+  }
+
+  .wf-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    border: 1px dashed var(--line-2);
+    border-radius: 3px;
+    padding: 2px 6px;
+    margin-bottom: 8px;
+  }
+
+  .wf-tag--solid {
+    border-style: solid;
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .wf[data-notes='off'] .wf-note,
+  .wf[data-notes='off'] .wf-tag,
+  .wf[data-notes='off'] .wf-sec::before {
+    display: none;
+  }
+
+  /* ---------- sections ---------- */
+  .wf-sec {
+    position: relative;
+    padding: 72px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  .wf-sec::before {
+    content: attr(data-sec) ' · ' attr(data-name);
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 4px 10px;
+    background: var(--ink);
+    color: #fff;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    border-bottom-right-radius: 4px;
+  }
+
+  .wf-sec--band {
+    background: var(--band);
+  }
+
+  /* ---------- nav ---------- */
+  .wf-nav {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 14px;
+  }
+
+  .wf-nav__in {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 60px;
+  }
+
+  .wf-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-weight: 600;
+    font-size: 15px;
+    flex: none;
+  }
+
+  .wf-logo__box {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line-2);
+    border-radius: 5px;
+    background: var(--block);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px;
+  }
+
+  .wf-nav__links {
+    display: flex;
+    gap: 24px;
+    margin-right: auto;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+
+  .wf-nav__links a {
+    text-decoration: none;
+    border-bottom: 1px dashed var(--line-2);
+    padding-bottom: 1px;
+  }
+
+  /* ---------- type ---------- */
+  .wf-eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    margin-bottom: 14px;
+  }
+
+  .wf-h1 {
+    font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+    margin-bottom: 18px;
+    max-width: 18ch;
+  }
+
+  .wf-h2 {
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    line-height: 1.16;
+    letter-spacing: -0.025em;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .wf-h3 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-bottom: 8px;
+  }
+
+  .wf-body {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 62ch;
+  }
+
+  .wf-body--lg {
+    font-size: 17px;
+    margin-bottom: 18px;
+  }
+
+  .wf-body--sm {
+    font-size: 14px;
+  }
+
+  .wf-micro {
+    font-size: 12.5px;
+    color: var(--ink-3);
+    margin-top: 12px;
+  }
+
+  .wf-num {
+    display: block;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+
+  .wf-head {
+    max-width: 640px;
+    margin-bottom: 40px;
+  }
+
+  /* ---------- blocks ---------- */
+  .wf-block {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #fff;
+    padding: 22px 20px;
+  }
+
+  .wf-block--quote {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .wf-block--quote blockquote {
+    flex: 1;
+  }
+
+  .wf-block--quote figcaption {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+
+  .wf-block--quote figcaption strong {
+    display: block;
+    font-weight: 600;
+  }
+
+  .wf-block--quote figcaption em {
+    display: block;
+    font-style: normal;
+    color: var(--ink-3);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+
+  .wf-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 1px dashed var(--line-2);
+    background: var(--block);
+    flex: none;
+  }
+
+  /* ---------- media placeholders ---------- */
+  .wf-media {
+    position: relative;
+    border: 1px dashed var(--line-2);
+    border-radius: 6px;
+    background: linear-gradient(135deg, transparent calc(50% - 0.5px), var(--line) 50%, transparent calc(50% + 0.5px)),
+      linear-gradient(45deg, transparent calc(50% - 0.5px), var(--line) 50%, transparent calc(50% + 0.5px)),
+      var(--block);
+    display: grid;
+    place-items: center;
+  }
+
+  .wf-media__label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    background: var(--block);
+    padding: 4px 8px;
+    border-radius: 3px;
+  }
+
+  .wf-media--wide {
+    aspect-ratio: 16 / 10;
+  }
+
+  .wf-media--tall {
+    aspect-ratio: 4 / 5;
+  }
+
+  .wf-media--icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    margin-bottom: 16px;
+  }
+
+  .wf-media--icon .wf-media__label {
+    font-size: 8px;
+    padding: 2px 3px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- hero ---------- */
+  .wf-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .wf-hero__copy .wf-tag {
+    display: block;
+    width: fit-content;
+    margin-top: 20px;
+  }
+
+  .wf-hero__copy > .wf-tag:first-child {
+    margin-top: 0;
+  }
+
+  /* ---------- buttons ---------- */
+  .wf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    padding: 0 20px;
+    border-radius: 5px;
+    background: var(--ink);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .wf-btn--ghost {
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid var(--line-2);
+  }
+
+  .wf-btn--sm {
+    height: 34px;
+    padding: 0 14px;
+    font-size: 13px;
+    flex: none;
+  }
+
+  .wf-btn--full {
+    width: 100%;
+    margin: 18px 0;
+  }
+
+  .wf-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .wf-row--center {
+    justify-content: center;
+    margin-top: 22px;
+  }
+
+  /* ---------- logos ---------- */
+  .wf-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 6px;
+  }
+
+  .wf-logos__item {
+    display: grid;
+    place-items: center;
+    min-width: 128px;
+    height: 44px;
+    padding-inline: 14px;
+    border: 1px dashed var(--line-2);
+    border-radius: 4px;
+    background: #fff;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  /* ---------- grids ---------- */
+  .wf-cols {
+    display: grid;
+    gap: 18px;
+  }
+
+  .wf-cols--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .wf-cols--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .wf-cols--top {
+    align-items: start;
+  }
+
+  .wf-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .wf-split--faq {
+    grid-template-columns: 280px 1fr;
+    gap: 48px;
+  }
+
+  /* ---------- lists ---------- */
+  .wf-list {
+    display: grid;
+    gap: 11px;
+    margin-top: 8px;
+  }
+
+  .wf-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .wf-list--sm li {
+    font-size: 13.5px;
+  }
+
+  .wf-check {
+    width: 14px;
+    height: 14px;
+    flex: none;
+    margin-top: 3px;
+    border: 1px solid var(--line-2);
+    border-radius: 3px;
+    background: var(--block);
+  }
+
+  /* ---------- stats ---------- */
+  .wf-stat {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #fff;
+    padding: 20px;
+  }
+
+  .wf-stat strong {
+    display: block;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .wf-stat span {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  /* ---------- pricing ---------- */
+  .wf-plan.is-feat {
+    border-color: var(--ink);
+    border-width: 2px;
+  }
+
+  .wf-price {
+    margin: 18px 0 0;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .wf-price strong {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .wf-price span {
+    font-size: 12.5px;
+    color: var(--ink-3);
+  }
+
+  .wf-guarantee {
+    margin-top: 18px;
+    border: 1px dashed var(--line-2);
+    border-radius: 6px;
+    padding: 24px 22px;
+    background: #fff;
+  }
+
+  /* ---------- faq ---------- */
+  .wf-faq__item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .wf-faq__item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 17px 0;
+    font-size: 15px;
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .wf-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .wf-faq__ico {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    flex: none;
+  }
+
+  .wf-faq__ico::before,
+  .wf-faq__ico::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1.5px;
+    background: var(--ink-3);
+    transition: transform 0.18s ease;
+  }
+
+  .wf-faq__ico::after {
+    transform: rotate(90deg);
+  }
+
+  .wf-faq__item[open] .wf-faq__ico::after {
+    transform: rotate(0deg);
+  }
+
+  .wf-faq__item p {
+    padding-bottom: 18px;
+  }
+
+  /* ---------- footer ---------- */
+  .wf-foot {
+    border-bottom: none;
+    padding-bottom: 112px;
+  }
+
+  .wf-foot__in {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .wf-foot__in .wf-logo {
+    margin-bottom: 12px;
+  }
+
+  .wf-foot__links {
+    display: grid;
+    gap: 9px;
+  }
+
+  .wf-foot__links a {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  .wf-foot__legal {
+    padding-top: 18px;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 940px) {
+    .wf-hero,
+    .wf-split,
+    .wf-split--faq {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .wf-cols--3 {
+      grid-template-columns: 1fr 1fr;
+    }
+    .wf-nav__links {
+      display: none;
+    }
+    .wf-nav__in {
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .wf-foot__in {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .wf-gridoverlay {
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .wf-sec {
+      padding: 60px 0 52px;
+    }
+    .wf-cols--3,
+    .wf-cols--4 {
+      grid-template-columns: 1fr;
+    }
+    /* Sit above the skin switcher, which goes near full width on mobile. */
+    .wf-tools {
+      bottom: 62px;
+      left: 8px;
+    }
+    .wf-tools__label {
+      display: none;
+    }
+    .wf-gridoverlay {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+  }
+</style>

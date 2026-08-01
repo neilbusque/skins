@@ -1,0 +1,1297 @@
+---
+/**
+ * SKIN: Aesop Editorial  ·  swipe ref: aesop-editorial  ·  archetype: Editorial Luxury
+ *
+ * Oatmeal paper base, near-black ink, muted olive accent. Restraint as the design:
+ * modest serif headlines, hairline rules, a visible numbering system, no gradients,
+ * no shadows, no rounded chunky buttons. Reads like a well-set book, not an ad.
+ */
+import { content as c } from '../../lib/content';
+
+const year = 2026;
+
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<div class="aes">
+  <header class="aes-nav">
+    <div class="aes-wrap aes-nav__in">
+      <a class="aes-brand" href="#">
+        <span class="aes-brand__mark" aria-hidden="true">{c.brand.mark}</span>
+        <span class="aes-brand__name">{c.brand.name}</span>
+      </a>
+      <nav class="aes-nav__links" aria-label="Primary">
+        {c.nav.links.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+      <div class="aes-nav__act">
+        <a class="aes-nav__login" href="#">Log in</a>
+        <a class="aes-btn aes-btn--sm" href={c.nav.cta.href}>{c.nav.cta.label}</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="aes-hero">
+    <div class="aes-wrap">
+      <div class="aes-hero__grid">
+        <div class="aes-hero__main">
+          <p class="aes-label" data-reveal>
+            <span class="aes-label__n">01</span>
+            <span class="aes-label__sep" aria-hidden="true">/</span>
+            {c.hero.eyebrow}
+          </p>
+          <h1 class="aes-h1" data-reveal style="--reveal-delay:60ms">
+            {c.hero.headline}
+            <span class="aes-h1__accent">{c.hero.headlineAccent}</span>
+          </h1>
+        </div>
+        <div class="aes-hero__aside">
+          <p class="aes-sub" data-reveal style="--reveal-delay:120ms">{c.hero.sub}</p>
+          <div class="aes-hero__cta" data-reveal style="--reveal-delay:180ms">
+            <a class="aes-btn" href={c.hero.ctaPrimary.href}>{c.hero.ctaPrimary.label}</a>
+            <a class="aes-link" href={c.hero.ctaSecondary.href}>
+              {c.hero.ctaSecondary.label}
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                <path d="M3 1.5 7 5 3 8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+          <p class="aes-note" data-reveal style="--reveal-delay:240ms">{c.hero.note}</p>
+        </div>
+      </div>
+
+      <div class="aes-toc aes-parallax" data-reveal style="--reveal-delay:280ms" aria-hidden="true">
+        <div class="aes-toc__head">
+          <span>Contents</span>
+          <span class="aes-toc__label--r">{c.brand.domain}</span>
+        </div>
+        <ol class="aes-toc__list">
+          {
+            c.features.items.map((f, i) => (
+              <li class="aes-toc__row">
+                <span class="aes-toc__num">{f.glyph}</span>
+                <span class="aes-toc__t">{f.title}</span>
+                <span class="aes-toc__leader"></span>
+                <span class="aes-toc__pg">{pad((i + 1) * 3 + 4)}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="aes-index">
+    <div class="aes-wrap">
+      <p class="aes-label" data-reveal>
+        <span class="aes-label__n">02</span>
+        <span class="aes-label__sep" aria-hidden="true">/</span>
+        Index
+      </p>
+      <p class="aes-index__label" data-reveal style="--reveal-delay:40ms">{c.logos.label}</p>
+      <ol class="aes-index__row" data-reveal style="--reveal-delay:80ms">
+        {
+          c.logos.items.map((name, i) => (
+            <li class="aes-index__item">
+              <span class="aes-index__n">{pad(i + 1)}</span>
+              {name}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="aes-sec" id="features">
+    <div class="aes-wrap">
+      <div class="aes-head" data-reveal>
+        <p class="aes-label">
+          <span class="aes-label__n">03</span>
+          <span class="aes-label__sep" aria-hidden="true">/</span>
+          {c.features.eyebrow}
+        </p>
+        <h2 class="aes-h2">{c.features.headline}</h2>
+        <p class="aes-lead">{c.features.sub}</p>
+      </div>
+      <ol class="aes-list">
+        {
+          c.features.items.map((f, i) => (
+            <li class="aes-list__row" data-reveal style={`--reveal-delay:${i * 90}ms`}>
+              <span class="aes-list__num">{f.glyph}</span>
+              <h3 class="aes-list__t">{f.title}</h3>
+              <p class="aes-list__b">{f.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="aes-sec aes-sec--tint" id="showcase">
+    <div class="aes-wrap aes-split">
+      <div class="aes-split__copy" data-reveal>
+        <p class="aes-label">
+          <span class="aes-label__n">04</span>
+          <span class="aes-label__sep" aria-hidden="true">/</span>
+          {c.showcase.eyebrow}
+        </p>
+        <h2 class="aes-h2">{c.showcase.headline}</h2>
+        <p class="aes-lead aes-lead--cols">{c.showcase.body}</p>
+        <ul class="aes-legend">
+          {
+            c.showcase.bullets.map((b) => (
+              <li>
+                <span class="aes-legend__mark" aria-hidden="true"></span>
+                {b}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="aes-split__vis" data-reveal style="--reveal-delay:120ms">
+        <div class="aes-panel aes-parallax" aria-hidden="true">
+          <div class="aes-panel__top">
+            <span class="aes-panel__mark">{c.brand.mark}</span>
+          </div>
+          <div class="aes-panel__bottom">
+            <p class="aes-panel__cap">Fig. 01</p>
+            <p class="aes-panel__sub">{c.brand.tagline}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="aes-stats">
+    <div class="aes-wrap aes-stats__row">
+      {
+        c.stats.map((s, i) => (
+          <div class="aes-stat" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+            <strong>{s.value}</strong>
+            <span>{s.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="aes-sec aes-sec--tint" id="proof">
+    <div class="aes-wrap">
+      <p class="aes-label" data-reveal>
+        <span class="aes-label__n">05</span>
+        <span class="aes-label__sep" aria-hidden="true">/</span>
+        {c.proof.eyebrow}
+      </p>
+      <div class="aes-quotes">
+        {
+          c.testimonials.map((t, i) => (
+            <figure class="aes-quote" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+              <span class="aes-quote__num">{pad(i + 1)}</span>
+              <div>
+                <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong>, {t.role}, {t.company}
+                </figcaption>
+              </div>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="aes-sec" id="pricing">
+    <div class="aes-wrap">
+      <div class="aes-head" data-reveal>
+        <p class="aes-label">
+          <span class="aes-label__n">06</span>
+          <span class="aes-label__sep" aria-hidden="true">/</span>
+          {c.pricing.eyebrow}
+        </p>
+        <h2 class="aes-h2">{c.pricing.headline}</h2>
+        <p class="aes-lead">{c.pricing.sub}</p>
+      </div>
+      <div class="aes-catalogue">
+        {
+          c.pricing.plans.map((p, i) => (
+            <div
+              class:list={['aes-catalogue__row', { 'is-feat': p.featured }]}
+              data-reveal
+              style={`--reveal-delay:${i * 80}ms`}
+            >
+              <div class="aes-catalogue__id">
+                <span class="aes-catalogue__num">{pad(i + 1)}</span>
+                {p.featured && <span class="aes-catalogue__tag">Recommended</span>}
+              </div>
+              <div class="aes-catalogue__main">
+                <h3>{p.name}</h3>
+                <p>{p.blurb}</p>
+              </div>
+              <div class="aes-catalogue__price">
+                <strong>{p.price}</strong>
+                <span>{p.period}</span>
+              </div>
+              <a class="aes-btn aes-btn--sm" href="#cta">{p.cta}</a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="aes-sec aes-sec--tint">
+    <div class="aes-wrap aes-faq">
+      <div class="aes-faq__head" data-reveal>
+        <p class="aes-label">
+          <span class="aes-label__n">07</span>
+          <span class="aes-label__sep" aria-hidden="true">/</span>
+          {c.faqHead.eyebrow}
+        </p>
+        <h2 class="aes-h2">{c.faqHead.headline}</h2>
+      </div>
+      <div class="aes-faq__list" data-reveal style="--reveal-delay:80ms">
+        {
+          c.faq.map((f, i) => (
+            <details class="aes-faq__item" open={i === 0}>
+              <summary>
+                {f.q}
+                <span class="aes-faq__ico" aria-hidden="true"></span>
+              </summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="aes-cta" id="cta">
+    <div class="aes-wrap aes-cta__in" data-reveal>
+      <p class="aes-label">
+        <span class="aes-label__n">08</span>
+        <span class="aes-label__sep" aria-hidden="true">/</span>
+        Enquiries
+      </p>
+      <h2 class="aes-h1 aes-h1--sm">{c.cta.headline}</h2>
+      <p class="aes-sub">{c.cta.sub}</p>
+      <a class="aes-btn" href={c.cta.button.href}>{c.cta.button.label}</a>
+      <p class="aes-note">{c.cta.note}</p>
+    </div>
+  </section>
+
+  <footer class="aes-foot">
+    <div class="aes-wrap aes-foot__in">
+      <div class="aes-foot__brand">
+        <a class="aes-brand" href="#">
+          <span class="aes-brand__mark" aria-hidden="true">{c.brand.mark}</span>
+          <span class="aes-brand__name">{c.brand.name}</span>
+        </a>
+        <p>{c.brand.tagline}</p>
+      </div>
+      {
+        c.footer.columns.map((col) => (
+          <div class="aes-foot__col">
+            <h4>{col.title}</h4>
+            <ul>
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href}>{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div class="aes-wrap aes-foot__legal">
+      <span>&copy; {year} {c.brand.name}</span>
+      <span>{c.footer.legal}</span>
+    </div>
+  </footer>
+</div>
+
+<script is:inline>
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var els = document.querySelectorAll('.aes-parallax');
+    if (!els.length) return;
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var vh = window.innerHeight || 800;
+      els.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        var center = r.top + r.height / 2;
+        var offset = (center - vh / 2) / vh;
+        el.style.transform = 'translateY(' + (offset * 12).toFixed(2) + 'px)';
+      });
+    }
+    window.addEventListener(
+      'scroll',
+      function () {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+    update();
+  })();
+</script>
+
+<style is:global>
+  .aes {
+    --paper: #f3f0ea;
+    --paper-2: #e8e3d9;
+    --ink: #1a1815;
+    --ink-2: rgba(26, 24, 21, 0.75);
+    --ink-3: rgba(26, 24, 21, 0.68);
+    --olive: #5a5f4a;
+    --line: rgba(76, 68, 56, 0.16);
+    --line-2: rgba(76, 68, 56, 0.3);
+    --serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
+    --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    position: relative;
+  }
+
+  .aes-wrap {
+    width: 100%;
+    max-width: 1180px;
+    margin-inline: auto;
+    padding-inline: 40px;
+  }
+
+  /* ---------- shared type ---------- */
+  .aes-label {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+  }
+
+  .aes-label__n {
+    color: var(--olive);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .aes-label__sep {
+    color: var(--line-2);
+  }
+
+  .aes-h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    line-height: 1.28;
+    letter-spacing: -0.005em;
+    margin-top: 18px;
+    max-width: 22ch;
+  }
+
+  .aes-lead {
+    font-family: var(--serif);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--ink-2);
+    margin-top: 18px;
+    max-width: 58ch;
+  }
+
+  .aes-lead--cols {
+    column-count: 2;
+    column-gap: 40px;
+    column-rule: 1px solid var(--line);
+    max-width: none;
+  }
+
+  .aes-head {
+    max-width: 640px;
+    margin-bottom: 64px;
+  }
+
+  /* ---------- buttons / links ---------- */
+  .aes-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 46px;
+    padding: 0 28px;
+    border: 1px solid var(--ink);
+    border-radius: 0;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .aes-btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .aes-btn--sm {
+    height: 36px;
+    padding: 0 18px;
+    font-size: 10.5px;
+  }
+
+  .aes-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 3px;
+    transition: opacity 0.25s ease;
+  }
+
+  .aes-link:hover {
+    opacity: 0.55;
+  }
+
+  /* ---------- nav ---------- */
+  .aes-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aes-nav__in {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    height: 78px;
+  }
+
+  .aes-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    text-decoration: none;
+    color: var(--ink);
+    flex: none;
+  }
+
+  .aes-brand__mark {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--ink);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    flex: none;
+  }
+
+  .aes-brand__name {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .aes-nav__links {
+    display: flex;
+    gap: 32px;
+    margin-right: auto;
+    font-family: var(--sans);
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+
+  .aes-nav__links a {
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .aes-nav__links a:hover {
+    color: var(--ink);
+  }
+
+  .aes-nav__act {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex: none;
+  }
+
+  .aes-nav__login {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .aes-nav__login:hover {
+    color: var(--ink);
+  }
+
+  /* ---------- hero ---------- */
+  .aes-hero {
+    padding: 148px 0 96px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aes-hero__grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 64px;
+    padding-bottom: 64px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aes-hero__aside {
+    padding-left: 40px;
+    border-left: 1px solid var(--line);
+  }
+
+  .aes-h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.1rem, 4.4vw, 3rem);
+    line-height: 1.2;
+    letter-spacing: -0.005em;
+    margin-top: 22px;
+    max-width: 16ch;
+  }
+
+  .aes-h1__accent {
+    display: block;
+    font-style: italic;
+    color: var(--olive);
+    margin-top: 2px;
+  }
+
+  .aes-h1--sm {
+    font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+    max-width: 18ch;
+    margin-top: 20px;
+  }
+
+  .aes-sub {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--ink-2);
+    max-width: 38ch;
+  }
+
+  .aes-hero__cta {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    flex-wrap: wrap;
+  }
+
+  .aes-note {
+    margin-top: 22px;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  /* ---------- hero contents panel ---------- */
+  .aes-toc {
+    margin-top: 56px;
+    border: 1px solid var(--line-2);
+    background: var(--paper-2);
+    padding: 36px 44px;
+  }
+
+  .aes-toc__head {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line-2);
+  }
+
+  .aes-toc__list {
+    margin-top: 4px;
+  }
+
+  .aes-toc__row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aes-toc__row:last-child {
+    border-bottom: none;
+  }
+
+  .aes-toc__num {
+    flex: none;
+    width: 20px;
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--olive);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .aes-toc__t {
+    flex: none;
+    font-family: var(--serif);
+    font-size: 1.0625rem;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .aes-toc__leader {
+    flex: 1;
+    height: 0;
+    margin: 0 4px 5px;
+    border-bottom: 1px dotted var(--line-2);
+    min-width: 20px;
+  }
+
+  .aes-toc__pg {
+    flex: none;
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- index / logos ---------- */
+  .aes-index {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aes-index__label {
+    margin-top: 16px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .aes-index__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 40px;
+    margin-top: 22px;
+  }
+
+  .aes-index__item {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    font-family: var(--sans);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--ink-2);
+  }
+
+  .aes-index__n {
+    font-size: 11px;
+    color: var(--olive);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- sections ---------- */
+  .aes-sec {
+    padding: 116px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aes-sec--tint {
+    background: var(--paper-2);
+  }
+
+  /* ---------- features list ---------- */
+  .aes-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .aes-list__row {
+    display: grid;
+    grid-template-columns: 64px 260px 1fr;
+    gap: 32px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+
+  .aes-list__num {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--olive);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .aes-list__t {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.25rem;
+    letter-spacing: -0.005em;
+  }
+
+  .aes-list__b {
+    font-family: var(--serif);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--ink-2);
+    max-width: 58ch;
+  }
+
+  /* ---------- showcase split ---------- */
+  .aes-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .aes-legend {
+    margin-top: 28px;
+    display: grid;
+    gap: 15px;
+  }
+
+  .aes-legend li {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-family: var(--sans);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+
+  .aes-legend__mark {
+    flex: none;
+    width: 14px;
+    height: 1px;
+    background: var(--olive);
+    transform: translateY(-4px);
+  }
+
+  .aes-panel {
+    border: 1px solid var(--line-2);
+    overflow: hidden;
+  }
+
+  .aes-panel__top {
+    background: var(--paper);
+    padding: 64px 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--line-2);
+  }
+
+  .aes-panel__mark {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 5.5rem;
+    line-height: 1;
+    color: rgba(90, 95, 74, 0.32);
+  }
+
+  .aes-panel__bottom {
+    background: rgba(90, 95, 74, 0.08);
+    padding: 26px 40px 30px;
+  }
+
+  .aes-panel__cap {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+  }
+
+  .aes-panel__sub {
+    margin-top: 8px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.0625rem;
+    color: var(--ink);
+    max-width: 34ch;
+  }
+
+  /* ---------- stats ---------- */
+  .aes-stats {
+    padding: 92px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aes-stats__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .aes-stat {
+    padding: 0 32px;
+  }
+
+  .aes-stat:first-child {
+    padding-left: 0;
+  }
+
+  .aes-stat:not(:first-child) {
+    border-left: 1px solid var(--line);
+  }
+
+  .aes-stat strong {
+    display: block;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2rem, 3.4vw, 2.6rem);
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+
+  .aes-stat span {
+    display: block;
+    margin-top: 10px;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  /* ---------- quotes ---------- */
+  .aes-quotes {
+    margin-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+
+  .aes-quote {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 32px;
+    padding: 48px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aes-quote__num {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--olive);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .aes-quote blockquote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.2rem, 2.1vw, 1.55rem);
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 56ch;
+  }
+
+  .aes-quote figcaption {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    display: block;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--ink-3);
+    max-width: 56ch;
+  }
+
+  .aes-quote figcaption strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ---------- pricing catalogue ---------- */
+  .aes-catalogue {
+    border-top: 1px solid var(--line);
+  }
+
+  .aes-catalogue__row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 56px 1fr 170px 150px;
+    gap: 24px;
+    align-items: center;
+    padding: 34px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aes-catalogue__row.is-feat {
+    border-top: 1px solid var(--olive);
+    margin-top: -1px;
+  }
+
+  .aes-catalogue__id {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .aes-catalogue__num {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--olive);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .aes-catalogue__tag {
+    font-family: var(--sans);
+    font-size: 9.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--olive);
+  }
+
+  .aes-catalogue__main h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.3rem;
+    letter-spacing: -0.005em;
+  }
+
+  .aes-catalogue__main p {
+    margin-top: 7px;
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 44ch;
+  }
+
+  .aes-catalogue__price {
+    text-align: right;
+  }
+
+  .aes-catalogue__price strong {
+    display: block;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.7rem;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .aes-catalogue__price span {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+
+  /* ---------- faq ---------- */
+  .aes-faq {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 72px;
+    align-items: start;
+  }
+
+  .aes-faq__item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aes-faq__item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 0;
+    font-family: var(--serif);
+    font-size: 1.0625rem;
+    color: var(--ink);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .aes-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .aes-faq__ico {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    flex: none;
+  }
+
+  .aes-faq__ico::before,
+  .aes-faq__ico::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1px;
+    background: var(--ink-3);
+    transition: transform 0.22s ease;
+  }
+
+  .aes-faq__ico::after {
+    transform: rotate(90deg);
+  }
+
+  .aes-faq__item[open] .aes-faq__ico::after {
+    transform: rotate(0deg);
+  }
+
+  .aes-faq__item p {
+    padding: 0 0 26px;
+    max-width: 60ch;
+    font-family: var(--sans);
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+
+  /* ---------- cta ---------- */
+  .aes-cta {
+    padding: 144px 0;
+  }
+
+  .aes-cta__in {
+    max-width: 620px;
+  }
+
+  .aes-cta .aes-btn {
+    margin-top: 32px;
+  }
+
+  .aes-cta .aes-sub {
+    margin-top: 18px;
+    max-width: 46ch;
+  }
+
+  /* ---------- footer ---------- */
+  .aes-foot {
+    padding: 76px 0 0;
+  }
+
+  .aes-foot__in {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 48px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aes-foot__brand p {
+    margin-top: 16px;
+    font-family: var(--serif);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 28ch;
+  }
+
+  .aes-foot__col h4 {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    margin-bottom: 18px;
+  }
+
+  .aes-foot__col ul {
+    display: grid;
+    gap: 12px;
+  }
+
+  .aes-foot__col a {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+
+  .aes-foot__col a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+
+  .aes-foot__legal {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 24px 0 96px;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    color: var(--ink-3);
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 940px) {
+    .aes-wrap {
+      padding-inline: 28px;
+    }
+    .aes-hero__grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .aes-hero__aside {
+      padding-left: 0;
+      padding-top: 32px;
+      border-left: none;
+      border-top: 1px solid var(--line);
+    }
+    .aes-nav__links {
+      display: none;
+    }
+    .aes-nav__in {
+      gap: 16px;
+    }
+    .aes-split {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .aes-lead--cols {
+      column-count: 1;
+    }
+    .aes-faq {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .aes-list__row {
+      grid-template-columns: 44px 1fr;
+      row-gap: 10px;
+    }
+    .aes-list__b {
+      grid-column: 1 / -1;
+      max-width: none;
+    }
+    .aes-stats__row {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 36px;
+    }
+    .aes-stat:nth-child(odd) {
+      border-left: none;
+      padding-left: 0;
+    }
+    .aes-stat:nth-child(2n) {
+      border-left: 1px solid var(--line);
+    }
+    .aes-catalogue__row {
+      grid-template-columns: 40px 1fr auto;
+      gap: 16px;
+    }
+    .aes-catalogue__row .aes-btn {
+      grid-column: 1 / -1;
+      margin-top: 14px;
+      width: fit-content;
+    }
+    .aes-toc__t {
+      white-space: normal;
+    }
+    .aes-foot__in {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .aes-hero {
+      padding-top: 108px;
+    }
+    .aes-sec {
+      padding: 76px 0;
+    }
+    .aes-index {
+      padding: 48px 0;
+    }
+    .aes-stats {
+      padding: 64px 0;
+    }
+    .aes-stats__row {
+      grid-template-columns: 1fr;
+      row-gap: 28px;
+    }
+    .aes-stat {
+      padding: 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      border-left: none !important;
+    }
+    .aes-stat:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+    .aes-quote {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 36px 0;
+    }
+    .aes-catalogue__row {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 28px 0;
+    }
+    .aes-catalogue__id {
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+    }
+    .aes-catalogue__price {
+      text-align: left;
+    }
+    .aes-catalogue__row .aes-btn {
+      margin-top: 0;
+    }
+    .aes-toc {
+      padding: 28px 24px;
+    }
+    .aes-toc__row {
+      flex-wrap: wrap;
+    }
+    .aes-toc__leader {
+      order: 3;
+      flex-basis: 100%;
+      margin: 4px 0 0;
+    }
+    .aes-index__row {
+      gap: 12px 24px;
+    }
+    .aes-foot__in {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .aes-foot__legal {
+      padding-bottom: 112px;
+    }
+  }
+</style>
