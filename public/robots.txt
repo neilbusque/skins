@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://skins.neilb.app/sitemap.xml

@@ -622,7 +622,8 @@ const stepLabels = ['Step one', 'Step two', 'Step three'];
         if (t && t.closest && t.closest('[data-lf-quiz-close]')) closeQuiz();
       });
 
-      if (!seen) window.setTimeout(openQuiz, 900);
+      var embedded = document.documentElement.classList.contains('embed');
+      if (!seen && !embedded) window.setTimeout(openQuiz, 900);
     }
 
     /* ---- sticky CTA, shown once the hero has scrolled past ---- */

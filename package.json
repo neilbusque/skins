@@ -1,13 +1,21 @@
 {
   "name": "skins",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
+  "description": "Six reusable landing page skins that all render one content file. Astro, static, no UI framework.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neilbusque/skins"
+  },
+  "homepage": "https://skins.neilb.app",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "qa": "node scripts/qa.mjs"
+    "qa": "node scripts/qa.mjs",
+    "shots": "node scripts/shots.mjs"
   },
   "dependencies": {
     "astro": "^5.13.2"

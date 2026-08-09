@@ -166,6 +166,19 @@ for (const route of ROUTES) {
 
     if (!info.skinbar) fail('skin switcher bar missing');
     else pass('skin switcher present');
+  } else {
+    const idx = await page.evaluate(() => ({
+      livePreviews: [...document.querySelectorAll('iframe.gal-card__live')].filter((f) =>
+        /\?embed=1$/.test(f.getAttribute('src') || '')
+      ).length,
+      github: !!document.querySelector('a[href*="github.com/neilbusque/skins"]'),
+    }));
+    if (idx.livePreviews !== SKIN_IDS.length)
+      fail(`expected ${SKIN_IDS.length} live preview iframes with ?embed=1, found ${idx.livePreviews}`);
+    else pass(`${idx.livePreviews} live preview iframes`);
+
+    if (!idx.github) fail('no GitHub repo link on the gallery');
+    else pass('GitHub repo link present');
   }
 
   if (errs.length) fail(`console errors: ${errs.slice(0, 3).join(' | ')}`);
@@ -217,6 +230,33 @@ for (const route of ROUTES) {
   } else {
     results.push({ route: 'index links', checks: [['ok', `all ${SKIN_IDS.length} skins linked`]] });
   }
+  await page.close();
+}
+
+// ---- embed mode: previews must hide the skinbar and never open modals ----
+{
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
+  await page.goto(BASE + '/s/longform/?embed=1', { waitUntil: 'networkidle2' });
+  await new Promise((r) => setTimeout(r, 1600));
+  const embed = await page.evaluate(() => {
+    const d = document.querySelector('[role="dialog"][aria-modal="true"]');
+    const modalOpen =
+      !!d && getComputedStyle(d).display !== 'none' && getComputedStyle(d).visibility !== 'hidden' && !d.hidden;
+    const barEl = document.querySelector('[data-skinbar]');
+    const barVisible = !!barEl && getComputedStyle(barEl).display !== 'none';
+    return { modalOpen, barVisible };
+  });
+  const checks = [];
+  if (embed.modalOpen) {
+    failures++;
+    checks.push(['FAIL', 'entry modal opened inside ?embed=1']);
+  } else checks.push(['ok', 'no entry modal in embed mode']);
+  if (embed.barVisible) {
+    failures++;
+    checks.push(['FAIL', 'skinbar visible inside ?embed=1']);
+  } else checks.push(['ok', 'skinbar hidden in embed mode']);
+  results.push({ route: '/s/longform/?embed=1', checks });
   await page.close();
 }
 

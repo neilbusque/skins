@@ -27,16 +27,24 @@ const fonts =
           One content file.<br /><span class="gal-h1__accent">{skins.length} finished looks.</span>
         </h1>
         <p class="gal-lead">
-          Every page below renders the exact same object from <code>src/lib/content.ts</code>. Swap that
-          file for a real project and you have {skins.length} deployable landing pages before you have
-          written a line of CSS. Design DNA lifted from
-          <a href="https://swipe.neilb.app" target="_blank" rel="noopener">swipe.neilb.app</a>.
+          Every card below is the real page, running live at quarter scale, and every page renders the
+          exact same object from <code>src/lib/content.ts</code>. Swap that file for a real project and
+          you have {skins.length} deployable landing pages before you have written a line of CSS. Design
+          DNA lifted from <a href="https://swipe.neilb.app" target="_blank" rel="noopener">swipe.neilb.app</a>.
         </p>
         <div class="gal-meta">
           <span>Astro 5 static</span>
           <span>No runtime JS framework</span>
           <span>No external assets</span>
-          <span>Google Fonts only</span>
+          <span>MIT license</span>
+          <a class="gal-meta__link" href="https://github.com/neilbusque/skins" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.42 7.42 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+              />
+            </svg>
+            <span>Source on GitHub</span>
+          </a>
         </div>
       </div>
     </header>
@@ -57,6 +65,15 @@ const fonts =
               <span class="gal-card__rule" />
               <span class="gal-card__body">{c.brand.tagline}</span>
               <span class="gal-card__btn">{c.hero.ctaPrimary.label}</span>
+              <iframe
+                class="gal-card__live"
+                src={`/s/${s.id}/?embed=1`}
+                title={`Live preview of ${s.name}`}
+                loading="lazy"
+                tabindex="-1"
+                aria-hidden="true"
+                inert
+              />
             </div>
             <div class="gal-card__foot">
               <div class="gal-card__row">
@@ -69,7 +86,7 @@ const fonts =
               </div>
               <p class="gal-card__use">{s.useFor}</p>
               <p class="gal-card__ref">
-                {s.swipeRef ? `swipe ref · ${s.swipeRef}` : 'no reference · structural only'}
+                {s.swipeRef ? `${s.archetype.toLowerCase()} · swipe ref ${s.swipeRef}` : `${s.archetype.toLowerCase()} · no reference`}
                 <span class="gal-card__go">View &rarr;</span>
               </p>
             </div>
@@ -96,7 +113,8 @@ const fonts =
           <p>
             Product launch takes Linear. Client and B2B work takes Stripe. Personal brand and high
             ticket takes Aesop. A loud offer takes Gumroad. Anything that needs a full argument before
-            the ask takes Longform.
+            the ask takes Longform. On any skin, press <code>[</code> and <code>]</code> to flip
+            through the others.
           </p>
         </li>
         <li data-reveal style="--reveal-delay:140ms">
@@ -112,9 +130,32 @@ const fonts =
       </ol>
     </section>
 
+    <section class="gal-wrap gal-code">
+      <div class="gal-code__grid" data-reveal>
+        <div class="gal-code__copy">
+          <h2 class="gal-h2">Take the code</h2>
+          <p>
+            Skins is open source under the MIT license. Clone it, drop your project's copy into the
+            content file, and keep whichever skin earns it. No build tricks, no dependencies beyond
+            Astro itself.
+          </p>
+          <a class="gal-code__btn" href="https://github.com/neilbusque/skins" target="_blank" rel="noopener">
+            Star it on GitHub
+          </a>
+        </div>
+<pre class="gal-code__pre"><code>git clone https://github.com/neilbusque/skins
+cd skins && npm install
+npm run dev        <span class="gal-code__dim"># localhost:4321</span>
+npm run build      <span class="gal-code__dim"># static site in dist/</span></code></pre>
+      </div>
+    </section>
+
     <footer class="gal-foot">
       <div class="gal-wrap">
         <span>Built from swipe.neilb.app</span>
+        <span>
+          MIT · <a href="https://github.com/neilbusque/skins" target="_blank" rel="noopener">GitHub</a>
+        </span>
         <span>{c.footer.legal}</span>
       </div>
     </footer>
@@ -230,6 +271,25 @@ const fonts =
       color: var(--fg-3);
     }
 
+    .gal-meta__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 12px;
+      border: 1px solid rgba(124, 116, 246, 0.45);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--fg);
+      text-decoration: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .gal-meta__link:hover {
+      border-color: var(--acc);
+      background: rgba(124, 116, 246, 0.12);
+    }
+
     /* ---------- cards ---------- */
     .gal-grid {
       display: grid;
@@ -254,6 +314,7 @@ const fonts =
     }
 
     .gal-card__preview {
+      position: relative;
       aspect-ratio: 4 / 3;
       background: var(--cbg);
       color: var(--cfg);
@@ -264,6 +325,24 @@ const fonts =
       justify-content: center;
       gap: 0;
       overflow: hidden;
+    }
+
+    /* The real page, scaled. 400% wide at scale(0.25) means the iframe always
+       renders at 4x the card width, so every preview gets the desktop layout
+       regardless of the visitor's viewport. The typographic mock behind it is
+       the loading state: an unloaded iframe is transparent, so the mock shows
+       until the page paints over it. */
+    .gal-card__live {
+      position: absolute;
+      inset: 0;
+      width: 400%;
+      height: 400%;
+      transform: scale(0.25);
+      transform-origin: 0 0;
+      border: 0;
+      display: block;
+      pointer-events: none;
+      background: transparent;
     }
 
     .gal-card__arch {
@@ -380,7 +459,7 @@ const fonts =
 
     /* ---------- how ---------- */
     .gal-how {
-      padding: 72px 24px 88px;
+      padding: 72px 24px 64px;
       border-top: 1px solid var(--line);
     }
 
@@ -420,10 +499,80 @@ const fonts =
       color: var(--fg-3);
     }
 
+    /* ---------- code ---------- */
+    .gal-code {
+      padding: 0 24px 88px;
+    }
+
+    .gal-code__grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 40px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 40px 44px;
+      background:
+        radial-gradient(560px 300px at 85% 0%, rgba(124, 116, 246, 0.1), transparent 70%),
+        #0b0c0e;
+    }
+
+    .gal-code__copy .gal-h2 {
+      margin-bottom: 14px;
+    }
+
+    .gal-code__copy p {
+      font-size: 14.5px;
+      line-height: 1.66;
+      color: var(--fg-2);
+      max-width: 46ch;
+    }
+
+    .gal-code__btn {
+      display: inline-block;
+      margin-top: 22px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      background: var(--fg);
+      color: #0b0b0d;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+    }
+
+    .gal-code__btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.92;
+    }
+
+    .gal-code__pre {
+      margin: 0;
+      padding: 22px 24px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #08090a;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 12.5px;
+      line-height: 2;
+      color: var(--fg-2);
+      overflow-x: auto;
+    }
+
+    .gal-code__dim {
+      color: var(--fg-3);
+      opacity: 0.7;
+    }
+
     /* ---------- foot ---------- */
     .gal-foot {
       border-top: 1px solid var(--line);
       padding: 24px 0 40px;
+    }
+
+    .gal-foot a {
+      color: var(--fg-2);
+      text-underline-offset: 3px;
     }
 
     .gal-foot .gal-wrap {
@@ -439,6 +588,11 @@ const fonts =
       .gal-grid,
       .gal-steps {
         grid-template-columns: 1fr 1fr;
+      }
+      .gal-code__grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 32px 28px;
       }
     }
 

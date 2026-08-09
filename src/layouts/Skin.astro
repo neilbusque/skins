@@ -23,6 +23,9 @@ const {
 } = Astro.props;
 
 import { skins } from '../lib/skins';
+
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+const ogImage = Astro.site ? new URL('/og.png', Astro.site).href : '/og.png';
 ---
 
 <!doctype html>
@@ -34,10 +37,17 @@ import { skins } from '../lib/skins';
     <meta name="description" content={description} />
     <meta name="theme-color" content={themeColor} />
     <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="The Skins gallery: six landing page skins rendered from one content file" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap.xml" />
     {
       fonts && (
         <>
@@ -49,6 +59,9 @@ import { skins } from '../lib/skins';
     }
     <script is:inline>
       document.documentElement.classList.add('js');
+      /* The gallery embeds every skin as a scaled live preview. ?embed=1 hides
+         page furniture (switcher bar, entry modals) inside those iframes. */
+      if (/[?&]embed=1/.test(location.search)) document.documentElement.classList.add('embed');
     </script>
   </head>
   <body>
@@ -56,7 +69,7 @@ import { skins } from '../lib/skins';
 
     {
       bar && (
-        <div class="skinbar" data-skinbar>
+        <div class="skinbar" data-skinbar title="Press [ and ] to cycle skins">
           <a class="skinbar__home" href="/" aria-label="Back to the skin gallery">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <path
@@ -181,6 +194,10 @@ import { skins } from '../lib/skins';
           display: none;
         }
       }
+
+      html.embed .skinbar {
+        display: none;
+      }
     </style>
 
     <script is:inline>
@@ -206,6 +223,26 @@ import { skins } from '../lib/skins';
         );
         els.forEach(function (el) {
           io.observe(el);
+        });
+      })();
+    </script>
+
+    <script is:inline define:vars={{ skinIds: skins.map((s) => s.id), skinId, bar }}>
+      /* [ and ] cycle through the skins. Only on skin pages, never inside an
+         embedded preview, never while the user is typing. */
+      (function () {
+        if (!bar || !skinId) return;
+        if (document.documentElement.classList.contains('embed')) return;
+        var i = skinIds.indexOf(skinId);
+        if (i === -1) return;
+        document.addEventListener('keydown', function (e) {
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+          var t = e.target;
+          if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+          if (t && t.isContentEditable) return;
+          var n = skinIds.length;
+          if (e.key === ']') location.href = '/s/' + skinIds[(i + 1) % n] + '/';
+          else if (e.key === '[') location.href = '/s/' + skinIds[(i - 1 + n) % n] + '/';
         });
       })();
     </script>
