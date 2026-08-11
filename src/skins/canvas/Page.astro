@@ -1,15 +1,15 @@
 ---
 /**
- * SKIN: Canvas  ·  archetype: Sticky Scrollytelling  ·  motion: GSAP + ScrollTrigger
+ * SKIN: Canvas  ·  archetype: Diagonal Scrollytelling  ·  motion: GSAP + ScrollTrigger
  *
- * Product story told in order. Near white paper, deep ink, one electric indigo.
- * Sora throughout, set tight.
+ * Deep forest on warm sand, one burnt clay accent. Schibsted Grotesk for
+ * structure, Instrument Serif reserved for the numbers and the quotes, which is
+ * where a serif actually earns its place.
  *
- * Layout engine: STICKY SPLIT. The left rail holds a device that swaps scene as
- * each step on the right scrolls past it. The stage sticks with plain CSS
- * position: sticky rather than a ScrollTrigger pin, so there is no pin spacer to
- * measure and nothing to revert at a breakpoint. GSAP only decides which scene
- * is live and animates the swap.
+ * Layout engine: STICKY SPLIT. Hero is a DIAGONAL SPLIT: type on the left, a
+ * forest panel cut on a slant that runs off the right edge of the viewport. The
+ * stage sticks with plain CSS position: sticky rather than a ScrollTrigger pin,
+ * so there is no spacer to measure and nothing to revert at a breakpoint.
  */
 import { content as c } from '../../lib/content';
 
@@ -22,11 +22,11 @@ const accentWords = c.hero.headlineAccent.split(' ');
 const scenes = [
   {
     kind: 'rows',
-    head: 'Portal, Northline',
+    head: 'Portal / Northline',
     rows: [
       ['Q3 brand system', 'In review'],
       ['Site copy, round two', 'Live'],
-      ['Invoice 2418', 'Waiting on you'],
+      ['Invoice 2418', 'On you'],
       ['Capacity plan, Sep', 'Live'],
     ],
   },
@@ -41,9 +41,9 @@ const scenes = [
     ],
     total: '$41,200',
   },
-  { kind: 'bars', head: 'Capacity, week 36', bars: [82, 64, 96, 48, 71, 38, 88] },
+  { kind: 'bars', head: 'Capacity / week 36', bars: [82, 64, 96, 48, 71, 38, 88] },
   {
-    kind: 'digest',
+    kind: 'rows',
     head: 'Friday recap',
     rows: [
       ['Moved this week', '9 items'],
@@ -64,6 +64,8 @@ const scenes = [
 ---
 
 <div class="cnv">
+  <div class="cnv-grain" aria-hidden="true"></div>
+
   <header class="cnv-nav">
     <div class="cnv-wrap cnv-nav__in">
       <a class="cnv-brand" href="#">
@@ -77,13 +79,19 @@ const scenes = [
     </div>
   </header>
 
+  <!-- DIAGONAL SPLIT. The forest panel is cut on a slant and runs off the
+       right edge of the viewport. The section clips, so the page never scrolls
+       sideways. -->
   <section class="cnv-hero">
+    <div class="cnv-hero__panel" aria-hidden="true"></div>
+
     <div class="cnv-wrap cnv-hero__grid">
       <div class="cnv-hero__copy">
-        <a class="cnv-pill" href="#" data-anim>
-          <span class="cnv-pill__dot"></span>
+        <p class="cnv-label" data-anim>
+          <span class="cnv-label__dot"></span>
           {c.hero.eyebrow}
-        </a>
+        </p>
+
         <h1 class="cnv-h1" aria-label={`${c.hero.headline} ${c.hero.headlineAccent}`}>
           {
             headWords.map((w) => (
@@ -101,11 +109,21 @@ const scenes = [
             ))
           }
         </h1>
+
         <p class="cnv-sub" data-anim>{c.hero.sub}</p>
+
         <div class="cnv-hero__cta" data-anim>
-          <a class="cnv-btn" href={c.hero.ctaPrimary.href}>{c.hero.ctaPrimary.label}</a>
+          <a class="cnv-btn" href={c.hero.ctaPrimary.href}>
+            {c.hero.ctaPrimary.label}
+            <i class="cnv-btn__ico" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 9.5 9.5 2.5M4.5 2.5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </i>
+          </a>
           <a class="cnv-btn cnv-btn--ghost" href={c.hero.ctaSecondary.href}>{c.hero.ctaSecondary.label}</a>
         </div>
+
         <p class="cnv-note" data-anim>{c.hero.note}</p>
       </div>
 
@@ -159,22 +177,26 @@ const scenes = [
   </section>
 
   <section class="cnv-sec">
-    <div class="cnv-wrap">
-      <div class="cnv-head">
+    <div class="cnv-wrap cnv-two">
+      <div class="cnv-two__l">
         <p class="cnv-eyebrow" data-anim>{c.problem.eyebrow}</p>
+      </div>
+      <div class="cnv-two__r">
         <h2 class="cnv-h2" data-anim>{c.problem.headline}</h2>
         <p class="cnv-lead" data-anim>{c.problem.body}</p>
-      </div>
-      <div class="cnv-three">
-        {
-          c.problem.points.map((p, i) => (
-            <article class="cnv-card" data-anim>
-              <span class="cnv-card__n">{String(i + 1).padStart(2, '0')}</span>
-              <h3>{p.title}</h3>
-              <p>{p.body}</p>
-            </article>
-          ))
-        }
+        <div class="cnv-rows">
+          {
+            c.problem.points.map((p, i) => (
+              <article class="cnv-row" data-anim>
+                <span class="cnv-row__n">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3>{p.title}</h3>
+                  <p>{p.body}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
       </div>
     </div>
   </section>
@@ -182,7 +204,7 @@ const scenes = [
   <!-- THE SCROLLYTELLING SPLIT. Stage sticks in CSS, GSAP only picks the scene. -->
   <section class="cnv-story" id="features">
     <div class="cnv-wrap">
-      <div class="cnv-head cnv-head--center">
+      <div class="cnv-head">
         <p class="cnv-eyebrow" data-anim>{c.features.eyebrow}</p>
         <h2 class="cnv-h2" data-anim>{c.features.headline}</h2>
         <p class="cnv-lead" data-anim>{c.features.sub}</p>
@@ -197,7 +219,7 @@ const scenes = [
                   <div class:list={['cnv-scene', { 'is-on': i === 0 }]} data-scene={i} aria-hidden="true">
                     <p class="cnv-scene__head">{s.head}</p>
 
-                    {s.kind === 'rows' && (
+                    {(s.kind === 'rows') && (
                       <div class="cnv-scene__rows">
                         {s.rows.map(([a, b]) => (
                           <span>
@@ -211,14 +233,14 @@ const scenes = [
                     {s.kind === 'ring' && (
                       <div class="cnv-scene__ring">
                         <svg viewBox="0 0 96 96" width="96" height="96">
-                          <circle cx="48" cy="48" r="38" fill="none" stroke="#E3E6EF" stroke-width="10" />
+                          <circle cx="48" cy="48" r="38" fill="none" stroke="rgba(239,232,218,0.18)" stroke-width="9" />
                           <circle
                             cx="48"
                             cy="48"
                             r="38"
                             fill="none"
-                            stroke="#3B5BFF"
-                            stroke-width="10"
+                            stroke="#D98E5F"
+                            stroke-width="9"
                             stroke-linecap="round"
                             stroke-dasharray="239"
                             stroke-dashoffset={239 - (239 * s.pct) / 100}
@@ -233,7 +255,7 @@ const scenes = [
                     )}
 
                     {s.kind === 'invoice' && (
-                      <div class="cnv-scene__inv">
+                      <div class="cnv-scene__rows">
                         {s.lines.map(([a, b]) => (
                           <span>
                             <em>{a}</em>
@@ -255,28 +277,17 @@ const scenes = [
                       </div>
                     )}
 
-                    {s.kind === 'digest' && (
-                      <div class="cnv-scene__rows">
-                        {s.rows.map(([a, b]) => (
-                          <span>
-                            <em>{a}</em>
-                            <b>{b}</b>
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
                     {s.kind === 'search' && (
-                      <div class="cnv-scene__search">
+                      <div class="cnv-scene__rows">
                         <span class="cnv-scene__input">
                           <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                            <circle cx="7" cy="7" r="4.6" stroke="currentColor" stroke-width="1.6" />
-                            <path d="m10.6 10.6 3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                            <circle cx="7" cy="7" r="4.6" stroke="currentColor" stroke-width="1.5" />
+                            <path d="m10.6 10.6 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                           </svg>
                           scope phase two
                         </span>
                         {s.rows.map(([a, b]) => (
-                          <span class="cnv-scene__hit">
+                          <span>
                             <em>{a}</em>
                             <b>{b}</b>
                           </span>
@@ -317,11 +328,9 @@ const scenes = [
         <p class="cnv-lead" data-anim>{c.showcase.body}</p>
         <ul class="cnv-checks">
           {
-            c.showcase.bullets.map((b) => (
+            c.showcase.bullets.map((b, i) => (
               <li data-anim>
-                <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="m2.8 7.2 2.8 2.8 5.6-6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+                <em>{String(i + 1).padStart(2, '0')}</em>
                 {b}
               </li>
             ))
@@ -368,59 +377,57 @@ const scenes = [
   </section>
 
   <section class="cnv-sec" id="proof">
-    <div class="cnv-wrap">
-      <div class="cnv-head cnv-head--center">
+    <div class="cnv-wrap cnv-two">
+      <div class="cnv-two__l">
         <p class="cnv-eyebrow" data-anim>{c.proof.eyebrow}</p>
-        <h2 class="cnv-h2" data-anim>{c.proof.headline}</h2>
       </div>
-      <div class="cnv-three">
-        {
-          c.testimonials.map((t) => (
-            <figure class="cnv-card cnv-quote" data-anim>
-              <blockquote>{t.quote}</blockquote>
-              <figcaption>
-                <span class="cnv-quote__av">{t.name.charAt(0)}</span>
-                <span>
+      <div class="cnv-two__r">
+        <h2 class="cnv-h2" data-anim>{c.proof.headline}</h2>
+        <div class="cnv-quotes">
+          {
+            c.testimonials.map((t, i) => (
+              <figure class="cnv-quote" data-anim>
+                <span class="cnv-quote__n">{String(i + 1).padStart(2, '0')}</span>
+                <blockquote>{t.quote}</blockquote>
+                <figcaption>
                   <strong>{t.name}</strong>
                   <em>{t.role}, {t.company}</em>
-                </span>
-              </figcaption>
-            </figure>
-          ))
-        }
+                </figcaption>
+              </figure>
+            ))
+          }
+        </div>
       </div>
     </div>
   </section>
 
   <section class="cnv-sec cnv-sec--tint" id="pricing">
     <div class="cnv-wrap">
-      <div class="cnv-head cnv-head--center">
+      <div class="cnv-head">
         <p class="cnv-eyebrow" data-anim>{c.pricing.eyebrow}</p>
         <h2 class="cnv-h2" data-anim>{c.pricing.headline}</h2>
         <p class="cnv-lead" data-anim>{c.pricing.sub}</p>
       </div>
       <div class="cnv-plans">
         {
-          c.pricing.plans.map((p) => (
+          c.pricing.plans.map((p, i) => (
             <article class:list={['cnv-plan', { 'is-feat': p.featured }]} data-anim>
-              {p.featured && <span class="cnv-plan__tag">Most teams</span>}
-              <h3>{p.name}</h3>
-              <p class="cnv-plan__blurb">{p.blurb}</p>
+              <header>
+                <span class="cnv-plan__n">{String(i + 1).padStart(2, '0')}</span>
+                <h3>{p.name}</h3>
+                {p.featured && <span class="cnv-plan__tag">Most teams</span>}
+              </header>
               <p class="cnv-plan__price">
                 <strong>{p.price}</strong>
                 <em>{p.period}</em>
               </p>
+              <p class="cnv-plan__blurb">{p.blurb}</p>
               <a class:list={['cnv-btn', 'cnv-btn--full', { 'cnv-btn--ghost': !p.featured }]} href="#cta">
                 {p.cta}
               </a>
               <ul>
                 {p.features.map((f) => (
-                  <li>
-                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                      <path d="m2.8 7.2 2.8 2.8 5.6-6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    {f}
-                  </li>
+                  <li>{f}</li>
                 ))}
               </ul>
             </article>
@@ -428,6 +435,7 @@ const scenes = [
         }
       </div>
       <div class="cnv-guar" data-anim>
+        <span class="cnv-eyebrow">Guarantee</span>
         <h3>{c.guarantee.headline}</h3>
         <p>{c.guarantee.body}</p>
       </div>
@@ -435,35 +443,46 @@ const scenes = [
   </section>
 
   <section class="cnv-sec">
-    <div class="cnv-wrap cnv-faq">
-      <div class="cnv-faq__head">
+    <div class="cnv-wrap cnv-two">
+      <div class="cnv-two__l">
         <p class="cnv-eyebrow" data-anim>{c.faqHead.eyebrow}</p>
-        <h2 class="cnv-h2" data-anim>{c.faqHead.headline}</h2>
+        <h2 class="cnv-h2 cnv-h2--sm" data-anim>{c.faqHead.headline}</h2>
       </div>
-      <div class="cnv-faq__list" data-anim>
-        {
-          c.faq.map((f, i) => (
-            <details class="cnv-faq__item" open={i === 0}>
-              <summary>
-                {f.q}
-                <span class="cnv-faq__ico" aria-hidden="true" />
-              </summary>
-              <p>{f.a}</p>
-            </details>
-          ))
-        }
+      <div class="cnv-two__r">
+        <div class="cnv-faq" data-anim>
+          {
+            c.faq.map((f, i) => (
+              <details class="cnv-faq__item" open={i === 0}>
+                <summary>
+                  <span class="cnv-faq__n">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="cnv-faq__q">{f.q}</span>
+                  <span class="cnv-faq__ico" aria-hidden="true" />
+                </summary>
+                <p>{f.a}</p>
+              </details>
+            ))
+          }
+        </div>
       </div>
     </div>
   </section>
 
   <section class="cnv-cta" id="cta">
     <div class="cnv-wrap cnv-cta__in">
-      <h2 class="cnv-h1 cnv-h1--sm" data-anim>{c.cta.headline}</h2>
-      <p class="cnv-sub" data-anim>{c.cta.sub}</p>
-      <div class="cnv-hero__cta" data-anim>
-        <a class="cnv-btn cnv-btn--lg" href={c.cta.button.href}>{c.cta.button.label}</a>
+      <p class="cnv-cta__label" data-anim>{c.brand.tagline}</p>
+      <h2 class="cnv-cta__h" data-anim>{c.cta.headline}</h2>
+      <div class="cnv-cta__row">
+        <p class="cnv-cta__sub" data-anim>{c.cta.sub}</p>
+        <a class="cnv-btn cnv-btn--lg cnv-btn--inv" href={c.cta.button.href} data-anim>
+          {c.cta.button.label}
+          <i class="cnv-btn__ico" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
+              <path d="M2.5 9.5 9.5 2.5M4.5 2.5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </i>
+        </a>
       </div>
-      <p class="cnv-note" data-anim>{c.cta.note}</p>
+      <p class="cnv-cta__note" data-anim>{c.cta.note}</p>
     </div>
   </section>
 
@@ -520,18 +539,18 @@ const scenes = [
 
       gsap
         .timeline({ defaults: { ease: 'power3.out' } })
-        .fromTo('.cnv-pill', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6 })
+        .fromTo('.cnv-label', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55 })
         .to('.cnv-word', { opacity: 1, duration: 0.01, stagger: 0.04 }, 0.1)
-        .to('.cnv-word > span', { y: '0%', duration: 1, stagger: 0.04, ease: 'expo.out' }, 0.1)
-        .fromTo('.cnv-sub', { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.75 }, 0.46)
-        .fromTo('.cnv-hero .cnv-hero__cta', { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.75 }, 0.54)
-        .fromTo('.cnv-hero .cnv-note', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7 }, 0.62)
-        .fromTo('.cnv-hero__vis', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.05 }, 0.32)
-        .fromTo('.cnv-logos', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, 0.7);
+        .to('.cnv-word > span', { y: '0%', duration: 1.1, stagger: 0.04, ease: 'expo.out' }, 0.1)
+        .fromTo('.cnv-hero .cnv-sub', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, 0.46)
+        .fromTo('.cnv-hero__cta', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, 0.53)
+        .fromTo('.cnv-hero .cnv-note', { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.6)
+        .fromTo('.cnv-hero__vis', { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 1.1 }, 0.26)
+        .fromTo('.cnv-logos', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7 }, 0.7);
 
       gsap.fromTo(
         '.cnv-device__row',
-        { opacity: 0, x: -14 },
+        { opacity: 0, x: -12 },
         { opacity: 1, x: 0, duration: 0.5, stagger: 0.07, ease: 'power2.out', delay: 0.9 }
       );
 
@@ -544,16 +563,15 @@ const scenes = [
           onEnter: (batch) =>
             gsap.fromTo(
               batch,
-              { opacity: 0, y: 30 },
+              { opacity: 0, y: 28 },
               { opacity: 1, y: 0, duration: 0.65, stagger: 0.05, ease: 'power3.out', overwrite: 'auto' }
             ),
         }
       );
     }
 
-    /* ---- THE SCROLLYTELLING. The stage sticks in CSS. All GSAP does is decide
-           which scene is live and cross fade it, so there is no pin to measure,
-           no spacer, and nothing to revert at the mobile breakpoint ---- */
+    /* ---- THE SCROLLYTELLING. The stage sticks in CSS. GSAP only decides which
+           scene is live and cross fades it ---- */
     const steps = q('.cnv-step');
     const scenes = q('.cnv-scene');
     const dots = q('.cnv-stage__dots span');
@@ -569,8 +587,8 @@ const scenes = [
       scenes.forEach((s, n) => s.classList.toggle('is-on', n === i));
       if (reduced) return;
       gsap.killTweensOf([from, to]);
-      gsap.to(from, { opacity: 0, y: -14, duration: 0.3, ease: 'power2.in' });
-      gsap.fromTo(to, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' });
+      gsap.to(from, { opacity: 0, y: -12, duration: 0.3, ease: 'power2.in' });
+      gsap.fromTo(to, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' });
     };
 
     steps.forEach((step, i) => {
@@ -634,33 +652,54 @@ const scenes = [
 
 <style is:global>
   .cnv {
-    --bg: #fbfbfd;
-    --bg-2: #f1f2f7;
-    --card: #ffffff;
-    --ink: #0b0f1a;
-    --ink-2: #454b5c;
-    --ink-3: #646b7d;
-    --line: #e3e6ef;
-    --line-2: #cfd4e2;
-    --acc: #3b5bff;
-    --acc-2: #7c3aed;
-    --acc-soft: #eef1ff;
+    --sand: #efe8da;
+    --sand-2: #e4dbc9;
+    --sand-3: #f7f3ea;
+    --forest: #16261c;
+    --forest-2: #1f3527;
+    --ink: #16261c;
+    --ink-2: #46564a;
+    --ink-3: #5c6b60;
+    --line: rgba(22, 38, 28, 0.16);
+    --line-2: rgba(22, 38, 28, 0.34);
+    --clay: #a64b28;
+    --clay-2: #d98e5f;
 
-    background: var(--bg);
+    background: var(--sand);
     color: var(--ink);
-    font-family: 'Sora', system-ui, -apple-system, sans-serif;
+    font-family: 'Schibsted Grotesk', system-ui, -apple-system, sans-serif;
     font-size: 16px;
-    letter-spacing: -0.018em;
+    letter-spacing: -0.014em;
     position: relative;
     isolation: isolate;
     overflow: clip;
   }
 
+  .cnv-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
   .cnv-wrap {
     width: 100%;
-    max-width: 1180px;
+    max-width: 1240px;
     margin-inline: auto;
-    padding-inline: 26px;
+    padding-inline: 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .cnv-eyebrow {
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 16px;
   }
 
   /* ---------- nav ---------- */
@@ -668,16 +707,16 @@ const scenes = [
     position: sticky;
     top: 0;
     z-index: 60;
-    background: rgba(251, 251, 253, 0.84);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: rgba(239, 232, 218, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
   }
 
   .cnv-nav__in {
     display: flex;
     align-items: center;
-    gap: 36px;
+    gap: 38px;
     height: 66px;
   }
 
@@ -688,18 +727,18 @@ const scenes = [
     text-decoration: none;
     font-weight: 700;
     font-size: 17px;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.045em;
     flex: none;
   }
 
   .cnv-brand__mark {
-    width: 27px;
-    height: 27px;
+    width: 26px;
+    height: 26px;
     display: grid;
     place-items: center;
-    border-radius: 9px;
-    background: var(--acc);
-    color: #fff;
+    border-radius: 3px;
+    background: var(--forest);
+    color: var(--sand);
     font-size: 13px;
     font-weight: 700;
   }
@@ -714,10 +753,11 @@ const scenes = [
   .cnv-nav__links a {
     color: var(--ink-2);
     text-decoration: none;
+    transition: color 0.35s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .cnv-nav__links a:hover {
-    color: var(--acc);
+    color: var(--clay);
   }
 
   /* ---------- buttons ---------- */
@@ -725,58 +765,107 @@ const scenes = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 48px;
-    padding: 0 24px;
-    border-radius: 12px;
-    background: var(--ink);
-    color: #fff;
+    gap: 11px;
+    height: 50px;
+    padding: 0 11px 0 24px;
+    border-radius: 4px;
+    background: var(--forest);
+    color: var(--sand-3);
     font-size: 15px;
     font-weight: 600;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
     text-decoration: none;
     white-space: nowrap;
-    transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+    transition: background 0.4s cubic-bezier(0.32, 0.72, 0, 1), color 0.4s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .cnv-btn:hover {
-    background: var(--acc);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(59, 91, 255, 0.28);
+    background: var(--clay);
+  }
+
+  .cnv-btn:active {
+    transform: scale(0.985);
+  }
+
+  .cnv-btn__ico {
+    width: 29px;
+    height: 29px;
+    display: grid;
+    place-items: center;
+    border-radius: 3px;
+    background: rgba(247, 243, 234, 0.14);
+    flex: none;
+    transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1), background 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .cnv-btn:hover .cnv-btn__ico {
+    transform: translate(2px, -2px);
+    background: rgba(247, 243, 234, 0.24);
   }
 
   .cnv-btn--sm {
-    height: 40px;
-    padding: 0 18px;
-    font-size: 14px;
-    border-radius: 10px;
+    height: 38px;
+    padding: 0 16px;
+    font-size: 13.5px;
     flex: none;
   }
 
   .cnv-btn--lg {
-    height: 58px;
-    padding: 0 32px;
+    height: 60px;
+    padding: 0 13px 0 30px;
     font-size: 16.5px;
   }
 
   .cnv-btn--ghost {
-    background: var(--card);
+    background: transparent;
     color: var(--ink);
-    box-shadow: inset 0 0 0 1px var(--line-2);
+    box-shadow: inset 0 0 0 1.5px var(--line-2);
+    padding-inline: 24px;
   }
 
   .cnv-btn--ghost:hover {
-    background: var(--card);
-    color: var(--acc);
-    box-shadow: inset 0 0 0 1px var(--acc);
+    background: transparent;
+    color: var(--clay);
+    box-shadow: inset 0 0 0 1.5px var(--clay);
+  }
+
+  .cnv-btn--inv {
+    background: var(--sand-3);
+    color: var(--forest);
+  }
+
+  .cnv-btn--inv .cnv-btn__ico {
+    background: rgba(22, 38, 28, 0.1);
+  }
+
+  .cnv-btn--inv:hover {
+    background: var(--clay-2);
+    color: var(--forest);
   }
 
   .cnv-btn--full {
     width: 100%;
+    padding-inline: 24px;
   }
 
-  /* ---------- hero ---------- */
+  /* ---------- THE DIAGONAL SPLIT ---------- */
   .cnv-hero {
-    padding: 78px 0 26px;
+    position: relative;
+    padding: 84px 0 0;
+    overflow: clip;
+  }
+
+  /* Cut on a slant, anchored to the right viewport edge. The section clips it,
+     so the page never gains horizontal scroll. */
+  .cnv-hero__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 148px;
+    width: 54vw;
+    background: var(--forest);
+    clip-path: polygon(13% 0, 100% 0, 100% 100%, 0 100%);
+    z-index: 0;
   }
 
   .cnv-hero__grid {
@@ -784,39 +873,33 @@ const scenes = [
     grid-template-columns: 1fr 0.92fr;
     gap: 56px;
     align-items: center;
+    padding-bottom: 74px;
   }
 
-  .cnv-pill {
+  .cnv-label {
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    height: 32px;
-    padding: 0 14px;
-    border-radius: 999px;
-    background: var(--acc-soft);
-    color: var(--acc);
-    font-size: 13px;
+    font-size: 11.5px;
     font-weight: 500;
-    text-decoration: none;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--clay);
   }
 
-  .cnv-pill__dot {
+  .cnv-label__dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--acc);
+    background: var(--clay);
   }
 
   .cnv-h1 {
-    margin-top: 22px;
-    font-size: clamp(2.3rem, 4.6vw, 3.85rem);
-    line-height: 1.02;
+    margin-top: 24px;
+    font-size: clamp(2.4rem, 5.2vw, 4.4rem);
+    line-height: 0.98;
     font-weight: 700;
-    letter-spacing: -0.052em;
-  }
-
-  .cnv-h1--sm {
-    font-size: clamp(2rem, 3.8vw, 3.1rem);
+    letter-spacing: -0.055em;
   }
 
   .cnv-word {
@@ -837,35 +920,35 @@ const scenes = [
   }
 
   .cnv-word--acc > span {
-    color: var(--acc);
+    color: var(--clay);
   }
 
   .cnv-sub {
-    margin-top: 20px;
-    font-size: 1.03rem;
-    line-height: 1.62;
+    margin-top: 22px;
+    font-size: 1.05rem;
+    line-height: 1.6;
     color: var(--ink-2);
-    max-width: 46ch;
+    max-width: 42ch;
   }
 
   .cnv-hero__cta {
-    margin-top: 28px;
+    margin-top: 30px;
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
   }
 
   .cnv-note {
-    margin-top: 16px;
+    margin-top: 18px;
     font-size: 12.5px;
     color: var(--ink-3);
   }
 
   .cnv-device {
-    border-radius: 18px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    box-shadow: 0 30px 70px rgba(11, 15, 26, 0.1);
+    border-radius: 10px;
+    background: var(--sand-3);
+    border: 1px solid rgba(22, 38, 28, 0.2);
+    box-shadow: 0 30px 70px rgba(11, 20, 14, 0.3);
     overflow: hidden;
   }
 
@@ -878,7 +961,7 @@ const scenes = [
     border-bottom: 1px solid var(--line);
     font-size: 12px;
     color: var(--ink-3);
-    background: var(--bg-2);
+    background: var(--sand-2);
   }
 
   .cnv-device__dots {
@@ -908,8 +991,8 @@ const scenes = [
 
   .cnv-device__kpis div {
     padding: 12px;
-    border-radius: 12px;
-    background: var(--bg-2);
+    border-radius: 6px;
+    background: var(--sand-2);
   }
 
   .cnv-device__kpis em {
@@ -924,7 +1007,7 @@ const scenes = [
     margin-top: 4px;
     font-size: 18px;
     font-weight: 700;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.045em;
   }
 
   .cnv-device__list {
@@ -939,25 +1022,25 @@ const scenes = [
     align-items: center;
     gap: 10px;
     padding: 11px 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 12.5px;
   }
 
   .cnv-device__row:nth-child(odd) {
-    background: var(--bg-2);
+    background: var(--sand-2);
   }
 
   .cnv-device__row i {
     width: 13px;
     height: 13px;
-    border-radius: 4px;
+    border-radius: 3px;
     border: 1.5px solid var(--line-2);
   }
 
   .cnv-device__row:first-child i,
   .cnv-device__row:nth-child(2) i {
-    background: var(--acc);
-    border-color: var(--acc);
+    background: var(--clay);
+    border-color: var(--clay);
   }
 
   .cnv-device__row em {
@@ -976,8 +1059,7 @@ const scenes = [
   }
 
   .cnv-logos {
-    margin-top: 66px;
-    padding-top: 26px;
+    padding: 26px 32px 34px;
     border-top: 1px solid var(--line);
     display: flex;
     align-items: center;
@@ -987,7 +1069,7 @@ const scenes = [
 
   .cnv-logos p {
     font-size: 11.5px;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--ink-3);
     white-space: nowrap;
@@ -1002,106 +1084,110 @@ const scenes = [
   .cnv-logos span {
     font-size: 16px;
     font-weight: 600;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.045em;
     color: var(--ink-3);
   }
 
   /* ---------- sections ---------- */
   .cnv-sec {
-    padding: 92px 0;
+    padding: 100px 0;
+    border-top: 1px solid var(--line);
   }
 
   .cnv-sec--tint {
-    background: var(--bg-2);
+    background: var(--sand-2);
+  }
+
+  .cnv-two {
+    display: grid;
+    grid-template-columns: 0.34fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .cnv-two__l {
+    position: sticky;
+    top: 104px;
   }
 
   .cnv-head {
-    max-width: 60ch;
-    margin-bottom: 50px;
-  }
-
-  .cnv-head--center {
-    margin-inline: auto;
-    text-align: center;
-  }
-
-  .cnv-eyebrow {
-    font-size: 11.5px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--acc);
-    margin-bottom: 14px;
+    max-width: 58ch;
+    margin-bottom: 54px;
   }
 
   .cnv-h2 {
-    font-size: clamp(1.75rem, 3.2vw, 2.7rem);
-    line-height: 1.1;
+    font-size: clamp(1.8rem, 3.4vw, 2.85rem);
+    line-height: 1.06;
     font-weight: 700;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.05em;
     text-wrap: balance;
   }
 
+  .cnv-h2--sm {
+    font-size: clamp(1.6rem, 2.5vw, 2.15rem);
+  }
+
   .cnv-lead {
-    margin-top: 16px;
-    font-size: 1.02rem;
-    line-height: 1.64;
-    color: var(--ink-2);
-  }
-
-  .cnv-head--center .cnv-lead {
-    margin-inline: auto;
-  }
-
-  .cnv-three {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-  }
-
-  .cnv-card {
-    padding: 26px;
-    border-radius: 18px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .cnv-card__n {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--acc);
-    letter-spacing: 0.04em;
-  }
-
-  .cnv-card h3 {
-    font-size: 1.06rem;
-    font-weight: 600;
-    letter-spacing: -0.03em;
-  }
-
-  .cnv-card p {
-    font-size: 0.92rem;
+    margin-top: 18px;
+    font-size: 1.04rem;
     line-height: 1.62;
     color: var(--ink-2);
+    max-width: 56ch;
+  }
+
+  .cnv-rows {
+    margin-top: 50px;
+  }
+
+  .cnv-row {
+    display: grid;
+    grid-template-columns: 62px 1fr;
+    gap: 20px;
+    padding: 26px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .cnv-row:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cnv-row__n {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 26px;
+    line-height: 1;
+    color: var(--clay);
+  }
+
+  .cnv-row h3 {
+    font-size: 1.12rem;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    margin-bottom: 9px;
+  }
+
+  .cnv-row p {
+    font-size: 0.95rem;
+    line-height: 1.62;
+    color: var(--ink-2);
+    max-width: 58ch;
   }
 
   /* ---------- THE SCROLLYTELLING SPLIT ---------- */
   .cnv-story {
-    padding: 92px 0 110px;
+    padding: 100px 0 108px;
+    border-top: 1px solid var(--line);
   }
 
   .cnv-story__grid {
     display: grid;
-    grid-template-columns: 1fr 0.86fr;
-    gap: 68px;
+    grid-template-columns: 1fr 0.84fr;
+    gap: 64px;
     align-items: start;
   }
 
   .cnv-story__stage {
     position: sticky;
-    top: 108px;
+    top: 106px;
   }
 
   .cnv-stage {
@@ -1112,18 +1198,18 @@ const scenes = [
 
   .cnv-stage__frame {
     position: relative;
-    height: 388px;
-    border-radius: 20px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    box-shadow: 0 26px 60px rgba(11, 15, 26, 0.09);
+    height: 382px;
+    border-radius: 10px;
+    background: var(--forest);
+    color: var(--sand-3);
+    box-shadow: 0 26px 60px rgba(11, 20, 14, 0.24);
     overflow: hidden;
   }
 
   .cnv-scene {
     position: absolute;
     inset: 0;
-    padding: 24px;
+    padding: 26px;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -1136,17 +1222,13 @@ const scenes = [
   }
 
   .cnv-scene__head {
-    font-size: 12px;
-    letter-spacing: 0.12em;
+    font-size: 11.5px;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--ink-3);
+    color: rgba(247, 243, 234, 0.55);
   }
 
-  /* Scenes vary in row count. Let the body take the leftover height and centre
-     inside it, so a three row scene does not sit in the top third of the frame. */
-  .cnv-scene__rows,
-  .cnv-scene__inv,
-  .cnv-scene__search {
+  .cnv-scene__rows {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -1154,20 +1236,14 @@ const scenes = [
     gap: 8px;
   }
 
-  .cnv-scene__ring {
-    flex: 1;
-  }
-
-  .cnv-scene__rows span,
-  .cnv-scene__inv span,
-  .cnv-scene__hit {
+  .cnv-scene__rows > span {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 14px;
     padding: 13px 15px;
-    border-radius: 12px;
-    background: var(--bg-2);
+    border-radius: 6px;
+    background: rgba(247, 243, 234, 0.07);
     font-size: 13px;
   }
 
@@ -1180,20 +1256,27 @@ const scenes = [
 
   .cnv-scene b {
     font-weight: 600;
-    color: var(--acc);
+    color: var(--clay-2);
     white-space: nowrap;
   }
 
   .cnv-scene__total {
-    background: var(--ink) !important;
-    color: #fff;
+    background: var(--clay) !important;
   }
 
   .cnv-scene__total b {
-    color: #fff;
+    color: var(--sand-3);
+  }
+
+  .cnv-scene__input {
+    border: 1.5px solid var(--clay-2);
+    color: var(--clay-2);
+    justify-content: flex-start !important;
+    gap: 10px !important;
   }
 
   .cnv-scene__ring {
+    flex: 1;
     display: flex;
     align-items: center;
     gap: 22px;
@@ -1202,9 +1285,10 @@ const scenes = [
 
   .cnv-scene__ring strong {
     display: block;
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -0.045em;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
   }
 
   .cnv-scene__ring em {
@@ -1212,7 +1296,7 @@ const scenes = [
     margin-top: 4px;
     font-style: normal;
     font-size: 13px;
-    color: var(--ink-3);
+    color: rgba(247, 243, 234, 0.6);
   }
 
   .cnv-scene__bars {
@@ -1221,27 +1305,15 @@ const scenes = [
     align-items: flex-end;
     gap: 10px;
     padding: 16px;
-    border-radius: 14px;
-    background: var(--bg-2);
+    border-radius: 8px;
+    background: rgba(247, 243, 234, 0.06);
   }
 
   .cnv-scene__bars i {
     flex: 1;
     height: var(--h);
-    border-radius: 6px 6px 3px 3px;
-    background: linear-gradient(180deg, var(--acc), rgba(59, 91, 255, 0.35));
-  }
-
-  .cnv-scene__input {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 13px 15px;
-    border-radius: 12px;
-    background: var(--card);
-    border: 1.5px solid var(--acc);
-    color: var(--acc);
-    font-size: 13px;
+    border-radius: 3px;
+    background: var(--clay-2);
   }
 
   .cnv-stage__dots {
@@ -1255,13 +1327,13 @@ const scenes = [
     height: 7px;
     border-radius: 50%;
     background: var(--line-2);
-    transition: background 0.3s ease, width 0.3s ease;
+    transition: background 0.35s cubic-bezier(0.32, 0.72, 0, 1), width 0.35s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .cnv-stage__dots span.is-on {
     width: 22px;
     border-radius: 4px;
-    background: var(--acc);
+    background: var(--clay);
   }
 
   .cnv-story__steps {
@@ -1276,14 +1348,13 @@ const scenes = [
     bottom: 8px;
     width: 2px;
     background: var(--line);
-    border-radius: 2px;
     overflow: hidden;
   }
 
   .cnv-story__rail i {
     position: absolute;
     inset: 0;
-    background: var(--acc);
+    background: var(--clay);
     transform: scaleY(0);
     transform-origin: top center;
   }
@@ -1291,11 +1362,11 @@ const scenes = [
   .cnv-step {
     padding: 26px 0;
     position: relative;
-    transition: opacity 0.35s ease;
+    transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   html.js .cnv-step {
-    opacity: 0.42;
+    opacity: 0.4;
   }
 
   html.js .cnv-step.is-on {
@@ -1306,32 +1377,31 @@ const scenes = [
     content: '';
     position: absolute;
     left: -34px;
-    top: 34px;
+    top: 32px;
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: var(--bg);
+    background: var(--sand);
     border: 2px solid var(--line-2);
-    transition: border-color 0.3s ease, transform 0.3s ease;
+    transition: border-color 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .cnv-step.is-on::before {
-    border-color: var(--acc);
+    border-color: var(--clay);
     transform: scale(1.15);
   }
 
   .cnv-step__n {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: var(--acc);
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 22px;
+    color: var(--clay);
   }
 
   .cnv-step h3 {
-    margin-top: 8px;
-    font-size: 1.24rem;
-    font-weight: 600;
-    letter-spacing: -0.035em;
+    margin-top: 6px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.045em;
   }
 
   .cnv-step p {
@@ -1344,31 +1414,35 @@ const scenes = [
   /* ---------- showcase ---------- */
   .cnv-split {
     display: grid;
-    grid-template-columns: 1fr 0.82fr;
-    gap: 62px;
+    grid-template-columns: 1fr 0.8fr;
+    gap: 60px;
     align-items: center;
   }
 
   .cnv-checks {
-    margin-top: 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
+    margin-top: 34px;
   }
 
   .cnv-checks li {
     display: flex;
-    align-items: flex-start;
-    gap: 11px;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    align-items: baseline;
+    gap: 18px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+    font-size: 0.97rem;
     color: var(--ink-2);
   }
 
-  .cnv-checks svg {
+  .cnv-checks li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cnv-checks em {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: normal;
+    font-size: 18px;
+    color: var(--clay);
     flex: none;
-    margin-top: 3px;
-    color: var(--acc);
   }
 
   .cnv-pipe {
@@ -1382,16 +1456,16 @@ const scenes = [
     align-items: center;
     gap: 14px;
     padding: 16px 18px;
-    border-radius: 14px;
-    background: var(--card);
+    border-radius: 6px;
+    background: var(--sand-3);
     border: 1px solid var(--line);
   }
 
   .cnv-pipe__node i {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
-    background: var(--acc);
+    background: var(--clay);
     flex: none;
   }
 
@@ -1399,7 +1473,7 @@ const scenes = [
     display: block;
     font-size: 0.95rem;
     font-weight: 600;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.03em;
   }
 
   .cnv-pipe__node em {
@@ -1413,17 +1487,17 @@ const scenes = [
   .cnv-pipe__hub {
     margin-top: 8px;
     padding: 20px;
-    border-radius: 14px;
-    background: var(--ink);
-    color: #fff;
+    border-radius: 6px;
+    background: var(--forest);
+    color: var(--sand-3);
     text-align: center;
   }
 
   .cnv-pipe__hub strong {
     display: block;
-    font-size: 1.05rem;
+    font-size: 1.08rem;
     font-weight: 700;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.04em;
   }
 
   .cnv-pipe__hub em {
@@ -1431,74 +1505,75 @@ const scenes = [
     margin-top: 4px;
     font-style: normal;
     font-size: 12.5px;
-    color: rgba(255, 255, 255, 0.66);
+    color: rgba(247, 243, 234, 0.62);
   }
 
   /* ---------- stats ---------- */
   .cnv-stats {
-    padding: 20px 0 74px;
+    padding: 74px 0;
+    border-top: 1px solid var(--line);
   }
 
   .cnv-stats__row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+    gap: 26px;
   }
 
   .cnv-stat {
-    padding: 26px 20px;
-    border-radius: 18px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    text-align: center;
+    padding-left: 22px;
+    border-left: 1px solid var(--line-2);
   }
 
   .cnv-stat strong {
     display: block;
-    font-size: clamp(1.7rem, 2.9vw, 2.4rem);
-    font-weight: 700;
-    letter-spacing: -0.05em;
-    color: var(--acc);
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: clamp(2.4rem, 4.6vw, 3.7rem);
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: -0.03em;
+    color: var(--forest);
     font-variant-numeric: tabular-nums;
   }
 
   .cnv-stat span {
     display: block;
-    margin-top: 8px;
+    margin-top: 13px;
     font-size: 12.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--ink-3);
   }
 
   /* ---------- proof ---------- */
+  .cnv-quotes {
+    margin-top: 44px;
+  }
+
   .cnv-quote {
-    gap: 18px;
+    display: grid;
+    grid-template-columns: 62px 1fr 210px;
+    gap: 24px;
+    padding: 30px 0;
+    border-top: 1px solid var(--line);
+    align-items: start;
+  }
+
+  .cnv-quote:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cnv-quote__n {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 24px;
+    color: var(--clay);
   }
 
   .cnv-quote blockquote {
-    font-size: 0.99rem;
-    line-height: 1.62;
-    color: var(--ink);
-    flex: 1;
-  }
-
-  .cnv-quote figcaption {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
-  }
-
-  .cnv-quote__av {
-    width: 38px;
-    height: 38px;
-    display: grid;
-    place-items: center;
-    border-radius: 12px;
-    background: var(--acc-soft);
-    color: var(--acc);
-    font-weight: 700;
-    flex: none;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: clamp(1.2rem, 1.9vw, 1.62rem);
+    line-height: 1.32;
+    letter-spacing: -0.015em;
   }
 
   .cnv-quote figcaption strong {
@@ -1509,7 +1584,7 @@ const scenes = [
 
   .cnv-quote figcaption em {
     display: block;
-    margin-top: 2px;
+    margin-top: 5px;
     font-style: normal;
     font-size: 12.5px;
     color: var(--ink-3);
@@ -1519,63 +1594,69 @@ const scenes = [
   .cnv-plans {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    align-items: start;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--sand-3);
   }
 
   .cnv-plan {
-    position: relative;
-    padding: 30px 26px;
-    border-radius: 20px;
-    background: var(--card);
-    border: 1px solid var(--line);
+    padding: 32px 28px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 15px;
+    border-right: 1px solid var(--line);
+  }
+
+  .cnv-plan:last-child {
+    border-right: 0;
   }
 
   .cnv-plan.is-feat {
-    border-color: var(--acc);
-    box-shadow: 0 22px 60px rgba(59, 91, 255, 0.16);
+    background: var(--sand-2);
   }
 
-  .cnv-plan__tag {
-    position: absolute;
-    top: -11px;
-    left: 26px;
-    padding: 4px 12px;
-    border-radius: 999px;
-    background: var(--acc);
-    color: #fff;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
+  .cnv-plan header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cnv-plan__n {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 20px;
+    color: var(--ink-3);
   }
 
   .cnv-plan h3 {
-    font-size: 1.06rem;
-    font-weight: 600;
-    letter-spacing: -0.03em;
+    font-size: 1.08rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
   }
 
-  .cnv-plan__blurb {
-    font-size: 0.9rem;
-    line-height: 1.55;
-    color: var(--ink-3);
-    min-height: 2.9em;
+  .cnv-plan__tag {
+    margin-left: auto;
+    padding: 4px 10px;
+    border-radius: 3px;
+    background: var(--clay);
+    color: var(--sand-3);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .cnv-plan__price {
     display: flex;
     align-items: baseline;
-    gap: 8px;
+    gap: 9px;
   }
 
   .cnv-plan__price strong {
-    font-size: 2.35rem;
-    font-weight: 700;
-    letter-spacing: -0.055em;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 2.9rem;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1;
   }
 
   .cnv-plan__price em {
@@ -1584,65 +1665,54 @@ const scenes = [
     color: var(--ink-3);
   }
 
-  .cnv-plan ul {
-    display: flex;
-    flex-direction: column;
-    gap: 11px;
-    padding-top: 6px;
+  .cnv-plan__blurb {
+    font-size: 0.91rem;
+    line-height: 1.55;
+    color: var(--ink-2);
+    min-height: 2.9em;
   }
 
   .cnv-plan li {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    padding: 11px 0;
+    border-top: 1px solid var(--line);
     font-size: 0.89rem;
-    line-height: 1.5;
     color: var(--ink-2);
-  }
-
-  .cnv-plan svg {
-    flex: none;
-    margin-top: 3px;
-    color: var(--acc);
   }
 
   .cnv-guar {
     margin-top: 22px;
-    padding: 34px;
-    border-radius: 20px;
-    background: var(--ink);
-    color: #fff;
-    text-align: center;
-  }
-
-  .cnv-guar h3 {
-    font-size: clamp(1.2rem, 2.2vw, 1.65rem);
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    margin-bottom: 12px;
-  }
-
-  .cnv-guar p {
-    max-width: 66ch;
-    margin-inline: auto;
-    font-size: 0.95rem;
-    line-height: 1.66;
-    color: rgba(255, 255, 255, 0.72);
-  }
-
-  /* ---------- faq ---------- */
-  .cnv-faq {
+    padding: 38px;
+    border-radius: 10px;
+    background: var(--forest);
+    color: var(--sand-3);
     display: grid;
-    grid-template-columns: 0.7fr 1fr;
-    gap: 62px;
+    grid-template-columns: 130px 1fr;
+    gap: 30px;
     align-items: start;
   }
 
-  .cnv-faq__list {
-    display: flex;
-    flex-direction: column;
+  .cnv-guar .cnv-eyebrow {
+    color: var(--clay-2);
+    margin: 0;
+    padding-top: 5px;
   }
 
+  .cnv-guar h3 {
+    font-size: clamp(1.25rem, 2.3vw, 1.8rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.1;
+    margin-bottom: 13px;
+  }
+
+  .cnv-guar p {
+    font-size: 0.96rem;
+    line-height: 1.66;
+    color: rgba(247, 243, 234, 0.72);
+    max-width: 64ch;
+  }
+
+  /* ---------- faq ---------- */
   .cnv-faq__item {
     border-top: 1px solid var(--line);
   }
@@ -1654,20 +1724,33 @@ const scenes = [
   .cnv-faq__item summary {
     list-style: none;
     cursor: pointer;
-    padding: 22px 40px 22px 0;
+    padding: 24px 40px 24px 0;
     position: relative;
-    font-size: 0.99rem;
-    font-weight: 600;
-    letter-spacing: -0.03em;
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 14px;
+    align-items: baseline;
   }
 
   .cnv-faq__item summary::-webkit-details-marker {
     display: none;
   }
 
+  .cnv-faq__n {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 19px;
+    color: var(--ink-3);
+  }
+
+  .cnv-faq__q {
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+
   .cnv-faq__ico {
     position: absolute;
-    right: 4px;
+    right: 2px;
     top: 50%;
     width: 13px;
     height: 13px;
@@ -1679,8 +1762,7 @@ const scenes = [
     content: '';
     position: absolute;
     background: var(--ink-3);
-    border-radius: 2px;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .cnv-faq__ico::before {
@@ -1697,34 +1779,68 @@ const scenes = [
     transform: scaleY(0);
   }
 
+  .cnv-faq__item[open] .cnv-faq__ico::before {
+    background: var(--clay);
+  }
+
   .cnv-faq__item p {
-    padding: 0 40px 24px 0;
-    font-size: 0.93rem;
+    padding: 0 40px 26px 64px;
+    font-size: 0.94rem;
     line-height: 1.68;
     color: var(--ink-2);
+    max-width: 76ch;
   }
 
   /* ---------- cta ---------- */
   .cnv-cta {
-    padding: 104px 0 116px;
-    background: linear-gradient(180deg, var(--bg) 0%, var(--acc-soft) 100%);
-    text-align: center;
+    background: var(--forest);
+    color: var(--sand-3);
+    padding: 116px 0;
   }
 
-  .cnv-cta__in {
+  .cnv-cta__label {
+    font-size: 11.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--clay-2);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid rgba(247, 243, 234, 0.2);
+  }
+
+  .cnv-cta__h {
+    font-size: clamp(2.5rem, 7vw, 5.8rem);
+    line-height: 0.92;
+    font-weight: 700;
+    letter-spacing: -0.058em;
+    max-width: 13ch;
+  }
+
+  .cnv-cta__row {
+    margin-top: 42px;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+    gap: 34px;
+    flex-wrap: wrap;
   }
 
-  .cnv-cta .cnv-sub {
-    max-width: 44ch;
+  .cnv-cta__sub {
+    font-size: clamp(1rem, 1.4vw, 1.18rem);
+    line-height: 1.55;
+    max-width: 38ch;
+    color: rgba(247, 243, 234, 0.78);
+  }
+
+  .cnv-cta__note {
+    margin-top: 24px;
+    font-size: 12.5px;
+    color: rgba(247, 243, 234, 0.55);
   }
 
   /* ---------- footer ---------- */
   .cnv-foot {
-    border-top: 1px solid var(--line);
-    padding: 62px 0 32px;
+    padding: 66px 0 32px;
   }
 
   .cnv-foot__in {
@@ -1734,7 +1850,7 @@ const scenes = [
   }
 
   .cnv-foot__brand p {
-    margin-top: 14px;
+    margin-top: 15px;
     font-size: 0.9rem;
     line-height: 1.6;
     color: var(--ink-3);
@@ -1743,11 +1859,11 @@ const scenes = [
 
   .cnv-foot__col h4 {
     font-size: 11.5px;
-    letter-spacing: 0.13em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ink-3);
-    margin-bottom: 16px;
-    font-weight: 600;
+    margin-bottom: 17px;
+    font-weight: 500;
   }
 
   .cnv-foot__col ul {
@@ -1760,10 +1876,11 @@ const scenes = [
     font-size: 0.9rem;
     color: var(--ink-2);
     text-decoration: none;
+    transition: color 0.3s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .cnv-foot__col a:hover {
-    color: var(--acc);
+    color: var(--clay);
   }
 
   .cnv-foot__legal {
@@ -1774,7 +1891,7 @@ const scenes = [
     justify-content: space-between;
     gap: 18px;
     flex-wrap: wrap;
-    font-size: 12.5px;
+    font-size: 12px;
     color: var(--ink-3);
   }
 
@@ -1784,20 +1901,51 @@ const scenes = [
       display: none;
     }
 
+    /* The slant is a desktop device. On one column it just eats the copy. */
+    .cnv-hero__panel {
+      display: none;
+    }
+
     .cnv-hero__grid,
     .cnv-split,
-    .cnv-faq {
+    .cnv-two {
       grid-template-columns: 1fr;
       gap: 40px;
     }
 
-    .cnv-three,
+    .cnv-two__l {
+      position: static;
+    }
+
     .cnv-plans {
       grid-template-columns: 1fr;
     }
 
+    .cnv-plan {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .cnv-plan:last-child {
+      border-bottom: 0;
+    }
+
     .cnv-stats__row {
       grid-template-columns: repeat(2, 1fr);
+      gap: 32px 26px;
+    }
+
+    .cnv-quote {
+      grid-template-columns: 50px 1fr;
+    }
+
+    .cnv-quote figcaption {
+      grid-column: 2;
+    }
+
+    .cnv-guar {
+      grid-template-columns: 1fr;
+      gap: 16px;
     }
 
     .cnv-foot__in {
@@ -1814,35 +1962,62 @@ const scenes = [
     .cnv-story__stage {
       top: 74px;
       z-index: 2;
-      background: var(--bg);
+      background: var(--sand);
       padding-bottom: 14px;
     }
 
     .cnv-stage__frame {
-      height: 268px;
+      height: 264px;
     }
   }
 
   @media (max-width: 680px) {
+    .cnv-wrap {
+      padding-inline: 22px;
+    }
+
     .cnv-hero {
       padding-top: 52px;
     }
 
+    .cnv-logos {
+      padding-inline: 22px;
+    }
+
     .cnv-sec,
     .cnv-story {
-      padding: 66px 0;
+      padding: 68px 0;
+    }
+
+    .cnv-cta {
+      padding: 84px 0;
     }
 
     .cnv-hero__cta .cnv-btn {
       width: 100%;
+      padding-inline: 24px;
     }
 
     .cnv-device__kpis {
       grid-template-columns: 1fr;
     }
 
+    .cnv-row,
+    .cnv-quote {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
     .cnv-stage__frame {
-      height: 244px;
+      height: 240px;
+    }
+
+    .cnv-faq__item p {
+      padding-left: 0;
+    }
+
+    .cnv-guar {
+      padding: 26px;
     }
 
     .cnv-foot__in {

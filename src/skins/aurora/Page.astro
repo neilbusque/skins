@@ -1,161 +1,144 @@
 ---
 /**
- * SKIN: Aurora  ·  archetype: Glass Bento  ·  motion: GSAP
+ * SKIN: Aurora  ·  archetype: Acid Bento  ·  motion: GSAP + ScrollTrigger
  *
- * The current Framer template look. Near-black base under a slow animated mesh,
- * glass surfaces with hairline borders, generous radii, and an asymmetric bento
- * grid doing the heavy lifting for features.
+ * Ink and one acid lime. Nothing else gets colour. Geist for text, Geist Mono
+ * for every label, index and unit, which is what makes it read as engineered
+ * rather than decorated. Surfaces are flat panels with a 6px radius and a
+ * hairline, never glass, never a 24px pill.
  *
- * Layout engine: BENTO. Nothing else in the library uses a spanning grid.
- * Motion: mesh drift, masked word reveal, marquee, tile stagger, counting stats,
- * magnetic primary button. All GSAP, all released from [data-anim].
+ * Layout engine: BENTO. Hero is a TYPE WALL, no product mock above the fold:
+ * the headline is the entire first screen and the bento is the payoff.
  */
 import { content as c } from '../../lib/content';
 
 const year = 2026;
-const headWords = c.hero.headline.split(' ');
-const accentWords = c.hero.headlineAccent.split(' ');
-const marquee = [...c.logos.items, ...c.logos.items];
+const line1 = c.hero.headline.replace(/,\s*$/, '').split(' ');
+const line2 = c.hero.headlineAccent.split(' ');
+const ticker = [...c.logos.items, ...c.logos.items, ...c.logos.items];
 ---
 
 <div class="aur">
-  <div class="aur-mesh" aria-hidden="true">
-    <span class="aur-mesh__blob aur-mesh__blob--a"></span>
-    <span class="aur-mesh__blob aur-mesh__blob--b"></span>
-    <span class="aur-mesh__blob aur-mesh__blob--c"></span>
-  </div>
-  <div class="aur-grid-lines" aria-hidden="true"></div>
+  <div class="aur-grain" aria-hidden="true"></div>
 
   <header class="aur-nav">
-    <div class="aur-nav__pill">
+    <div class="aur-wrap aur-nav__in">
       <a class="aur-brand" href="#">
         <span class="aur-brand__mark">{c.brand.mark}</span>
         <span class="aur-brand__name">{c.brand.name}</span>
       </a>
       <nav class="aur-nav__links" aria-label="Primary">
-        {c.nav.links.map((l) => <a href={l.href}>{l.label}</a>)}
+        {
+          c.nav.links.map((l, i) => (
+            <a href={l.href}>
+              <em>{String(i + 1).padStart(2, '0')}</em>
+              {l.label}
+            </a>
+          ))
+        }
       </nav>
       <a class="aur-btn aur-btn--sm" href={c.nav.cta.href}>{c.nav.cta.label}</a>
     </div>
   </header>
 
+  <!-- TYPE WALL. The headline is the hero. No mock, no glass, no centring. -->
   <section class="aur-hero">
-    <div class="aur-wrap aur-hero__in">
-      <a class="aur-pill" href="#" data-anim>
-        <span class="aur-pill__dot"></span>
-        {c.hero.eyebrow}
-        <span class="aur-pill__go">&rsaquo;</span>
-      </a>
+    <div class="aur-wrap">
+      <div class="aur-hero__top" data-anim>
+        <span class="aur-mono">{c.brand.domain}</span>
+        <span class="aur-mono aur-hero__beta">
+          <i></i>
+          {c.hero.eyebrow}
+        </span>
+        <span class="aur-mono">Ed. {year}</span>
+      </div>
 
       <h1 class="aur-h1" aria-label={`${c.hero.headline} ${c.hero.headlineAccent}`}>
-        {
-          headWords.map((w) => (
-            <span class="aur-word" data-anim>
-              <span>{w}</span>
-            </span>
-          ))
-        }
-        <br />
-        {
-          accentWords.map((w) => (
-            <span class="aur-word aur-word--acc" data-anim>
-              <span>{w}</span>
-            </span>
-          ))
-        }
+        <span class="aur-h1__row">
+          {
+            line1.map((w) => (
+              <span class="aur-word" data-anim>
+                <span>{w}</span>
+              </span>
+            ))
+          }
+        </span>
+        <span class="aur-h1__row aur-h1__row--acc">
+          {
+            line2.map((w) => (
+              <span class="aur-word" data-anim>
+                <span>{w}</span>
+              </span>
+            ))
+          }
+        </span>
       </h1>
 
-      <p class="aur-sub" data-anim>{c.hero.sub}</p>
-
-      <div class="aur-hero__cta" data-anim>
-        <a class="aur-btn aur-btn--mag" href={c.hero.ctaPrimary.href}>
-          <span>{c.hero.ctaPrimary.label}</span>
-        </a>
-        <a class="aur-btn aur-btn--ghost" href={c.hero.ctaSecondary.href}>
-          {c.hero.ctaSecondary.label}
-        </a>
-      </div>
-
-      <p class="aur-note" data-anim>{c.hero.note}</p>
-
-      <div class="aur-panel" data-anim>
-        <div class="aur-panel__bar">
-          <span class="aur-panel__dots"><i></i><i></i><i></i></span>
-          <span class="aur-panel__url">{c.brand.domain}</span>
-        </div>
-        <div class="aur-panel__body">
-          <div class="aur-panel__side">
-            {
-              ['Overview', 'Clients', 'Approvals', 'Billing', 'Capacity'].map((s, i) => (
-                <span class:list={['aur-panel__nav', { 'is-on': i === 0 }]}>{s}</span>
-              ))
-            }
-          </div>
-          <div class="aur-panel__main">
-            <div class="aur-panel__cards">
-              {
-                [
-                  ['This week', '18 open', 62],
-                  ['Awaiting client', '5 items', 34],
-                  ['Ready to bill', '$41,200', 88],
-                ].map(([t, v, pct]) => (
-                  <div class="aur-panel__card">
-                    <em>{t}</em>
-                    <strong>{v}</strong>
-                    <span class="aur-panel__meter">
-                      <i style={`--pct:${pct}%`} />
-                    </span>
-                  </div>
-                ))
-              }
-            </div>
-            <div class="aur-panel__chart">
-              {
-                [38, 54, 44, 68, 59, 82, 71, 92, 76, 88, 96, 84].map((h, i) => (
-                  <span class="aur-panel__bar" style={`--h:${h}%; --i:${i}`} />
-                ))
-              }
-            </div>
-          </div>
+      <div class="aur-hero__foot">
+        <p class="aur-hero__sub" data-anim>{c.hero.sub}</p>
+        <div class="aur-hero__act" data-anim>
+          <a class="aur-btn aur-btn--mag" href={c.hero.ctaPrimary.href}>
+            <span>{c.hero.ctaPrimary.label}</span>
+            <i class="aur-btn__ico" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 9.5 9.5 2.5M4.5 2.5h5v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </i>
+          </a>
+          <a class="aur-btn aur-btn--ghost" href={c.hero.ctaSecondary.href}>{c.hero.ctaSecondary.label}</a>
+          <p class="aur-mono aur-hero__note">{c.hero.note}</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="aur-marq" aria-label={c.logos.label}>
-    <p class="aur-marq__label" data-anim>{c.logos.label}</p>
-    <div class="aur-marq__mask">
-      <div class="aur-marq__track">
-        {marquee.map((n) => <span class="aur-marq__item">{n}</span>)}
-      </div>
-    </div>
-  </section>
-
-  <section class="aur-sec">
-    <div class="aur-wrap">
-      <div class="aur-head">
-        <p class="aur-eyebrow" data-anim>{c.problem.eyebrow}</p>
-        <h2 class="aur-h2" data-anim>{c.problem.headline}</h2>
-        <p class="aur-lead" data-anim>{c.problem.body}</p>
-      </div>
-      <div class="aur-three">
+  <div class="aur-ticker" aria-label={c.logos.label}>
+    <span class="aur-mono aur-ticker__label">{c.logos.label}</span>
+    <div class="aur-ticker__mask">
+      <div class="aur-ticker__track">
         {
-          c.problem.points.map((p, i) => (
-            <article class="aur-glass aur-prob" data-anim data-stagger>
-              <span class="aur-prob__n">{String(i + 1).padStart(2, '0')}</span>
-              <h3>{p.title}</h3>
-              <p>{p.body}</p>
-            </article>
+          ticker.map((n) => (
+            <span class="aur-ticker__item">
+              {n}
+              <i>/</i>
+            </span>
           ))
         }
       </div>
     </div>
+  </div>
+
+  <section class="aur-sec">
+    <div class="aur-wrap aur-two">
+      <div class="aur-two__l">
+        <p class="aur-mono aur-eyebrow" data-anim>{c.problem.eyebrow}</p>
+      </div>
+      <div class="aur-two__r">
+        <h2 class="aur-h2" data-anim>{c.problem.headline}</h2>
+        <p class="aur-lead" data-anim>{c.problem.body}</p>
+        <div class="aur-rows">
+          {
+            c.problem.points.map((p, i) => (
+              <article class="aur-row" data-anim>
+                <span class="aur-mono aur-row__n">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3>{p.title}</h3>
+                  <p>{p.body}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section class="aur-sec" id="features">
+  <!-- BENTO. Flat panels, hairlines, mono indices. The product mock lives in
+       the big tile instead of floating under the hero. -->
+  <section class="aur-sec aur-sec--rule" id="features">
     <div class="aur-wrap">
       <div class="aur-head">
-        <p class="aur-eyebrow" data-anim>{c.features.eyebrow}</p>
+        <p class="aur-mono aur-eyebrow" data-anim>{c.features.eyebrow}</p>
         <h2 class="aur-h2" data-anim>{c.features.headline}</h2>
         <p class="aur-lead" data-anim>{c.features.sub}</p>
       </div>
@@ -163,48 +146,52 @@ const marquee = [...c.logos.items, ...c.logos.items];
       <div class="aur-bento">
         {
           c.features.items.map((f, i) => (
-            <article class={`aur-glass aur-tile aur-tile--${i + 1}`} data-anim data-stagger>
-              <span class="aur-tile__glyph">{f.glyph}</span>
-              <h3 class="aur-tile__t">{f.title}</h3>
-              <p class="aur-tile__b">{f.body}</p>
-              {i === 0 && (
-                <div class="aur-tile__vis" aria-hidden="true">
-                  {['Northline', 'Halcyon', 'Fielder & Co', 'Brightpath'].map((n, j) => (
-                    <span class="aur-tile__row">
-                      <i class="aur-tile__av">{n.charAt(0)}</i>
-                      <em>{n}</em>
-                      <b class:list={['aur-tile__tag', { 'is-live': j < 2 }]}>{j < 2 ? 'Live' : 'Draft'}</b>
-                    </span>
-                  ))}
-                </div>
-              )}
-              {i === 1 && (
-                <div class="aur-tile__ring" aria-hidden="true">
-                  <svg viewBox="0 0 84 84" width="84" height="84">
-                    <circle cx="42" cy="42" r="34" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8" />
-                    <circle
-                      class="aur-tile__ringArc"
-                      cx="42"
-                      cy="42"
-                      r="34"
-                      fill="none"
-                      stroke="url(#aurRing)"
-                      stroke-width="8"
-                      stroke-linecap="round"
-                      stroke-dasharray="214"
-                      stroke-dashoffset="64"
-                      transform="rotate(-90 42 42)"
-                    />
-                    <defs>
-                      <linearGradient id="aurRing" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0" stop-color="#a78bfa" />
-                        <stop offset="1" stop-color="#22d3ee" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                  <span>70%</span>
-                </div>
-              )}
+            <article class={`aur-tile aur-tile--${i + 1}`} data-anim>
+              <div class="aur-tile__in">
+                <header class="aur-tile__head">
+                  <span class="aur-mono aur-tile__n">{f.glyph}</span>
+                  <span class="aur-mono aur-tile__dot" aria-hidden="true">&bull;</span>
+                </header>
+                <h3 class="aur-tile__t">{f.title}</h3>
+                <p class="aur-tile__b">{f.body}</p>
+
+                {i === 0 && (
+                  <div class="aur-mock" aria-hidden="true">
+                    <div class="aur-mock__bar">
+                      <span class="aur-mono">{c.brand.domain}/portal</span>
+                    </div>
+                    <div class="aur-mock__body">
+                      {[
+                        ['Q3 brand system', 'Northline', 'LIVE'],
+                        ['Invoice 2418', 'Halcyon', 'HOLD'],
+                        ['Site copy, round two', 'Fielder & Co', 'LIVE'],
+                        ['Capacity plan, Sep', 'Internal', 'DRAFT'],
+                      ].map(([a, b, s]) => (
+                        <span class="aur-mock__row">
+                          <em>{a}</em>
+                          <b class="aur-mono">{b}</b>
+                          <u class:list={['aur-mono', 'aur-mock__tag', { 'is-on': s === 'LIVE' }]}>{s}</u>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {i === 1 && (
+                  <div class="aur-gauge" aria-hidden="true">
+                    <span class="aur-gauge__bar"><i data-gauge></i></span>
+                    <span class="aur-mono aur-gauge__val">68<em>%</em></span>
+                  </div>
+                )}
+
+                {i === 3 && (
+                  <div class="aur-spark" aria-hidden="true">
+                    {[38, 62, 44, 78, 56, 88, 70].map((h) => (
+                      <i style={`--h:${h}%`} />
+                    ))}
+                  </div>
+                )}
+              </div>
             </article>
           ))
         }
@@ -212,42 +199,42 @@ const marquee = [...c.logos.items, ...c.logos.items];
     </div>
   </section>
 
-  <section class="aur-sec" id="showcase">
-    <div class="aur-wrap aur-split">
-      <div class="aur-split__copy">
-        <p class="aur-eyebrow" data-anim>{c.showcase.eyebrow}</p>
+  <section class="aur-sec aur-sec--rule" id="showcase">
+    <div class="aur-wrap aur-two">
+      <div class="aur-two__l">
+        <p class="aur-mono aur-eyebrow" data-anim>{c.showcase.eyebrow}</p>
+        <div class="aur-stack" data-anim>
+          {
+            [
+              ['Google Workspace', 'CAL / DRIVE / MAIL'],
+              ['Slack', 'THREADS / APPROVALS'],
+              ['Stripe', 'INVOICES / PAYOUTS'],
+            ].map(([t, s], i) => (
+              <span class="aur-stack__row" style={`--n:${i}`}>
+                <strong>{t}</strong>
+                <em class="aur-mono">{s}</em>
+              </span>
+            ))
+          }
+          <span class="aur-stack__hub">
+            <strong>{c.brand.name}</strong>
+            <em class="aur-mono">ONE SOURCE OF TRUTH</em>
+          </span>
+        </div>
+      </div>
+      <div class="aur-two__r">
         <h2 class="aur-h2" data-anim>{c.showcase.headline}</h2>
         <p class="aur-lead" data-anim>{c.showcase.body}</p>
         <ul class="aur-checks">
           {
-            c.showcase.bullets.map((b) => (
-              <li data-anim data-stagger>
-                <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path
-                    d="m2.8 7.2 2.8 2.8 5.6-6"
-                    stroke="currentColor"
-                    stroke-width="1.9"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
+            c.showcase.bullets.map((b, i) => (
+              <li data-anim>
+                <em class="aur-mono">{String(i + 1).padStart(2, '0')}</em>
                 {b}
               </li>
             ))
           }
         </ul>
-      </div>
-      <div class="aur-split__vis" data-anim>
-        <div class="aur-orbit">
-          <span class="aur-orbit__core">{c.brand.mark}</span>
-          <span class="aur-orbit__ring aur-orbit__ring--1"></span>
-          <span class="aur-orbit__ring aur-orbit__ring--2"></span>
-          {
-            ['Workspace', 'Slack', 'Stripe', 'Drive'].map((n, i) => (
-              <span class={`aur-orbit__node aur-orbit__node--${i + 1}`}>{n}</span>
-            ))
-          }
-        </div>
       </div>
     </div>
   </section>
@@ -256,76 +243,67 @@ const marquee = [...c.logos.items, ...c.logos.items];
     <div class="aur-wrap aur-stats__row">
       {
         c.stats.map((s) => (
-          <div class="aur-stat" data-anim data-stagger>
+          <div class="aur-stat" data-anim>
             <strong data-count={s.value}>{s.value}</strong>
-            <span>{s.label}</span>
+            <span class="aur-mono">{s.label}</span>
           </div>
         ))
       }
     </div>
   </section>
 
-  <section class="aur-sec" id="proof">
-    <div class="aur-wrap">
-      <div class="aur-head">
-        <p class="aur-eyebrow" data-anim>{c.proof.eyebrow}</p>
-        <h2 class="aur-h2" data-anim>{c.proof.headline}</h2>
+  <section class="aur-sec aur-sec--rule" id="proof">
+    <div class="aur-wrap aur-two">
+      <div class="aur-two__l">
+        <p class="aur-mono aur-eyebrow" data-anim>{c.proof.eyebrow}</p>
       </div>
-      <div class="aur-three">
-        {
-          c.testimonials.map((t) => (
-            <figure class="aur-glass aur-quote" data-anim data-stagger>
-              <span class="aur-quote__mark" aria-hidden="true">&ldquo;</span>
-              <blockquote>{t.quote}</blockquote>
-              <figcaption>
-                <span class="aur-quote__av">{t.name.charAt(0)}</span>
-                <span>
+      <div class="aur-two__r">
+        <h2 class="aur-h2" data-anim>{c.proof.headline}</h2>
+        <div class="aur-quotes">
+          {
+            c.testimonials.map((t, i) => (
+              <figure class="aur-quote" data-anim>
+                <span class="aur-mono aur-quote__n">{String(i + 1).padStart(2, '0')}</span>
+                <blockquote>{t.quote}</blockquote>
+                <figcaption>
                   <strong>{t.name}</strong>
-                  <em>{t.role}, {t.company}</em>
-                </span>
-              </figcaption>
-            </figure>
-          ))
-        }
+                  <em class="aur-mono">{t.role} / {t.company}</em>
+                </figcaption>
+              </figure>
+            ))
+          }
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="aur-sec" id="pricing">
+  <section class="aur-sec aur-sec--rule" id="pricing">
     <div class="aur-wrap">
       <div class="aur-head">
-        <p class="aur-eyebrow" data-anim>{c.pricing.eyebrow}</p>
+        <p class="aur-mono aur-eyebrow" data-anim>{c.pricing.eyebrow}</p>
         <h2 class="aur-h2" data-anim>{c.pricing.headline}</h2>
         <p class="aur-lead" data-anim>{c.pricing.sub}</p>
       </div>
       <div class="aur-plans">
         {
-          c.pricing.plans.map((p) => (
-            <article class:list={['aur-glass', 'aur-plan', { 'is-feat': p.featured }]} data-anim data-stagger>
-              {p.featured && <span class="aur-plan__tag">Most teams</span>}
-              <h3 class="aur-plan__n">{p.name}</h3>
-              <p class="aur-plan__blurb">{p.blurb}</p>
+          c.pricing.plans.map((p, i) => (
+            <article class:list={['aur-plan', { 'is-feat': p.featured }]} data-anim>
+              <header>
+                <span class="aur-mono">{String(i + 1).padStart(2, '0')}</span>
+                <h3>{p.name}</h3>
+                {p.featured && <span class="aur-mono aur-plan__tag">Most teams</span>}
+              </header>
               <p class="aur-plan__price">
                 <strong>{p.price}</strong>
-                <em>{p.period}</em>
+                <em class="aur-mono">{p.period}</em>
               </p>
+              <p class="aur-plan__blurb">{p.blurb}</p>
               <a class:list={['aur-btn', 'aur-btn--full', { 'aur-btn--ghost': !p.featured }]} href="#cta">
                 {p.cta}
               </a>
               <ul class="aur-plan__feat">
                 {p.features.map((f) => (
-                  <li>
-                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                      <path
-                        d="m2.8 7.2 2.8 2.8 5.6-6"
-                        stroke="currentColor"
-                        stroke-width="1.9"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    {f}
-                  </li>
+                  <li>{f}</li>
                 ))}
               </ul>
             </article>
@@ -333,46 +311,54 @@ const marquee = [...c.logos.items, ...c.logos.items];
         }
       </div>
 
-      <div class="aur-glass aur-guar" data-anim>
+      <div class="aur-guar" data-anim>
+        <span class="aur-mono">Guarantee</span>
         <h3>{c.guarantee.headline}</h3>
         <p>{c.guarantee.body}</p>
       </div>
     </div>
   </section>
 
-  <section class="aur-sec">
-    <div class="aur-wrap aur-faq">
-      <div class="aur-faq__head">
-        <p class="aur-eyebrow" data-anim>{c.faqHead.eyebrow}</p>
-        <h2 class="aur-h2" data-anim>{c.faqHead.headline}</h2>
+  <section class="aur-sec aur-sec--rule">
+    <div class="aur-wrap aur-two">
+      <div class="aur-two__l">
+        <p class="aur-mono aur-eyebrow" data-anim>{c.faqHead.eyebrow}</p>
+        <h2 class="aur-h2 aur-h2--sm" data-anim>{c.faqHead.headline}</h2>
       </div>
-      <div class="aur-faq__list" data-anim>
-        {
-          c.faq.map((f, i) => (
-            <details class="aur-faq__item" open={i === 0}>
-              <summary>
-                {f.q}
-                <span class="aur-faq__ico" aria-hidden="true" />
-              </summary>
-              <p>{f.a}</p>
-            </details>
-          ))
-        }
+      <div class="aur-two__r">
+        <div class="aur-faq" data-anim>
+          {
+            c.faq.map((f, i) => (
+              <details class="aur-faq__item" open={i === 0}>
+                <summary>
+                  <span class="aur-mono">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="aur-faq__q">{f.q}</span>
+                  <span class="aur-faq__ico" aria-hidden="true" />
+                </summary>
+                <p>{f.a}</p>
+              </details>
+            ))
+          }
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- Full bleed acid flip. The one place the accent takes the whole screen. -->
   <section class="aur-cta" id="cta">
-    <div class="aur-cta__glow" aria-hidden="true"></div>
     <div class="aur-wrap aur-cta__in">
-      <h2 class="aur-h1 aur-h1--sm" data-anim>{c.cta.headline}</h2>
-      <p class="aur-sub" data-anim>{c.cta.sub}</p>
-      <div class="aur-hero__cta" data-anim>
-        <a class="aur-btn aur-btn--mag" href={c.cta.button.href}>
-          <span>{c.cta.button.label}</span>
-        </a>
-      </div>
-      <p class="aur-note" data-anim>{c.cta.note}</p>
+      <p class="aur-mono aur-cta__label" data-anim>{c.brand.tagline}</p>
+      <h2 class="aur-cta__h" data-anim>{c.cta.headline}</h2>
+      <p class="aur-cta__sub" data-anim>{c.cta.sub}</p>
+      <a class="aur-btn aur-btn--inv aur-btn--mag" href={c.cta.button.href} data-anim>
+        <span>{c.cta.button.label}</span>
+        <i class="aur-btn__ico" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2.5 9.5 9.5 2.5M4.5 2.5h5v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </i>
+      </a>
+      <p class="aur-mono aur-cta__note" data-anim>{c.cta.note}</p>
     </div>
   </section>
 
@@ -388,7 +374,7 @@ const marquee = [...c.logos.items, ...c.logos.items];
       {
         c.footer.columns.map((col) => (
           <div class="aur-foot__col">
-            <h4>{col.title}</h4>
+            <h4 class="aur-mono">{col.title}</h4>
             <ul>
               {col.links.map((l) => (
                 <li>
@@ -400,7 +386,7 @@ const marquee = [...c.logos.items, ...c.logos.items];
         ))
       }
     </div>
-    <div class="aur-wrap aur-foot__legal">
+    <div class="aur-wrap aur-foot__legal aur-mono">
       <span>&copy; {year} {c.brand.name}</span>
       <span>{c.footer.legal}</span>
     </div>
@@ -419,42 +405,24 @@ const marquee = [...c.logos.items, ...c.logos.items];
     const anims = q('[data-anim]');
     const words = q('.aur-word > span');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const EASE = 'expo.out';
 
     if (reduced) {
-      /* CSS already releases [data-anim] under reduced motion. The masked words
-         are a transform, so they need releasing here too. */
       gsap.set(anims, { opacity: 1, y: 0 });
       gsap.set(words, { y: 0 });
     } else {
       const heroAnims = q('.aur-hero [data-anim]');
       const heroSet = new Set(heroAnims);
 
-      /* ---- hero ---- */
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-      tl.fromTo('.aur-pill', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7 })
-        .to('.aur-word', { opacity: 1, duration: 0.01, stagger: 0.042 }, 0.14)
-        .to('.aur-word > span', { y: '0%', duration: 1.05, stagger: 0.042, ease: 'expo.out' }, 0.14)
-        .fromTo('.aur-sub', { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.8 }, 0.5)
-        .fromTo('.aur-hero .aur-hero__cta', { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.8 }, 0.58)
-        .fromTo('.aur-hero .aur-note', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7 }, 0.66)
-        .fromTo(
-          '.aur-panel',
-          { opacity: 0, y: 56, rotateX: 9, transformPerspective: 1200 },
-          { opacity: 1, y: 0, rotateX: 0, duration: 1.2 },
-          0.62
-        );
+      /* ---- the type wall ---- */
+      gsap
+        .timeline({ defaults: { ease: 'power3.out' } })
+        .fromTo('.aur-hero__top', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.55 })
+        .to('.aur-word', { opacity: 1, duration: 0.01, stagger: 0.05 }, 0.12)
+        .to('.aur-word > span', { y: '0%', duration: 1.25, stagger: 0.05, ease: EASE }, 0.12)
+        .fromTo('.aur-hero__sub', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, 0.58)
+        .fromTo('.aur-hero__act', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, 0.64);
 
-      gsap.fromTo(
-        '.aur-panel__bar i, .aur-panel__meter i',
-        { scaleX: 0 },
-        { scaleX: 1, transformOrigin: 'left center', duration: 1.1, stagger: 0.08, ease: 'power2.out', delay: 1.1 }
-      );
-
-      /* ---- everything below the fold ----
-         batchMax and the stagger are deliberately tight. A single column phone
-         layout drops twenty elements into one batch, and a long cascade leaves
-         the tail of it sitting at exactly opacity 0 for seconds after the
-         trigger fired. Keep the whole tail under about 0.8s. */
       ScrollTrigger.batch(
         anims.filter((el) => !heroSet.has(el)),
         {
@@ -464,58 +432,42 @@ const marquee = [...c.logos.items, ...c.logos.items];
           onEnter: (batch) =>
             gsap.fromTo(
               batch,
-              { opacity: 0, y: 30 },
+              { opacity: 0, y: 26 },
               { opacity: 1, y: 0, duration: 0.65, stagger: 0.05, ease: 'power3.out', overwrite: 'auto' }
             ),
         }
       );
 
-      /* ---- ambient mesh ---- */
-      const drift = [
-        ['.aur-mesh__blob--a', 13, -11, 1.16, 15],
-        ['.aur-mesh__blob--b', -12, 14, 1.1, 19],
-        ['.aur-mesh__blob--c', 9, 12, 1.2, 23],
-      ];
-      drift.forEach(([sel, x, y, s, d]) => {
-        gsap.to(sel, {
-          xPercent: x,
-          yPercent: y,
-          scale: s,
-          duration: d,
-          ease: 'sine.inOut',
-          repeat: -1,
-          yoyo: true,
-        });
-      });
+      /* ---- ticker. Track holds the list three times, so -33.3% is seamless ---- */
+      const track = root.querySelector('.aur-ticker__track');
+      if (track) gsap.to(track, { xPercent: -33.3333, duration: 34, ease: 'none', repeat: -1 });
 
-      /* ---- logo marquee. The track holds the list twice, so -50% is seamless ---- */
-      const track = root.querySelector('.aur-marq__track');
-      if (track) gsap.to(track, { xPercent: -50, duration: 30, ease: 'none', repeat: -1 });
-
-      /* ---- orbit rings ---- */
-      gsap.to('.aur-orbit__ring--1', { rotate: 360, duration: 34, ease: 'none', repeat: -1 });
-      gsap.to('.aur-orbit__ring--2', { rotate: -360, duration: 46, ease: 'none', repeat: -1 });
-
-      /* ---- parallax. Transform only. A scrubbed opacity would leave content
-             invisible whenever the page is scrolled back to the top ---- */
-      gsap.to('.aur-panel', {
-        yPercent: -5,
-        ease: 'none',
-        scrollTrigger: { trigger: '.aur-hero', start: 'top top', end: 'bottom top', scrub: 0.6 },
-      });
-
-      /* ---- bento ring arc ---- */
-      const arc = root.querySelector('.aur-tile__ringArc');
-      if (arc) {
+      /* ---- bento tile hairline sweep on hover, plus the gauge fill ---- */
+      const gauge = root.querySelector('[data-gauge]');
+      if (gauge) {
         ScrollTrigger.create({
-          trigger: arc,
+          trigger: gauge,
           start: 'top 92%',
           once: true,
-          onEnter: () => gsap.fromTo(arc, { strokeDashoffset: 214 }, { strokeDashoffset: 64, duration: 1.4, ease: 'power2.out' }),
+          onEnter: () =>
+            gsap.fromTo(gauge, { scaleX: 0 }, { scaleX: 0.68, duration: 1.2, ease: 'power3.out' }),
         });
       }
 
-      /* ---- magnetic primary button ---- */
+      gsap.fromTo(
+        '.aur-spark i',
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          transformOrigin: 'bottom center',
+          duration: 0.7,
+          stagger: 0.06,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.aur-spark', start: 'top 92%', once: true },
+        }
+      );
+
+      /* ---- magnetic buttons ---- */
       if (!window.matchMedia('(hover: none)').matches) {
         q('.aur-btn--mag').forEach((btn) => {
           const label = btn.querySelector('span');
@@ -523,8 +475,8 @@ const marquee = [...c.logos.items, ...c.logos.items];
             const r = btn.getBoundingClientRect();
             const x = e.clientX - r.left - r.width / 2;
             const y = e.clientY - r.top - r.height / 2;
-            gsap.to(btn, { x: x * 0.3, y: y * 0.36, duration: 0.5, ease: 'power3.out' });
-            if (label) gsap.to(label, { x: x * 0.12, y: y * 0.14, duration: 0.5, ease: 'power3.out' });
+            gsap.to(btn, { x: x * 0.26, y: y * 0.34, duration: 0.5, ease: 'power3.out' });
+            if (label) gsap.to(label, { x: x * 0.1, y: y * 0.12, duration: 0.5, ease: 'power3.out' });
           });
           btn.addEventListener('pointerleave', () => {
             gsap.to([btn, label].filter(Boolean), { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.45)' });
@@ -533,16 +485,16 @@ const marquee = [...c.logos.items, ...c.logos.items];
       }
     }
 
-    /* ---- counting stats. Runs under reduced motion too, just instantly ---- */
+    /* ---- counting stats ---- */
     q('[data-count]').forEach((el) => {
       const raw = el.getAttribute('data-count') || '';
       const m = raw.match(/^(\D*)([\d.,]+)(.*)$/);
-      if (!m) return;
+      if (!m || reduced) return;
       const [, pre, num, post] = m;
       const target = parseFloat(num.replace(/,/g, ''));
+      if (!isFinite(target)) return;
       const decimals = (num.split('.')[1] || '').length;
       const grouped = num.indexOf(',') > -1;
-      if (reduced || !isFinite(target)) return;
       const proxy = { v: 0 };
       ScrollTrigger.create({
         trigger: el,
@@ -551,7 +503,7 @@ const marquee = [...c.logos.items, ...c.logos.items];
         onEnter: () =>
           gsap.to(proxy, {
             v: target,
-            duration: 1.6,
+            duration: 1.5,
             ease: 'power2.out',
             onUpdate: () => {
               const fixed = proxy.v.toFixed(decimals);
@@ -564,8 +516,6 @@ const marquee = [...c.logos.items, ...c.logos.items];
       });
     });
 
-    /* A webfont swapping in after the triggers are measured leaves every pinned
-       and batched start position wrong. Recalculate once the fonts land. */
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(() => ScrollTrigger.refresh());
     }
@@ -574,126 +524,68 @@ const marquee = [...c.logos.items, ...c.logos.items];
 
 <style is:global>
   .aur {
-    --bg: #07070c;
-    --bg-2: #0b0b13;
-    --glass: rgba(255, 255, 255, 0.045);
-    --glass-2: rgba(255, 255, 255, 0.075);
-    --line: rgba(255, 255, 255, 0.09);
-    --line-2: rgba(255, 255, 255, 0.16);
-    --fg: #f4f4f7;
-    --fg-2: #b3b4c2;
-    --fg-3: #8b8c99;
-    --vio: #a78bfa;
-    --cya: #22d3ee;
-    --pin: #f472b6;
-    --grad: linear-gradient(135deg, #7c3aed 0%, #a855f7 45%, #c026d3 100%);
-    --r: 22px;
+    --ink: #0e1012;
+    --ink-2: #14171a;
+    --ink-3: #1b1f23;
+    --line: rgba(242, 243, 239, 0.11);
+    --line-2: rgba(242, 243, 239, 0.22);
+    --fg: #f2f3ef;
+    --fg-2: #a8ada6;
+    --fg-3: #7c837c;
+    --acid: #d4ff3d;
+    --acid-dim: #a8cc26;
+    --r: 6px;
 
+    background: var(--ink);
+    color: var(--fg);
+    font-family: 'Geist', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    letter-spacing: -0.014em;
     position: relative;
     isolation: isolate;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: 'Instrument Sans', system-ui, -apple-system, sans-serif;
-    font-size: 16px;
-    letter-spacing: -0.012em;
     overflow: clip;
   }
 
-  /* ---------- ambient ---------- */
-  .aur-mesh {
+  .aur-grain {
     position: fixed;
     inset: 0;
-    z-index: 0;
+    z-index: 40;
     pointer-events: none;
-    overflow: hidden;
-  }
-
-  .aur-mesh__blob {
-    position: absolute;
-    display: block;
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.5;
-    will-change: transform;
-  }
-
-  .aur-mesh__blob--a {
-    width: 46vw;
-    height: 46vw;
-    top: -14vw;
-    left: -8vw;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.85), transparent 66%);
-  }
-
-  .aur-mesh__blob--b {
-    width: 40vw;
-    height: 40vw;
-    top: 6vw;
-    right: -10vw;
-    background: radial-gradient(circle, rgba(34, 211, 238, 0.55), transparent 66%);
-  }
-
-  .aur-mesh__blob--c {
-    width: 38vw;
-    height: 38vw;
-    top: 46vh;
-    left: 34vw;
-    background: radial-gradient(circle, rgba(236, 72, 153, 0.42), transparent 66%);
-  }
-
-  .aur-grid-lines {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.5;
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-    background-size: 76px 76px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 78%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 78%);
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   .aur-wrap {
     width: 100%;
-    max-width: 1160px;
+    max-width: 1280px;
     margin-inline: auto;
-    padding-inline: 24px;
-    position: relative;
-    z-index: 1;
+    padding-inline: 32px;
   }
 
-  .aur-glass {
-    background: var(--glass);
-    border: 1px solid var(--line);
-    border-radius: var(--r);
-    backdrop-filter: blur(18px) saturate(130%);
-    -webkit-backdrop-filter: blur(18px) saturate(130%);
+  .aur-mono {
+    font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
-  /* ---------- nav ---------- */
+  /* ---------- nav. A spec sheet header, not a floating glass pill ---------- */
   .aur-nav {
     position: sticky;
-    top: 14px;
+    top: 0;
     z-index: 60;
-    padding-inline: 24px;
-    margin-bottom: -74px;
+    background: rgba(14, 16, 18, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
   }
 
-  .aur-nav__pill {
-    max-width: 1000px;
-    margin-inline: auto;
-    height: 60px;
-    padding: 0 10px 0 18px;
+  .aur-nav__in {
     display: flex;
     align-items: center;
-    gap: 28px;
-    border-radius: 999px;
-    background: rgba(11, 11, 19, 0.72);
-    border: 1px solid var(--line);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    gap: 40px;
+    height: 62px;
   }
 
   .aur-brand {
@@ -701,139 +593,178 @@ const marquee = [...c.logos.items, ...c.logos.items];
     align-items: center;
     gap: 10px;
     text-decoration: none;
-    font-weight: 600;
-    letter-spacing: -0.03em;
     flex: none;
   }
 
   .aur-brand__mark {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     display: grid;
     place-items: center;
-    border-radius: 9px;
-    background: var(--grad);
+    border-radius: 3px;
+    background: var(--acid);
+    color: var(--ink);
     font-size: 13px;
     font-weight: 700;
-    color: #fff;
+  }
+
+  .aur-brand__name {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.035em;
   }
 
   .aur-nav__links {
     display: flex;
-    gap: 26px;
+    gap: 30px;
     margin-inline: auto;
-    font-size: 14px;
   }
 
   .aur-nav__links a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 7px;
+    font-size: 14px;
     color: var(--fg-2);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.3s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .aur-nav__links a:hover {
-    color: var(--fg);
+    color: var(--acid);
   }
 
-  /* ---------- buttons ---------- */
+  .aur-nav__links em {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-style: normal;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--fg-3);
+  }
+
+  /* ---------- buttons. Square edges, nested icon well ---------- */
   .aur-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    height: 48px;
-    padding: 0 24px;
-    border-radius: 999px;
-    background: var(--grad);
-    color: #fff;
+    gap: 12px;
+    height: 50px;
+    padding: 0 12px 0 24px;
+    border-radius: var(--r);
+    background: var(--acid);
+    color: var(--ink);
     font-size: 15px;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
     text-decoration: none;
     white-space: nowrap;
-    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.34);
-    transition: box-shadow 0.25s ease, filter 0.25s ease;
+    transition: background 0.4s cubic-bezier(0.32, 0.72, 0, 1), color 0.4s cubic-bezier(0.32, 0.72, 0, 1);
     will-change: transform;
   }
 
-  .aur-btn:hover {
-    filter: brightness(1.08);
-    box-shadow: 0 12px 40px rgba(124, 58, 237, 0.46);
+  .aur-btn:active {
+    transform: scale(0.985);
+  }
+
+  .aur-btn__ico {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 4px;
+    background: rgba(14, 16, 18, 0.13);
+    flex: none;
+    transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1), background 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .aur-btn:hover .aur-btn__ico {
+    transform: translate(2px, -2px);
+    background: rgba(14, 16, 18, 0.22);
   }
 
   .aur-btn--sm {
-    height: 40px;
-    padding: 0 18px;
-    font-size: 14px;
+    height: 36px;
+    padding: 0 16px;
+    font-size: 13.5px;
     flex: none;
   }
 
   .aur-btn--ghost {
-    background: var(--glass-2);
-    border: 1px solid var(--line-2);
+    background: transparent;
     color: var(--fg);
-    box-shadow: none;
+    box-shadow: inset 0 0 0 1px var(--line-2);
+    padding: 0 24px;
   }
 
   .aur-btn--ghost:hover {
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: none;
+    background: var(--ink-3);
+    box-shadow: inset 0 0 0 1px var(--line-2);
+  }
+
+  .aur-btn--inv {
+    background: var(--ink);
+    color: var(--acid);
+  }
+
+  .aur-btn--inv .aur-btn__ico {
+    background: rgba(212, 255, 61, 0.16);
+  }
+
+  .aur-btn--inv:hover .aur-btn__ico {
+    background: rgba(212, 255, 61, 0.28);
   }
 
   .aur-btn--full {
     width: 100%;
+    padding-inline: 24px;
   }
 
-  /* ---------- hero ---------- */
+  /* ---------- THE TYPE WALL ---------- */
   .aur-hero {
-    padding: 168px 0 110px;
-    text-align: center;
+    padding: 76px 0 0;
+    border-bottom: 1px solid var(--line);
   }
 
-  .aur-pill {
+  .aur-hero__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 26px;
+    border-bottom: 1px solid var(--line);
+    color: var(--fg-3);
+    flex-wrap: wrap;
+  }
+
+  .aur-hero__beta {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
-    height: 34px;
-    padding: 0 14px;
-    border-radius: 999px;
-    background: var(--glass);
-    border: 1px solid var(--line);
-    font-size: 13px;
-    color: var(--fg-2);
-    text-decoration: none;
-    transition: border-color 0.2s ease, color 0.2s ease;
+    gap: 8px;
+    color: var(--acid);
   }
 
-  .aur-pill:hover {
-    border-color: var(--line-2);
-    color: var(--fg);
-  }
-
-  .aur-pill__dot {
+  .aur-hero__beta i {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--cya);
-    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18);
-  }
-
-  .aur-pill__go {
-    color: var(--fg-3);
+    background: var(--acid);
   }
 
   .aur-h1 {
-    margin: 26px auto 0;
-    max-width: 15ch;
-    font-size: clamp(2.55rem, 6.1vw, 4.9rem);
-    line-height: 0.99;
-    font-weight: 500;
-    letter-spacing: -0.048em;
+    padding: 46px 0 40px;
+    font-size: clamp(2.9rem, 11.4vw, 10.6rem);
+    line-height: 0.85;
+    font-weight: 600;
+    letter-spacing: -0.058em;
   }
 
-  .aur-h1--sm {
-    font-size: clamp(2.1rem, 4.6vw, 3.5rem);
-    max-width: 18ch;
+  .aur-h1__row {
+    display: block;
+  }
+
+  .aur-h1__row--acc {
+    color: var(--acid);
+    padding-left: clamp(0px, 8vw, 148px);
   }
 
   .aur-word {
@@ -842,7 +773,7 @@ const marquee = [...c.logos.items, ...c.logos.items];
     vertical-align: top;
     padding-bottom: 0.09em;
     margin-bottom: -0.09em;
-    margin-right: 0.24em;
+    margin-right: 0.2em;
   }
 
   .aur-word > span {
@@ -850,320 +781,203 @@ const marquee = [...c.logos.items, ...c.logos.items];
   }
 
   html.js .aur-word > span {
-    transform: translateY(108%);
+    transform: translateY(106%);
   }
 
-  .aur-word--acc {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: -0.02em;
+  .aur-hero__foot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    padding: 34px 0 44px;
+    border-top: 1px solid var(--line);
+    align-items: start;
   }
 
-  /* The gradient has to be clipped to the INNER span. Put it on the outer mask
-     element and background-clip: text finds no glyphs of its own to clip to,
-     so the whole line renders transparent and the headline loses a line. */
-  .aur-word--acc > span {
-    background: linear-gradient(100deg, #c4b5fd 0%, #67e8f9 52%, #f9a8d4 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    padding-bottom: 0.06em;
-  }
-
-  .aur-sub {
-    margin: 24px auto 0;
-    max-width: 60ch;
-    font-size: clamp(1rem, 1.35vw, 1.13rem);
-    line-height: 1.62;
+  .aur-hero__sub {
+    font-size: clamp(1rem, 1.25vw, 1.14rem);
+    line-height: 1.55;
     color: var(--fg-2);
+    max-width: 44ch;
   }
 
-  .aur-hero__cta {
-    margin-top: 34px;
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .aur-note {
-    margin-top: 18px;
-    font-size: 13px;
-    color: var(--fg-3);
-  }
-
-  /* ---------- hero panel ---------- */
-  .aur-panel {
-    margin-top: 76px;
-    border-radius: 20px;
-    overflow: hidden;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.028));
-    border: 1px solid var(--line-2);
-    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
-    text-align: left;
-    will-change: transform;
-  }
-
-  .aur-panel__bar {
+  .aur-hero__act {
     display: flex;
     align-items: center;
-    gap: 14px;
-    height: 44px;
-    padding-inline: 16px;
-    border-bottom: 1px solid var(--line);
-    background: rgba(255, 255, 255, 0.03);
-  }
-
-  .aur-panel__dots {
-    display: flex;
-    gap: 6px;
-  }
-
-  .aur-panel__dots i {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.16);
-  }
-
-  .aur-panel__url {
-    font-size: 12px;
-    color: var(--fg-3);
-  }
-
-  .aur-panel__body {
-    display: grid;
-    grid-template-columns: 176px 1fr;
-    min-height: 300px;
-  }
-
-  .aur-panel__side {
-    border-right: 1px solid var(--line);
-    padding: 16px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .aur-panel__nav {
-    padding: 9px 12px;
-    border-radius: 9px;
-    font-size: 13px;
-    color: var(--fg-3);
-  }
-
-  .aur-panel__nav.is-on {
-    background: rgba(255, 255, 255, 0.07);
-    color: var(--fg);
-  }
-
-  .aur-panel__main {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .aur-panel__cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
-  .aur-panel__card {
-    padding: 14px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--line);
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .aur-panel__card em {
-    font-style: normal;
-    font-size: 12px;
+  .aur-hero__note {
+    flex-basis: 100%;
+    text-align: right;
     color: var(--fg-3);
+    letter-spacing: 0.06em;
   }
 
-  .aur-panel__card strong {
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: -0.03em;
-  }
-
-  .aur-panel__meter {
-    display: block;
-    height: 4px;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.09);
-    overflow: hidden;
-    margin-top: 4px;
-  }
-
-  .aur-panel__meter i {
-    display: block;
-    height: 100%;
-    width: var(--pct);
-    border-radius: 4px;
-    background: var(--grad);
-  }
-
-  .aur-panel__chart {
-    flex: 1;
+  /* ---------- ticker ---------- */
+  .aur-ticker {
     display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    min-height: 148px;
-    padding: 16px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.026);
-    border: 1px solid var(--line);
-  }
-
-  .aur-panel__bar {
-    flex: 1;
-    height: var(--h);
-    border-radius: 5px 5px 2px 2px;
-    background: linear-gradient(180deg, rgba(167, 139, 250, 0.9), rgba(34, 211, 238, 0.25));
-  }
-
-  /* ---------- marquee ---------- */
-  .aur-marq {
-    padding: 26px 0 70px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .aur-marq__label {
-    text-align: center;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--fg-3);
-    margin-bottom: 26px;
-  }
-
-  .aur-marq__mask {
+    align-items: center;
+    gap: 28px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
     overflow: hidden;
-    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
   }
 
-  .aur-marq__track {
-    display: flex;
-    gap: 68px;
-    width: max-content;
-    will-change: transform;
-  }
-
-  .aur-marq__item {
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: -0.03em;
+  .aur-ticker__label {
+    flex: none;
+    padding-left: 32px;
     color: var(--fg-3);
     white-space: nowrap;
   }
 
-  /* ---------- sections ---------- */
-  .aur-sec {
-    padding: 90px 0;
-    position: relative;
-    z-index: 1;
+  .aur-ticker__mask {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 4%, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 92%, transparent);
   }
 
-  .aur-head {
-    max-width: 62ch;
-    margin-bottom: 52px;
+  .aur-ticker__track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .aur-ticker__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 26px;
+    padding-right: 26px;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    color: var(--fg-2);
+    white-space: nowrap;
+  }
+
+  .aur-ticker__item i {
+    font-style: normal;
+    color: var(--acid-dim);
+  }
+
+  /* ---------- sections ---------- */
+  .aur-sec {
+    padding: 104px 0;
+  }
+
+  .aur-sec--rule {
+    border-top: 1px solid var(--line);
+  }
+
+  .aur-two {
+    display: grid;
+    grid-template-columns: 0.36fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .aur-two__l {
+    position: sticky;
+    top: 100px;
   }
 
   .aur-eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--vio);
-    margin-bottom: 14px;
+    color: var(--acid);
+    margin-bottom: 16px;
+  }
+
+  .aur-head {
+    max-width: 58ch;
+    margin-bottom: 56px;
   }
 
   .aur-h2 {
-    font-size: clamp(1.85rem, 3.5vw, 2.9rem);
-    line-height: 1.06;
-    font-weight: 500;
-    letter-spacing: -0.04em;
+    font-size: clamp(1.9rem, 3.9vw, 3.3rem);
+    line-height: 1.02;
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  .aur-h2--sm {
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
   }
 
   .aur-lead {
-    margin-top: 16px;
-    font-size: 1.03rem;
-    line-height: 1.65;
+    margin-top: 20px;
+    font-size: 1.05rem;
+    line-height: 1.6;
     color: var(--fg-2);
+    max-width: 56ch;
   }
 
-  .aur-three {
+  .aur-rows {
+    margin-top: 52px;
+  }
+
+  .aur-row {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    grid-template-columns: 66px 1fr;
+    gap: 20px;
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
   }
 
-  .aur-prob {
-    padding: 26px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .aur-row:last-child {
+    border-bottom: 1px solid var(--line);
   }
 
-  .aur-prob__n {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-style: italic;
-    font-size: 30px;
-    line-height: 1;
-    color: var(--vio);
-    margin-bottom: 4px;
+  .aur-row__n {
+    color: var(--fg-3);
+    padding-top: 4px;
   }
 
-  .aur-prob h3 {
-    font-size: 1.06rem;
+  .aur-row h3 {
+    font-size: 1.14rem;
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    margin-bottom: 9px;
   }
 
-  .aur-prob p {
-    font-size: 0.925rem;
-    line-height: 1.62;
+  .aur-row p {
+    font-size: 0.95rem;
+    line-height: 1.6;
     color: var(--fg-2);
+    max-width: 58ch;
   }
 
-  /* ---------- BENTO. The layout engine of this skin ---------- */
+  /* ---------- BENTO. Double bezel: outer tray, inner core ---------- */
   .aur-bento {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: minmax(196px, auto);
-    gap: 18px;
+    grid-auto-rows: minmax(200px, auto);
+    gap: 12px;
   }
 
   .aur-tile {
-    position: relative;
-    padding: 26px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow: hidden;
-    transition: border-color 0.3s ease, background 0.3s ease;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 5px;
+    transition: border-color 0.45s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .aur-tile:hover {
     border-color: var(--line-2);
-    background: var(--glass-2);
   }
 
-  .aur-tile::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: radial-gradient(420px 220px at 80% 0%, rgba(167, 139, 250, 0.14), transparent 70%);
+  .aur-tile__in {
+    height: 100%;
+    background: var(--ink);
+    border-radius: 6px;
+    box-shadow: inset 0 1px 0 rgba(242, 243, 239, 0.05);
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .aur-tile--1 {
@@ -1180,295 +994,292 @@ const marquee = [...c.logos.items, ...c.logos.items];
     grid-column: span 2;
   }
 
-  .aur-tile__glyph {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-style: italic;
-    font-size: 26px;
-    line-height: 1;
-    color: var(--cya);
+  .aur-tile__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .aur-tile__n {
+    color: var(--acid);
+  }
+
+  .aur-tile__dot {
+    color: var(--fg-3);
   }
 
   .aur-tile__t {
-    font-size: 1.1rem;
+    font-size: 1.16rem;
     font-weight: 600;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.035em;
   }
 
   .aur-tile__b {
-    font-size: 0.925rem;
-    line-height: 1.62;
+    font-size: 0.93rem;
+    line-height: 1.6;
     color: var(--fg-2);
-    max-width: 46ch;
+    max-width: 44ch;
   }
 
-  .aur-tile__vis {
+  .aur-mock {
     margin-top: auto;
     padding-top: 22px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    position: relative;
-    z-index: 1;
   }
 
-  .aur-tile__row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.04);
+  .aur-mock__bar {
+    padding: 9px 12px;
     border: 1px solid var(--line);
-    font-size: 13px;
+    border-bottom: 0;
+    border-radius: 5px 5px 0 0;
+    background: var(--ink-2);
+    color: var(--fg-3);
   }
 
-  .aur-tile__av {
-    width: 24px;
-    height: 24px;
+  .aur-mock__body {
+    border: 1px solid var(--line);
+    border-radius: 0 0 5px 5px;
+    overflow: hidden;
+  }
+
+  .aur-mock__row {
     display: grid;
-    place-items: center;
-    border-radius: 8px;
-    background: var(--grad);
-    font-size: 11px;
-    font-weight: 700;
-    font-style: normal;
-    color: #fff;
-    flex: none;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 12px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--line);
   }
 
-  .aur-tile__row em {
+  .aur-mock__row:last-child {
+    border-bottom: 0;
+  }
+
+  .aur-mock__row em {
     font-style: normal;
-    color: var(--fg-2);
-    flex: 1;
-    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .aur-tile__tag {
-    font-size: 11px;
-    font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.07);
+  .aur-mock__row b {
+    font-weight: 400;
     color: var(--fg-3);
-    flex: none;
+    white-space: nowrap;
   }
 
-  .aur-tile__tag.is-live {
-    background: rgba(34, 211, 238, 0.14);
-    color: #67e8f9;
+  .aur-mock__tag {
+    text-decoration: none;
+    padding: 3px 7px;
+    border-radius: 3px;
+    background: var(--ink-3);
+    color: var(--fg-3);
+    font-size: 10px;
   }
 
-  .aur-tile__ring {
+  .aur-mock__tag.is-on {
+    background: var(--acid);
+    color: var(--ink);
+  }
+
+  .aur-gauge {
     margin-top: auto;
-    padding-top: 18px;
+    padding-top: 20px;
     display: flex;
     align-items: center;
     gap: 16px;
-    position: relative;
-    z-index: 1;
   }
 
-  .aur-tile__ring span {
+  .aur-gauge__bar {
+    flex: 1;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--ink-3);
+    overflow: hidden;
+  }
+
+  .aur-gauge__bar i {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: var(--acid);
+    transform: scaleX(0.68);
+    transform-origin: left center;
+  }
+
+  .aur-gauge__val {
     font-size: 26px;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+  }
+
+  .aur-gauge__val em {
+    font-style: normal;
+    font-size: 14px;
+    color: var(--fg-3);
+  }
+
+  .aur-spark {
+    margin-top: auto;
+    padding-top: 20px;
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 66px;
+  }
+
+  .aur-spark i {
+    flex: 1;
+    height: var(--h);
+    border-radius: 2px;
+    background: var(--acid-dim);
+  }
+
+  /* ---------- showcase ---------- */
+  .aur-stack {
+    margin-top: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .aur-stack__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 15px 16px;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    margin-left: calc(var(--n) * 12px);
+    transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1), border-color 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .aur-stack__row:hover {
+    transform: translateX(5px);
+    border-color: var(--line-2);
+  }
+
+  .aur-stack__row strong {
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .aur-stack__row em {
+    font-style: normal;
+    color: var(--fg-3);
+  }
+
+  .aur-stack__hub {
+    margin-top: 10px;
+    padding: 20px;
+    background: var(--acid);
+    color: var(--ink);
+    border-radius: var(--r);
+    text-align: center;
+  }
+
+  .aur-stack__hub strong {
+    display: block;
+    font-size: 1.2rem;
     font-weight: 600;
     letter-spacing: -0.04em;
   }
 
-  /* ---------- showcase ---------- */
-  .aur-split {
-    display: grid;
-    grid-template-columns: 1fr 0.86fr;
-    gap: 64px;
-    align-items: center;
+  .aur-stack__hub em {
+    display: block;
+    margin-top: 4px;
+    font-style: normal;
+    opacity: 0.62;
   }
 
   .aur-checks {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
+    margin-top: 36px;
   }
 
   .aur-checks li {
     display: flex;
-    align-items: flex-start;
-    gap: 11px;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    align-items: baseline;
+    gap: 18px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+    font-size: 0.98rem;
     color: var(--fg-2);
   }
 
-  .aur-checks svg {
+  .aur-checks li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aur-checks em {
+    font-style: normal;
+    color: var(--acid);
     flex: none;
-    margin-top: 3px;
-    color: var(--cya);
-  }
-
-  .aur-orbit {
-    position: relative;
-    width: min(100%, 380px);
-    aspect-ratio: 1;
-    margin-inline: auto;
-  }
-
-  .aur-orbit__core {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 76px;
-    height: 76px;
-    display: grid;
-    place-items: center;
-    border-radius: 24px;
-    background: var(--grad);
-    font-size: 28px;
-    font-weight: 700;
-    color: #fff;
-    box-shadow: 0 16px 50px rgba(124, 58, 237, 0.5);
-    z-index: 2;
-  }
-
-  .aur-orbit__ring {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    border-radius: 50%;
-    border: 1px dashed var(--line-2);
-    transform: translate(-50%, -50%);
-    will-change: transform;
-  }
-
-  .aur-orbit__ring--1 {
-    width: 62%;
-    height: 62%;
-  }
-
-  .aur-orbit__ring--2 {
-    width: 100%;
-    height: 100%;
-    border-style: solid;
-    border-color: var(--line);
-  }
-
-  .aur-orbit__node {
-    position: absolute;
-    padding: 8px 14px;
-    border-radius: 999px;
-    background: rgba(11, 11, 19, 0.9);
-    border: 1px solid var(--line-2);
-    font-size: 12.5px;
-    color: var(--fg-2);
-    white-space: nowrap;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-  }
-
-  .aur-orbit__node--1 {
-    left: 50%;
-    top: 0;
-  }
-
-  .aur-orbit__node--2 {
-    left: 100%;
-    top: 50%;
-  }
-
-  .aur-orbit__node--3 {
-    left: 50%;
-    top: 100%;
-  }
-
-  .aur-orbit__node--4 {
-    left: 0;
-    top: 50%;
   }
 
   /* ---------- stats ---------- */
   .aur-stats {
-    padding: 34px 0 70px;
-    position: relative;
-    z-index: 1;
+    border-top: 1px solid var(--line);
+    padding: 72px 0;
   }
 
   .aur-stats__row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+    gap: 24px;
   }
 
   .aur-stat {
-    padding: 26px 22px;
-    border-radius: var(--r);
-    background: var(--glass);
-    border: 1px solid var(--line);
-    text-align: center;
+    padding-left: 20px;
+    border-left: 1px solid var(--line-2);
   }
 
   .aur-stat strong {
     display: block;
-    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-size: clamp(2.1rem, 4.2vw, 3.4rem);
     font-weight: 600;
-    letter-spacing: -0.045em;
-    background: linear-gradient(120deg, #ddd6fe, #67e8f9);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    letter-spacing: -0.06em;
+    line-height: 1;
+    color: var(--acid);
     font-variant-numeric: tabular-nums;
   }
 
   .aur-stat span {
     display: block;
-    margin-top: 8px;
-    font-size: 13px;
+    margin-top: 12px;
     color: var(--fg-3);
   }
 
   /* ---------- proof ---------- */
-  .aur-quote {
-    padding: 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    position: relative;
+  .aur-quotes {
+    margin-top: 46px;
   }
 
-  .aur-quote__mark {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-size: 60px;
-    line-height: 0.5;
-    color: var(--vio);
-    opacity: 0.5;
+  .aur-quote {
+    display: grid;
+    grid-template-columns: 66px 1fr 220px;
+    gap: 24px;
+    padding: 30px 0;
+    border-top: 1px solid var(--line);
+    align-items: start;
+  }
+
+  .aur-quote:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .aur-quote__n {
+    color: var(--fg-3);
+    padding-top: 5px;
   }
 
   .aur-quote blockquote {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--fg);
-    flex: 1;
-  }
-
-  .aur-quote figcaption {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
-  }
-
-  .aur-quote__av {
-    width: 38px;
-    height: 38px;
-    display: grid;
-    place-items: center;
-    border-radius: 12px;
-    background: var(--glass-2);
-    border: 1px solid var(--line-2);
-    font-weight: 600;
-    flex: none;
+    font-size: clamp(1.02rem, 1.6vw, 1.3rem);
+    line-height: 1.42;
+    letter-spacing: -0.028em;
   }
 
   .aur-quote figcaption strong {
@@ -1479,139 +1290,126 @@ const marquee = [...c.logos.items, ...c.logos.items];
 
   .aur-quote figcaption em {
     display: block;
+    margin-top: 5px;
     font-style: normal;
-    font-size: 12.5px;
     color: var(--fg-3);
-    margin-top: 2px;
   }
 
   /* ---------- pricing ---------- */
   .aur-plans {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    align-items: start;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
   }
 
   .aur-plan {
-    padding: 30px 26px;
+    padding: 32px 28px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    position: relative;
+    gap: 16px;
+    border-right: 1px solid var(--line);
+  }
+
+  .aur-plan:last-child {
+    border-right: 0;
   }
 
   .aur-plan.is-feat {
-    border-color: transparent;
-    background:
-      linear-gradient(var(--bg-2), var(--bg-2)) padding-box,
-      var(--grad) border-box;
-    border: 1px solid transparent;
-    box-shadow: 0 24px 70px rgba(124, 58, 237, 0.24);
+    background: var(--ink-2);
+  }
+
+  .aur-plan header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .aur-plan header span:first-child {
+    color: var(--fg-3);
+  }
+
+  .aur-plan header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.035em;
   }
 
   .aur-plan__tag {
-    position: absolute;
-    top: -11px;
-    left: 26px;
-    padding: 4px 12px;
-    border-radius: 999px;
-    background: var(--grad);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: #fff;
-  }
-
-  .aur-plan__n {
-    font-size: 1.06rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-
-  .aur-plan__blurb {
-    font-size: 0.9rem;
-    line-height: 1.55;
-    color: var(--fg-3);
-    min-height: 2.9em;
+    margin-left: auto;
+    padding: 4px 9px;
+    border-radius: 3px;
+    background: var(--acid);
+    color: var(--ink);
+    font-size: 10px;
   }
 
   .aur-plan__price {
     display: flex;
     align-items: baseline;
-    gap: 8px;
-    padding-bottom: 6px;
+    gap: 10px;
   }
 
   .aur-plan__price strong {
-    font-size: 2.4rem;
+    font-size: 2.7rem;
     font-weight: 600;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.065em;
+    line-height: 1;
   }
 
   .aur-plan__price em {
     font-style: normal;
-    font-size: 13px;
     color: var(--fg-3);
   }
 
-  .aur-plan__feat {
-    display: flex;
-    flex-direction: column;
-    gap: 11px;
-    padding-top: 6px;
+  .aur-plan__blurb {
+    font-size: 0.91rem;
+    line-height: 1.55;
+    color: var(--fg-2);
+    min-height: 3em;
   }
 
   .aur-plan__feat li {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    padding: 11px 0;
+    border-top: 1px solid var(--line);
     font-size: 0.9rem;
-    line-height: 1.5;
     color: var(--fg-2);
-  }
-
-  .aur-plan__feat svg {
-    flex: none;
-    margin-top: 3px;
-    color: var(--vio);
   }
 
   .aur-guar {
-    margin-top: 22px;
-    padding: 34px;
-    text-align: center;
-  }
-
-  .aur-guar h3 {
-    font-size: clamp(1.25rem, 2.2vw, 1.7rem);
-    font-weight: 500;
-    letter-spacing: -0.035em;
-    margin-bottom: 12px;
-  }
-
-  .aur-guar p {
-    max-width: 68ch;
-    margin-inline: auto;
-    font-size: 0.96rem;
-    line-height: 1.65;
-    color: var(--fg-2);
-  }
-
-  /* ---------- faq ---------- */
-  .aur-faq {
+    margin-top: 12px;
+    padding: 38px;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
     display: grid;
-    grid-template-columns: 0.72fr 1fr;
-    gap: 64px;
+    grid-template-columns: 130px 1fr;
+    gap: 30px;
     align-items: start;
   }
 
-  .aur-faq__list {
-    display: flex;
-    flex-direction: column;
+  .aur-guar > span {
+    color: var(--acid);
+    padding-top: 6px;
   }
 
+  .aur-guar h3 {
+    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+
+  .aur-guar p {
+    font-size: 0.96rem;
+    line-height: 1.65;
+    color: var(--fg-2);
+    max-width: 64ch;
+  }
+
+  /* ---------- faq ---------- */
   .aur-faq__item {
     border-top: 1px solid var(--line);
   }
@@ -1623,23 +1421,34 @@ const marquee = [...c.logos.items, ...c.logos.items];
   .aur-faq__item summary {
     list-style: none;
     cursor: pointer;
-    padding: 22px 40px 22px 0;
+    padding: 24px 40px 24px 0;
     position: relative;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: -0.02em;
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 14px;
+    align-items: baseline;
   }
 
   .aur-faq__item summary::-webkit-details-marker {
     display: none;
   }
 
+  .aur-faq__item summary > span:first-child {
+    color: var(--fg-3);
+  }
+
+  .aur-faq__q {
+    font-size: 1.02rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+
   .aur-faq__ico {
     position: absolute;
-    right: 4px;
+    right: 2px;
     top: 50%;
-    width: 13px;
-    height: 13px;
+    width: 12px;
+    height: 12px;
     transform: translateY(-50%);
   }
 
@@ -1648,17 +1457,16 @@ const marquee = [...c.logos.items, ...c.logos.items];
     content: '';
     position: absolute;
     background: var(--fg-3);
-    border-radius: 2px;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .aur-faq__ico::before {
-    inset: 6px 0 auto 0;
+    inset: 5.5px 0 auto 0;
     height: 1.5px;
   }
 
   .aur-faq__ico::after {
-    inset: 0 6px 0 auto;
+    inset: 0 5.5px 0 auto;
     width: 1.5px;
   }
 
@@ -1666,46 +1474,67 @@ const marquee = [...c.logos.items, ...c.logos.items];
     transform: scaleY(0);
   }
 
+  .aur-faq__item[open] .aur-faq__ico::before {
+    background: var(--acid);
+  }
+
   .aur-faq__item p {
-    padding: 0 40px 24px 0;
-    font-size: 0.94rem;
+    padding: 0 40px 26px 66px;
+    font-size: 0.95rem;
     line-height: 1.68;
     color: var(--fg-2);
+    max-width: 76ch;
   }
 
-  /* ---------- cta ---------- */
+  /* ---------- THE ACID FLIP ---------- */
   .aur-cta {
-    position: relative;
-    padding: 110px 0 120px;
-    text-align: center;
-    overflow: hidden;
-  }
-
-  .aur-cta__glow {
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    width: min(1000px, 130vw);
-    height: 620px;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(ellipse, rgba(124, 58, 237, 0.35), rgba(34, 211, 238, 0.1) 45%, transparent 70%);
-    filter: blur(50px);
-    pointer-events: none;
+    background: var(--acid);
+    color: var(--ink);
+    padding: 132px 0;
   }
 
   .aur-cta__in {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+  }
+
+  .aur-cta__label {
+    color: rgba(14, 16, 18, 0.55);
+    padding-bottom: 26px;
+    margin-bottom: 34px;
+    border-bottom: 1px solid rgba(14, 16, 18, 0.18);
+    width: 100%;
+  }
+
+  .aur-cta__h {
+    font-size: clamp(2.7rem, 8.6vw, 7.4rem);
+    line-height: 0.88;
+    font-weight: 600;
+    letter-spacing: -0.06em;
+    max-width: 14ch;
+  }
+
+  .aur-cta__sub {
+    margin-top: 26px;
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.5;
+    max-width: 40ch;
+    color: rgba(14, 16, 18, 0.72);
+  }
+
+  .aur-cta .aur-btn {
+    margin-top: 38px;
+  }
+
+  .aur-cta__note {
+    margin-top: 20px;
+    color: rgba(14, 16, 18, 0.55);
   }
 
   /* ---------- footer ---------- */
   .aur-foot {
-    border-top: 1px solid var(--line);
-    padding: 62px 0 34px;
-    position: relative;
-    z-index: 1;
-    background: rgba(7, 7, 12, 0.7);
+    padding: 68px 0 34px;
   }
 
   .aur-foot__in {
@@ -1715,61 +1544,59 @@ const marquee = [...c.logos.items, ...c.logos.items];
   }
 
   .aur-foot__brand p {
-    margin-top: 14px;
-    font-size: 0.9rem;
+    margin-top: 16px;
+    font-size: 0.92rem;
     line-height: 1.6;
     color: var(--fg-3);
     max-width: 30ch;
   }
 
   .aur-foot__col h4 {
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
     color: var(--fg-3);
-    margin-bottom: 16px;
-    font-weight: 500;
+    margin-bottom: 18px;
   }
 
   .aur-foot__col ul {
     display: flex;
     flex-direction: column;
-    gap: 11px;
+    gap: 12px;
   }
 
   .aur-foot__col a {
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     color: var(--fg-2);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.3s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .aur-foot__col a:hover {
-    color: var(--fg);
+    color: var(--acid);
   }
 
   .aur-foot__legal {
-    margin-top: 52px;
-    padding-top: 22px;
+    margin-top: 56px;
+    padding-top: 24px;
     border-top: 1px solid var(--line);
     display: flex;
     justify-content: space-between;
     gap: 18px;
     flex-wrap: wrap;
-    font-size: 12.5px;
     color: var(--fg-3);
   }
 
   /* ---------- responsive ---------- */
-  @media (max-width: 1000px) {
+  @media (max-width: 1040px) {
     .aur-nav__links {
       display: none;
     }
 
-    .aur-split,
-    .aur-faq {
+    .aur-two {
       grid-template-columns: 1fr;
-      gap: 44px;
+      gap: 34px;
+    }
+
+    .aur-two__l {
+      position: static;
     }
 
     .aur-bento {
@@ -1780,13 +1607,48 @@ const marquee = [...c.logos.items, ...c.logos.items];
       grid-row: span 1;
     }
 
-    .aur-three,
-    .aur-plans {
+    .aur-hero__foot {
       grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .aur-hero__act {
+      justify-content: flex-start;
+    }
+
+    .aur-hero__note {
+      text-align: left;
+    }
+
+    .aur-quote {
+      grid-template-columns: 52px 1fr;
+    }
+
+    .aur-quote figcaption {
+      grid-column: 2;
     }
 
     .aur-stats__row {
       grid-template-columns: repeat(2, 1fr);
+      gap: 34px 24px;
+    }
+
+    .aur-plans {
+      grid-template-columns: 1fr;
+    }
+
+    .aur-plan {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .aur-plan:last-child {
+      border-bottom: 0;
+    }
+
+    .aur-guar {
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
 
     .aur-foot__in {
@@ -1795,12 +1657,30 @@ const marquee = [...c.logos.items, ...c.logos.items];
   }
 
   @media (max-width: 680px) {
+    .aur-wrap {
+      padding-inline: 20px;
+    }
+
+    .aur-ticker__label {
+      padding-left: 20px;
+    }
+
     .aur-hero {
-      padding: 132px 0 78px;
+      padding-top: 46px;
+    }
+
+    .aur-h1 {
+      padding: 32px 0 26px;
+      font-size: clamp(2.5rem, 13vw, 4.2rem);
+      line-height: 0.92;
+    }
+
+    .aur-h1__row--acc {
+      padding-left: 0;
     }
 
     .aur-sec {
-      padding: 64px 0;
+      padding: 68px 0;
     }
 
     .aur-bento {
@@ -1814,41 +1694,32 @@ const marquee = [...c.logos.items, ...c.logos.items];
       grid-column: span 1;
     }
 
-    .aur-panel__body {
+    .aur-row,
+    .aur-quote {
       grid-template-columns: 1fr;
+      gap: 10px;
     }
 
-    .aur-panel__side {
-      flex-direction: row;
-      overflow-x: auto;
-      border-right: 0;
-      border-bottom: 1px solid var(--line);
-      scrollbar-width: none;
-    }
-
-    .aur-panel__side::-webkit-scrollbar {
-      display: none;
-    }
-
-    .aur-panel__nav {
-      white-space: nowrap;
-    }
-
-    .aur-panel__cards {
-      grid-template-columns: 1fr;
-    }
-
-    .aur-hero__cta .aur-btn {
+    .aur-hero__act .aur-btn {
       width: 100%;
+      padding-inline: 24px;
+    }
+
+    .aur-cta {
+      padding: 84px 0;
+    }
+
+    .aur-guar {
+      padding: 26px;
+    }
+
+    .aur-faq__item p {
+      padding-left: 0;
     }
 
     .aur-foot__in {
       grid-template-columns: 1fr;
       gap: 32px;
-    }
-
-    .aur-marq__item {
-      font-size: 17px;
     }
   }
 

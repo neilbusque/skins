@@ -33,20 +33,26 @@ Same words, ten arguments. Every screenshot below is the identical `content.ts` 
 
 | | |
 |---|---|
-| [![Aurora](docs/shots/aurora.png)](https://skins.neilb.app/s/aurora/) **Aurora** · modern SaaS, on a bento grid | [![Studio](docs/shots/studio.png)](https://skins.neilb.app/s/studio/) **Studio** · agency, on a horizontal scroll track |
-| [![Canvas](docs/shots/canvas.png)](https://skins.neilb.app/s/canvas/) **Canvas** · product stories, on a sticky split | [![Prism](docs/shots/prism.png)](https://skins.neilb.app/s/prism/) **Prism** · launches, on a stack of cards |
+| [![Aurora](docs/shots/aurora.png)](https://skins.neilb.app/s/aurora/) **Aurora** · ink and acid lime, on a bento grid | [![Studio](docs/shots/studio.png)](https://skins.neilb.app/s/studio/) **Studio** · concrete and vermilion, scrolling sideways |
+| [![Canvas](docs/shots/canvas.png)](https://skins.neilb.app/s/canvas/) **Canvas** · forest and sand, cut on a diagonal | [![Prism](docs/shots/prism.png)](https://skins.neilb.app/s/prism/) **Prism** · oxblood and bone, on a slab stack |
 | [![Linear Dark](docs/shots/linear.png)](https://skins.neilb.app/s/linear/) **Linear Dark** · app and product launches | [![Stripe Corporate](docs/shots/stripe.png)](https://skins.neilb.app/s/stripe/) **Stripe Corporate** · B2B, client sites, trust |
 | [![Aesop Editorial](docs/shots/aesop.png)](https://skins.neilb.app/s/aesop/) **Aesop Editorial** · personal brand, high ticket | [![Gumroad Bold](docs/shots/gumroad.png)](https://skins.neilb.app/s/gumroad/) **Gumroad Bold** · offers that should shout |
 | [![AG1 Longform](docs/shots/longform.png)](https://skins.neilb.app/s/longform/) **AG1 Longform** · long-form sales, VSL, sticky CTA | [![Wireframe](docs/shots/wire.png)](https://skins.neilb.app/s/wire/) **Wireframe** · structure only, annotated |
 
-The four newest skins are animated, and each one owns a layout the others do not have.
+The four newest skins are animated. Each one owns a layout engine, a hero architecture and a
+palette that none of the others have. That is deliberate: four recolours of one hero is not four
+skins.
 
-| Skin | Route | Layout engine | Motion | Reach for it when |
+| Skin | Route | Hero | Layout engine | Palette and type |
 |---|---|---|---|---|
-| **Aurora** | `/s/aurora/` | Asymmetric bento grid | Animated mesh, masked word reveal, counting stats, magnetic button | Modern SaaS or an AI product. The default Framer template look |
-| **Studio** | `/s/studio/` | Pinned horizontal scroll track | Section pins and scrolls sideways, kinetic display type, trailing cursor | Agency, portfolio, creative studio |
-| **Canvas** | `/s/canvas/` | Sticky split scrollytelling | A pinned stage swaps scene as each step scrolls past it | The product has to be explained in order |
-| **Prism** | `/s/prism/` | Sticky card stack | Cards shrink and dim as the next one slides over them | A launch page that needs energy |
+| **Aurora** | `/s/aurora/` | Type wall. The headline is the whole first screen, no product mock | Asymmetric bento grid | Ink and one acid lime. Geist, Geist Mono on every label |
+| **Studio** | `/s/studio/` | Offset editorial index. Numbered rail left, headline running full bleed right | Pinned horizontal scroll track | Warm concrete and vermilion. Bricolage Grotesque, printed column grid, grain |
+| **Canvas** | `/s/canvas/` | Diagonal split. A forest panel cut on a slant running off the right edge | Sticky split scrollytelling | Forest on sand with burnt clay. Schibsted Grotesk, Instrument Serif on numbers and quotes |
+| **Prism** | `/s/prism/` | Stacked slab. A bone slab climbing over the baseline of the headline | Sticky slab stack | Oxblood and bone with amber. Darker Grotesque condensed over Chivo |
+
+Motion, in order: masked word reveals on every hero, a marquee, counting stats and a magnetic
+button on Aurora; a sideways pinned track and a trailing cursor on Studio; a stage that swaps scene
+per step on Canvas; slabs that shrink and dim as the next climbs over them on Prism.
 
 The original six are static, and pick by job.
 

@@ -96,3 +96,40 @@ also suppresses the custom cursor in Studio. No em dashes. Never
 ## Done when
 
 `npm run build` clean, and QA passes on all eleven routes at 1440 and 375 with zero failures.
+
+
+---
+
+## Revision, same day: the visual rebuild
+
+The first build shipped four working layout engines under four near identical skins. Reviewed
+side by side, Aurora and Canvas were the same page: eyebrow pill, headline with an accent line,
+sub paragraph, two buttons, fine print, dashboard mock. Recoloured, not redesigned. Three of the
+four also used default machine palettes (purple gradient on black, gradient on plum, blue on
+white).
+
+Kept: the four layout engines, all the GSAP, the `data-anim` contract, the QA suite.
+
+Replaced: every hero architecture, every palette, the type scale and pairing, and the card and
+surface language.
+
+| Skin | Hero | Palette | Type |
+|---|---|---|---|
+| Aurora | Type wall, no mock above the fold | Ink `#0E1012` and acid lime `#D4FF3D` | Geist and Geist Mono |
+| Studio | Offset editorial index, headline full bleed | Warm concrete `#E5E2DA` and vermilion `#E8391B` | Bricolage Grotesque, DM Sans, Geist Mono |
+| Canvas | Diagonal split, forest panel off the right edge | Sand `#EFE8DA`, forest `#16261C`, clay `#A64B28` | Schibsted Grotesk and Instrument Serif |
+| Prism | Stacked slab overlapping the headline baseline | Oxblood `#4A0E1A`, bone `#EFE7DA`, amber `#E0A458` | Darker Grotesque and Chivo |
+
+Shared moves: film grain on every skin, a monospace label system for indices and units, radii
+dropped from 18 to 26px down to 2 to 10px, flat panels instead of glass, and a full bleed accent
+flip on each CTA.
+
+Two bugs the rebuild surfaced:
+
+1. **Three children in a two column grid.** `.aur-row` put a numeral, an `h3` and a `p` into
+   `66px 1fr`, so the paragraph wrapped inside the 66px numeral column and rendered one word per
+   line. Wrap the text block in its own element.
+2. **A negative margin measured against a line box the glyphs overflow.** With
+   `line-height: 0.78` the Prism headline's glyphs sit below their own box, so the overlapping
+   slab covered the last line instead of nicking its descenders. Fix by adding bottom padding to
+   the heading first, then measuring the overlap from the DOM rather than guessing.

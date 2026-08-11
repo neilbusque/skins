@@ -1,73 +1,85 @@
 ---
 /**
- * SKIN: Studio  ·  archetype: Horizontal Agency  ·  motion: GSAP + ScrollTrigger
+ * SKIN: Studio  ·  archetype: Horizontal Editorial  ·  motion: GSAP + ScrollTrigger
  *
- * The Webflow award look. Paper cream, hard ink, one hot orange, oversized
- * Bricolage display type set tight, hairline rules instead of cards.
+ * Warm concrete, hard ink, one vermilion. Bricolage Grotesque set enormous and
+ * tight, Geist Mono on every index and unit, a hairline column grid printed
+ * behind the page, and film grain over the whole thing.
  *
- * Layout engine: PINNED HORIZONTAL TRACK. The features section pins to the
- * viewport and scrolls sideways. Nothing else in the library scrolls sideways.
- * The pin is disabled below 861px, where the rail becomes a stacked grid.
+ * Layout engine: PINNED HORIZONTAL TRACK. Hero is an OFFSET EDITORIAL INDEX:
+ * a narrow numbered rail on the left, headline running full bleed past the
+ * content column on the right. Nothing here is centred.
  */
 import { content as c } from '../../lib/content';
 
 const year = 2026;
 const headWords = [...c.hero.headline.split(' '), ...c.hero.headlineAccent.split(' ')];
+const accentFrom = c.hero.headline.split(' ').length;
 const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
 ---
 
 <div class="stu">
+  <div class="stu-grid" aria-hidden="true"></div>
+  <div class="stu-grain" aria-hidden="true"></div>
   <div class="stu-cursor" data-cursor aria-hidden="true"><span></span></div>
 
   <header class="stu-nav">
-    <div class="stu-wrap stu-nav__in">
+    <div class="stu-bleed stu-nav__in">
       <a class="stu-brand" href="#">
         <span class="stu-brand__mark">{c.brand.mark}</span>
         <span>{c.brand.name}</span>
       </a>
       <nav class="stu-nav__links" aria-label="Primary">
-        {c.nav.links.map((l, i) => (
-          <a href={l.href}>
-            <em>{String(i + 1).padStart(2, '0')}</em>
-            {l.label}
-          </a>
-        ))}
+        {
+          c.nav.links.map((l, i) => (
+            <a href={l.href}>
+              <em class="stu-mono">{String(i + 1).padStart(2, '0')}</em>
+              {l.label}
+            </a>
+          ))
+        }
       </nav>
       <a class="stu-btn stu-btn--sm" href={c.nav.cta.href}>{c.nav.cta.label}</a>
     </div>
   </header>
 
+  <!-- OFFSET EDITORIAL INDEX. Rail left, headline full bleed right. -->
   <section class="stu-hero">
-    <div class="stu-wrap">
-      <div class="stu-hero__meta" data-anim>
-        <span class="stu-dot"></span>
-        <span>{c.hero.eyebrow}</span>
-        <span class="stu-hero__year">{year}</span>
+    <div class="stu-bleed stu-hero__grid">
+      <aside class="stu-rail" data-anim>
+        <span class="stu-mono stu-rail__idx">Fig. 01</span>
+        <span class="stu-rail__line" aria-hidden="true"></span>
+        <span class="stu-mono stu-rail__note">{c.hero.eyebrow}</span>
+        <span class="stu-mono stu-rail__note stu-rail__note--dim">Ed. {year}</span>
+      </aside>
+
+      <div class="stu-hero__type">
+        <h1 class="stu-h1" aria-label={`${c.hero.headline} ${c.hero.headlineAccent}`}>
+          {
+            headWords.map((w, i) => (
+              <span class:list={['stu-word', { 'stu-word--acc': i >= accentFrom }]} data-anim>
+                <span>{w}</span>
+              </span>
+            ))
+          }
+        </h1>
       </div>
+    </div>
 
-      <h1 class="stu-h1" aria-label={`${c.hero.headline} ${c.hero.headlineAccent}`}>
-        {
-          headWords.map((w, i) => (
-            <span class:list={['stu-word', { 'stu-word--acc': i >= c.hero.headline.split(' ').length }]} data-anim>
-              <span>{w}</span>
-            </span>
-          ))
-        }
-      </h1>
-
-      <div class="stu-hero__row">
-        <p class="stu-hero__sub" data-anim>{c.hero.sub}</p>
-        <div class="stu-hero__act" data-anim>
-          <a class="stu-btn" href={c.hero.ctaPrimary.href}>
-            {c.hero.ctaPrimary.label}
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M3 13 13 3M6 3h7v7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+    <div class="stu-bleed stu-hero__foot">
+      <p class="stu-hero__sub" data-anim>{c.hero.sub}</p>
+      <div class="stu-hero__act" data-anim>
+        <a class="stu-btn" href={c.hero.ctaPrimary.href}>
+          {c.hero.ctaPrimary.label}
+          <i class="stu-btn__ico" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2.5 9.5 9.5 2.5M4.5 2.5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-          </a>
-          <a class="stu-link" href={c.hero.ctaSecondary.href}>{c.hero.ctaSecondary.label}</a>
-          <p class="stu-hero__note">{c.hero.note}</p>
-        </div>
+          </i>
+        </a>
+        <a class="stu-link" href={c.hero.ctaSecondary.href}>{c.hero.ctaSecondary.label}</a>
       </div>
+      <p class="stu-mono stu-hero__note" data-anim>{c.hero.note}</p>
     </div>
 
     <div class="stu-marq" aria-label={c.logos.label}>
@@ -76,7 +88,7 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
           marquee.map((n) => (
             <span class="stu-marq__item">
               {n}
-              <i>&#9679;</i>
+              <i aria-hidden="true"></i>
             </span>
           ))
         }
@@ -84,10 +96,10 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     </div>
   </section>
 
-  <section class="stu-sec stu-sec--rule">
+  <section class="stu-sec">
     <div class="stu-wrap stu-two">
       <div class="stu-two__l">
-        <p class="stu-eyebrow" data-anim>{c.problem.eyebrow}</p>
+        <p class="stu-mono stu-eyebrow" data-anim>{c.problem.eyebrow}</p>
       </div>
       <div class="stu-two__r">
         <h2 class="stu-h2" data-anim>{c.problem.headline}</h2>
@@ -96,7 +108,7 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
           {
             c.problem.points.map((p, i) => (
               <article class="stu-prob" data-anim>
-                <span class="stu-prob__n">{String(i + 1).padStart(2, '0')}</span>
+                <span class="stu-mono stu-prob__n">{String(i + 1).padStart(2, '0')}</span>
                 <div>
                   <h3>{p.title}</h3>
                   <p>{p.body}</p>
@@ -109,41 +121,45 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     </div>
   </section>
 
-  <!-- THE HORIZONTAL TRACK. The pinned element owns overflow: hidden so the
-       rail is clipped by the viewport sized box it lives in, never by the page. -->
+  <!-- THE HORIZONTAL TRACK. The pin element owns overflow: hidden, because a
+       pinned element goes position: fixed and an ancestor cannot clip it. -->
   <section class="stu-track" id="features">
     <div class="stu-track__pin" data-track-pin>
-      <div class="stu-wrap stu-track__head">
+      <div class="stu-bleed stu-track__head">
         <div>
-          <p class="stu-eyebrow" data-anim>{c.features.eyebrow}</p>
+          <p class="stu-mono stu-eyebrow" data-anim>{c.features.eyebrow}</p>
           <h2 class="stu-h2 stu-h2--sm" data-anim>{c.features.headline}</h2>
         </div>
-        <p class="stu-track__hint" data-anim>
-          <span>Keep scrolling</span>
-          <svg width="34" height="10" viewBox="0 0 34 10" fill="none" aria-hidden="true">
-            <path d="M0 5h31M27 1l5 4-5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <p class="stu-mono stu-track__hint" data-anim>
+          <span>Scroll</span>
+          <svg width="40" height="9" viewBox="0 0 40 9" fill="none" aria-hidden="true">
+            <path d="M0 4.5h37M33 1l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </p>
       </div>
 
       <div class="stu-track__rail" data-track-rail>
         {
-          c.features.items.map((f) => (
+          c.features.items.map((f, i) => (
             <article class="stu-panel" data-anim>
-              <span class="stu-panel__n">{f.glyph}</span>
+              <header class="stu-panel__top">
+                <span class="stu-mono">{f.glyph}</span>
+                <span class="stu-mono stu-panel__of">/ {String(c.features.items.length).padStart(2, '0')}</span>
+              </header>
               <h3 class="stu-panel__t">{f.title}</h3>
               <p class="stu-panel__b">{f.body}</p>
-              <span class="stu-panel__rule"></span>
+              <footer class="stu-panel__foot">
+                <span class="stu-panel__rule" aria-hidden="true"></span>
+                <span class="stu-mono">Surface</span>
+              </footer>
             </article>
           ))
         }
       </div>
 
-      <div class="stu-wrap stu-track__foot">
+      <div class="stu-bleed stu-track__foot">
         <span class="stu-track__bar"><i data-track-bar></i></span>
-        <span class="stu-track__count">
-          {c.features.items.length} surfaces
-        </span>
+        <span class="stu-mono stu-track__count">{c.features.items.length} surfaces</span>
       </div>
     </div>
   </section>
@@ -151,17 +167,24 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   <section class="stu-sec" id="showcase">
     <div class="stu-wrap stu-two">
       <div class="stu-two__l">
-        <p class="stu-eyebrow" data-anim>{c.showcase.eyebrow}</p>
+        <p class="stu-mono stu-eyebrow" data-anim>{c.showcase.eyebrow}</p>
         <div class="stu-stack" data-anim>
           {
-            ['Google Workspace', 'Slack', 'Stripe', 'Drive'].map((n, i) => (
+            [
+              ['Google Workspace', 'CAL / DRIVE / MAIL'],
+              ['Slack', 'THREADS / APPROVALS'],
+              ['Stripe', 'INVOICES / PAYOUTS'],
+            ].map(([n, s], i) => (
               <span class="stu-stack__row" style={`--i:${i}`}>
-                {n}
-                <i>&rarr;</i>
+                <strong>{n}</strong>
+                <em class="stu-mono">{s}</em>
               </span>
             ))
           }
-          <span class="stu-stack__hub">{c.brand.name}</span>
+          <span class="stu-stack__hub">
+            <strong>{c.brand.name}</strong>
+            <em class="stu-mono">One source of truth</em>
+          </span>
         </div>
       </div>
       <div class="stu-two__r">
@@ -169,9 +192,9 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
         <p class="stu-lead" data-anim>{c.showcase.body}</p>
         <ul class="stu-checks">
           {
-            c.showcase.bullets.map((b) => (
+            c.showcase.bullets.map((b, i) => (
               <li data-anim>
-                <em></em>
+                <em class="stu-mono">{String(i + 1).padStart(2, '0')}</em>
                 {b}
               </li>
             ))
@@ -182,33 +205,34 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   </section>
 
   <section class="stu-stats">
-    <div class="stu-wrap stu-stats__row">
+    <div class="stu-bleed stu-stats__row">
       {
         c.stats.map((s) => (
           <div class="stu-stat" data-anim>
             <strong>{s.value}</strong>
-            <span>{s.label}</span>
+            <span class="stu-mono">{s.label}</span>
           </div>
         ))
       }
     </div>
   </section>
 
-  <section class="stu-sec stu-sec--rule" id="proof">
+  <section class="stu-sec" id="proof">
     <div class="stu-wrap stu-two">
       <div class="stu-two__l">
-        <p class="stu-eyebrow" data-anim>{c.proof.eyebrow}</p>
+        <p class="stu-mono stu-eyebrow" data-anim>{c.proof.eyebrow}</p>
       </div>
       <div class="stu-two__r">
         <h2 class="stu-h2" data-anim>{c.proof.headline}</h2>
         <div class="stu-quotes">
           {
-            c.testimonials.map((t) => (
+            c.testimonials.map((t, i) => (
               <figure class="stu-quote" data-anim>
+                <span class="stu-mono stu-quote__n">{String(i + 1).padStart(2, '0')}</span>
                 <blockquote>{t.quote}</blockquote>
                 <figcaption>
                   <strong>{t.name}</strong>
-                  <em>{t.role}, {t.company}</em>
+                  <em class="stu-mono">{t.role} / {t.company}</em>
                 </figcaption>
               </figure>
             ))
@@ -221,21 +245,22 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   <section class="stu-sec" id="pricing">
     <div class="stu-wrap">
       <div class="stu-head">
-        <p class="stu-eyebrow" data-anim>{c.pricing.eyebrow}</p>
+        <p class="stu-mono stu-eyebrow" data-anim>{c.pricing.eyebrow}</p>
         <h2 class="stu-h2" data-anim>{c.pricing.headline}</h2>
         <p class="stu-lead" data-anim>{c.pricing.sub}</p>
       </div>
       <div class="stu-plans">
         {
-          c.pricing.plans.map((p) => (
+          c.pricing.plans.map((p, i) => (
             <article class:list={['stu-plan', { 'is-feat': p.featured }]} data-anim>
               <div class="stu-plan__top">
+                <span class="stu-mono">{String(i + 1).padStart(2, '0')}</span>
                 <h3>{p.name}</h3>
-                {p.featured && <span class="stu-plan__tag">Most teams</span>}
+                {p.featured && <span class="stu-mono stu-plan__tag">Most teams</span>}
               </div>
               <p class="stu-plan__price">
                 <strong>{p.price}</strong>
-                <em>{p.period}</em>
+                <em class="stu-mono">{p.period}</em>
               </p>
               <p class="stu-plan__blurb">{p.blurb}</p>
               <a class:list={['stu-btn', 'stu-btn--full', { 'stu-btn--out': !p.featured }]} href="#cta">
@@ -252,16 +277,17 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
       </div>
 
       <div class="stu-guar" data-anim>
+        <span class="stu-mono">Guarantee</span>
         <h3>{c.guarantee.headline}</h3>
         <p>{c.guarantee.body}</p>
       </div>
     </div>
   </section>
 
-  <section class="stu-sec stu-sec--rule">
+  <section class="stu-sec">
     <div class="stu-wrap stu-two">
       <div class="stu-two__l">
-        <p class="stu-eyebrow" data-anim>{c.faqHead.eyebrow}</p>
+        <p class="stu-mono stu-eyebrow" data-anim>{c.faqHead.eyebrow}</p>
         <h2 class="stu-h2 stu-h2--sm" data-anim>{c.faqHead.headline}</h2>
       </div>
       <div class="stu-two__r">
@@ -270,6 +296,7 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
             c.faq.map((f, i) => (
               <details class="stu-faq__item" open={i === 0}>
                 <summary>
+                  <span class="stu-mono">{String(i + 1).padStart(2, '0')}</span>
                   <span class="stu-faq__q">{f.q}</span>
                   <span class="stu-faq__ico" aria-hidden="true" />
                 </summary>
@@ -283,16 +310,21 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   </section>
 
   <section class="stu-cta" id="cta">
-    <div class="stu-wrap stu-cta__in">
+    <div class="stu-bleed stu-cta__in">
+      <p class="stu-mono stu-cta__label" data-anim>{c.brand.tagline}</p>
       <h2 class="stu-cta__h" data-anim>{c.cta.headline}</h2>
-      <p class="stu-cta__sub" data-anim>{c.cta.sub}</p>
-      <a class="stu-btn stu-btn--lg" href={c.cta.button.href} data-anim>
-        {c.cta.button.label}
-        <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M3 13 13 3M6 3h7v7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </a>
-      <p class="stu-cta__note" data-anim>{c.cta.note}</p>
+      <div class="stu-cta__row">
+        <p class="stu-cta__sub" data-anim>{c.cta.sub}</p>
+        <a class="stu-btn stu-btn--lg stu-btn--inv" href={c.cta.button.href} data-anim>
+          {c.cta.button.label}
+          <i class="stu-btn__ico" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
+              <path d="M2.5 9.5 9.5 2.5M4.5 2.5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </i>
+        </a>
+      </div>
+      <p class="stu-mono stu-cta__note" data-anim>{c.cta.note}</p>
     </div>
   </section>
 
@@ -308,7 +340,7 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
       {
         c.footer.columns.map((col) => (
           <div class="stu-foot__col">
-            <h4>{col.title}</h4>
+            <h4 class="stu-mono">{col.title}</h4>
             <ul>
               {col.links.map((l) => (
                 <li>
@@ -320,7 +352,7 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
         ))
       }
     </div>
-    <div class="stu-wrap stu-foot__legal">
+    <div class="stu-wrap stu-foot__legal stu-mono">
       <span>&copy; {year} {c.brand.name}</span>
       <span>{c.footer.legal}</span>
     </div>
@@ -349,17 +381,15 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
       const heroAnims = q('.stu-hero [data-anim]');
       const skip = new Set([...heroAnims, ...panels]);
 
-      /* ---- hero ---- */
       gsap
         .timeline({ defaults: { ease: 'power3.out' } })
-        .fromTo('.stu-hero__meta', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6 })
+        .fromTo('.stu-rail', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6 })
         .to('.stu-word', { opacity: 1, duration: 0.01, stagger: 0.035 }, 0.1)
-        .to('.stu-word > span', { y: '0%', duration: 1.15, stagger: 0.035, ease: 'expo.out' }, 0.1)
-        .fromTo('.stu-hero__sub', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.75 }, 0.55)
-        .fromTo('.stu-hero__act', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.75 }, 0.62);
+        .to('.stu-word > span', { y: '0%', duration: 1.2, stagger: 0.035, ease: 'expo.out' }, 0.1)
+        .fromTo('.stu-hero__sub', { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.7 }, 0.55)
+        .fromTo('.stu-hero__act', { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.7 }, 0.6)
+        .fromTo('.stu-hero__note', { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.68);
 
-      /* ---- below the fold. Tight cascade so the tail is never left at
-             opacity 0 once the trigger has fired ---- */
       ScrollTrigger.batch(
         anims.filter((el) => !skip.has(el)),
         {
@@ -369,44 +399,35 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
           onEnter: (batch) =>
             gsap.fromTo(
               batch,
-              { opacity: 0, y: 32 },
+              { opacity: 0, y: 28 },
               { opacity: 1, y: 0, duration: 0.65, stagger: 0.05, ease: 'power3.out', overwrite: 'auto' }
             ),
         }
       );
 
-      /* ---- track panels reveal together, before the pin takes over. A trigger
-             per panel would never fire on desktop: once pinned the panels move
-             sideways, and a vertical ScrollTrigger cannot see that ---- */
+      /* Panels reveal together before the pin takes over. Once pinned they move
+         sideways, and a vertical ScrollTrigger cannot see that. */
       if (panels.length) {
         ScrollTrigger.create({
           trigger: '.stu-track',
           start: 'top 82%',
           once: true,
           onEnter: () =>
-            gsap.fromTo(
-              panels,
-              { opacity: 0, y: 40 },
-              { opacity: 1, y: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out' }
-            ),
+            gsap.fromTo(panels, { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out' }),
         });
       }
 
-      /* ---- logo marquee. Track holds the list three times ---- */
       const track = root.querySelector('.stu-marq__track');
-      if (track) gsap.to(track, { xPercent: -33.3333, duration: 26, ease: 'none', repeat: -1 });
+      if (track) gsap.to(track, { xPercent: -33.3333, duration: 28, ease: 'none', repeat: -1 });
 
-      /* ---- THE HORIZONTAL PIN. Desktop only. Below 861px matchMedia reverts
-             it and the rail falls back to the stacked grid the CSS declares ---- */
+      /* ---- THE HORIZONTAL PIN, desktop only ---- */
       const mm = gsap.matchMedia();
       mm.add('(min-width: 861px)', () => {
         const pin = root.querySelector('[data-track-pin]');
         const rail = root.querySelector('[data-track-rail]');
         const bar = root.querySelector('[data-track-bar]');
         if (!pin || !rail) return;
-
         const distance = () => Math.max(0, rail.scrollWidth - window.innerWidth);
-
         gsap.to(rail, {
           x: () => -distance(),
           ease: 'none',
@@ -425,8 +446,7 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
         });
       });
 
-      /* ---- trailing cursor ring. Never on touch, never inside the gallery
-             preview iframes. The native cursor stays visible on purpose ---- */
+      /* ---- trailing cursor. Never on touch, never inside a preview iframe ---- */
       if (!embedded && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
         const cur = root.querySelector('[data-cursor]');
         if (cur) {
@@ -443,8 +463,8 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
             }
           });
           q('a, button, summary').forEach((el) => {
-            el.addEventListener('pointerenter', () => gsap.to(cur, { scale: 2.1, opacity: 0.45, duration: 0.3 }));
-            el.addEventListener('pointerleave', () => gsap.to(cur, { scale: 1, opacity: 1, duration: 0.3 }));
+            el.addEventListener('pointerenter', () => gsap.to(cur, { scale: 2.2, opacity: 0.4, duration: 0.35 }));
+            el.addEventListener('pointerleave', () => gsap.to(cur, { scale: 1, opacity: 1, duration: 0.35 }));
           });
         }
       }
@@ -458,31 +478,93 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
 
 <style is:global>
   .stu {
-    --paper: #f2f0eb;
-    --paper-2: #e8e5dd;
-    --ink: #0d0d0d;
-    --ink-2: #45433e;
-    --ink-3: #5f5c56;
-    --line: rgba(13, 13, 13, 0.14);
-    --line-2: rgba(13, 13, 13, 0.28);
-    --acc: #ff4a1c;
-    --acc-ink: #c23409;
+    --paper: #e5e2da;
+    --paper-2: #d6d2c8;
+    --paper-3: #f0eee8;
+    --ink: #14140f;
+    --ink-2: #45443c;
+    --ink-3: #62604f;
+    --line: rgba(20, 20, 15, 0.15);
+    --line-2: rgba(20, 20, 15, 0.32);
+    --verm: #e8391b;
+    --verm-ink: #b82a10;
 
     background: var(--paper);
     color: var(--ink);
     font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
     font-size: 16px;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.012em;
     position: relative;
     isolation: isolate;
     overflow: clip;
+  }
+
+  /* Hairline column grid printed behind the page. The thing that makes a Swiss
+     layout read as designed rather than as a stack of divs. */
+  .stu-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 36px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+  }
+
+  .stu-grid::before,
+  .stu-grid::after {
+    content: '';
+    grid-column: 1 / -1;
+    height: 100%;
+    background-image: repeating-linear-gradient(
+      to right,
+      rgba(20, 20, 15, 0.045) 0 1px,
+      transparent 1px calc(100% / 12)
+    );
+  }
+
+  .stu-grid::after {
+    display: none;
+  }
+
+  .stu-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    pointer-events: none;
+    opacity: 0.055;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   .stu-wrap {
     width: 100%;
     max-width: 1200px;
     margin-inline: auto;
-    padding-inline: 28px;
+    padding-inline: 36px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Full bleed rail. The hero uses this, the body uses stu-wrap. That size
+     difference is where the tension comes from. */
+  .stu-bleed {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 36px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stu-mono {
+    font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
   }
 
   /* ---------- cursor ---------- */
@@ -503,11 +585,11 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
 
   .stu-cursor span {
     display: block;
-    width: 26px;
-    height: 26px;
-    margin: -13px 0 0 -13px;
+    width: 24px;
+    height: 24px;
+    margin: -12px 0 0 -12px;
     border-radius: 50%;
-    border: 1.5px solid var(--acc);
+    border: 1.5px solid var(--verm);
     mix-blend-mode: multiply;
   }
 
@@ -520,17 +602,17 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     position: sticky;
     top: 0;
     z-index: 60;
-    background: rgba(242, 240, 235, 0.86);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(229, 226, 218, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
   }
 
   .stu-nav__in {
     display: flex;
     align-items: center;
-    gap: 40px;
-    height: 68px;
+    gap: 44px;
+    height: 66px;
   }
 
   .stu-brand {
@@ -541,16 +623,16 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     font-family: 'Bricolage Grotesque', system-ui, sans-serif;
     font-weight: 800;
     font-size: 18px;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.05em;
     flex: none;
   }
 
   .stu-brand__mark {
-    width: 26px;
-    height: 26px;
+    width: 25px;
+    height: 25px;
     display: grid;
     place-items: center;
-    border-radius: 3px;
+    border-radius: 2px;
     background: var(--ink);
     color: var(--paper);
     font-size: 13px;
@@ -558,29 +640,27 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
 
   .stu-nav__links {
     display: flex;
-    gap: 30px;
+    gap: 32px;
     margin-inline: auto;
   }
 
   .stu-nav__links a {
     display: inline-flex;
     align-items: baseline;
-    gap: 6px;
+    gap: 7px;
     font-size: 14px;
     color: var(--ink-2);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.35s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .stu-nav__links a:hover {
-    color: var(--acc-ink);
+    color: var(--verm-ink);
   }
 
   .stu-nav__links em {
     font-style: normal;
-    font-size: 10px;
     color: var(--ink-3);
-    letter-spacing: 0.06em;
   }
 
   /* ---------- buttons ---------- */
@@ -588,35 +668,54 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 9px;
-    height: 50px;
-    padding: 0 26px;
+    gap: 12px;
+    height: 52px;
+    padding: 0 12px 0 26px;
     border-radius: 2px;
     background: var(--ink);
-    color: var(--paper);
+    color: var(--paper-3);
     font-size: 15px;
     font-weight: 500;
     text-decoration: none;
     white-space: nowrap;
-    transition: background 0.22s ease, color 0.22s ease, transform 0.22s ease;
+    transition: background 0.4s cubic-bezier(0.32, 0.72, 0, 1), color 0.4s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .stu-btn:hover {
-    background: var(--acc);
+    background: var(--verm);
     color: #fff;
-    transform: translateY(-2px);
+  }
+
+  .stu-btn:active {
+    transform: scale(0.985);
+  }
+
+  .stu-btn__ico {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 1px;
+    background: rgba(240, 238, 232, 0.14);
+    flex: none;
+    transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1), background 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .stu-btn:hover .stu-btn__ico {
+    transform: translate(2px, -2px);
+    background: rgba(255, 255, 255, 0.24);
   }
 
   .stu-btn--sm {
-    height: 40px;
-    padding: 0 18px;
-    font-size: 14px;
+    height: 38px;
+    padding: 0 16px;
+    font-size: 13.5px;
     flex: none;
   }
 
   .stu-btn--lg {
     height: 62px;
-    padding: 0 34px;
+    padding: 0 14px 0 32px;
     font-size: 17px;
   }
 
@@ -624,16 +723,31 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     background: transparent;
     color: var(--ink);
     box-shadow: inset 0 0 0 1.5px var(--ink);
+    padding-inline: 26px;
   }
 
   .stu-btn--out:hover {
     background: var(--ink);
-    color: var(--paper);
-    box-shadow: inset 0 0 0 1.5px var(--ink);
+    color: var(--paper-3);
+  }
+
+  .stu-btn--inv {
+    background: var(--paper-3);
+    color: var(--ink);
+  }
+
+  .stu-btn--inv .stu-btn__ico {
+    background: rgba(20, 20, 15, 0.1);
+  }
+
+  .stu-btn--inv:hover {
+    background: var(--ink);
+    color: var(--paper-3);
   }
 
   .stu-btn--full {
     width: 100%;
+    padding-inline: 26px;
   }
 
   .stu-link {
@@ -642,48 +756,58 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     text-decoration: none;
     border-bottom: 1.5px solid var(--line-2);
     padding-bottom: 3px;
-    transition: border-color 0.2s ease, color 0.2s ease;
+    transition: border-color 0.35s cubic-bezier(0.32, 0.72, 0, 1), color 0.35s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .stu-link:hover {
-    color: var(--acc-ink);
-    border-color: var(--acc);
+    color: var(--verm-ink);
+    border-color: var(--verm);
   }
 
-  /* ---------- hero ---------- */
+  /* ---------- THE OFFSET EDITORIAL HERO ---------- */
   .stu-hero {
-    padding-top: 92px;
+    padding-top: 60px;
   }
 
-  .stu-hero__meta {
+  .stu-hero__grid {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 30px;
+    align-items: start;
+  }
+
+  .stu-rail {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 16px;
     color: var(--ink-3);
-    margin-bottom: 34px;
   }
 
-  .stu-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--acc);
+  .stu-rail__idx {
+    color: var(--verm-ink);
   }
 
-  .stu-hero__year {
-    margin-left: auto;
+  .stu-rail__line {
+    height: 1px;
+    background: var(--line-2);
+    width: 100%;
+  }
+
+  .stu-rail__note {
+    line-height: 1.7;
+  }
+
+  .stu-rail__note--dim {
+    color: var(--line-2);
   }
 
   .stu-h1 {
     font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: clamp(2.9rem, 8.6vw, 8rem);
-    line-height: 0.9;
+    font-size: clamp(2.9rem, 9.1vw, 8.6rem);
+    line-height: 0.87;
     font-weight: 800;
-    letter-spacing: -0.055em;
-    text-wrap: balance;
+    letter-spacing: -0.06em;
   }
 
   .stu-word {
@@ -692,7 +816,7 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     vertical-align: top;
     padding-bottom: 0.1em;
     margin-bottom: -0.1em;
-    margin-right: 0.22em;
+    margin-right: 0.2em;
   }
 
   .stu-word > span {
@@ -704,23 +828,25 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   }
 
   .stu-word--acc > span {
-    color: var(--acc);
+    color: var(--verm);
   }
 
-  .stu-hero__row {
-    margin-top: 52px;
-    padding-bottom: 62px;
+  .stu-hero__foot {
+    margin-top: 54px;
+    padding: 30px 36px 46px;
+    border-top: 1px solid var(--line);
     display: grid;
-    grid-template-columns: 1fr 0.82fr;
-    gap: 60px;
+    grid-template-columns: 150px 1fr auto;
+    gap: 30px;
     align-items: start;
   }
 
   .stu-hero__sub {
-    font-size: clamp(1.02rem, 1.5vw, 1.24rem);
-    line-height: 1.55;
+    grid-column: 2;
+    font-size: clamp(1.02rem, 1.4vw, 1.24rem);
+    line-height: 1.5;
     color: var(--ink-2);
-    max-width: 48ch;
+    max-width: 44ch;
   }
 
   .stu-hero__act {
@@ -731,18 +857,17 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   }
 
   .stu-hero__note {
-    flex-basis: 100%;
-    font-size: 13px;
+    grid-column: 2 / -1;
     color: var(--ink-3);
   }
 
   /* ---------- marquee ---------- */
   .stu-marq {
-    border-block: 1px solid var(--ink);
-    background: var(--ink);
-    color: var(--paper);
+    border-block: 1.5px solid var(--ink);
+    background: var(--verm);
+    color: #fff;
     overflow: hidden;
-    padding: 18px 0;
+    padding: 16px 0;
   }
 
   .stu-marq__track {
@@ -754,87 +879,80 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   .stu-marq__item {
     display: inline-flex;
     align-items: center;
-    gap: 34px;
-    padding-right: 34px;
+    gap: 32px;
+    padding-right: 32px;
     font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: 26px;
-    font-weight: 600;
-    letter-spacing: -0.04em;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -0.05em;
     white-space: nowrap;
   }
 
   .stu-marq__item i {
-    font-style: normal;
-    font-size: 9px;
-    color: var(--acc);
+    width: 7px;
+    height: 7px;
+    background: #fff;
+    flex: none;
   }
 
   /* ---------- sections ---------- */
   .stu-sec {
-    padding: 106px 0;
-  }
-
-  .stu-sec--rule {
+    padding: 108px 0;
     border-top: 1px solid var(--line);
   }
 
   .stu-two {
     display: grid;
-    grid-template-columns: 0.42fr 1fr;
-    gap: 60px;
+    grid-template-columns: 0.36fr 1fr;
+    gap: 56px;
     align-items: start;
   }
 
   .stu-two__l {
     position: sticky;
-    top: 110px;
+    top: 106px;
   }
 
   .stu-eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--acc-ink);
+    color: var(--verm-ink);
     margin-bottom: 16px;
   }
 
   .stu-h2 {
     font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: clamp(1.95rem, 4vw, 3.35rem);
-    line-height: 1.02;
+    font-size: clamp(1.95rem, 4.1vw, 3.4rem);
+    line-height: 1;
     font-weight: 700;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.052em;
     text-wrap: balance;
   }
 
   .stu-h2--sm {
-    font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+    font-size: clamp(1.7rem, 2.8vw, 2.3rem);
   }
 
   .stu-lead {
     margin-top: 20px;
     font-size: 1.06rem;
-    line-height: 1.62;
+    line-height: 1.6;
     color: var(--ink-2);
-    max-width: 58ch;
+    max-width: 56ch;
   }
 
   .stu-head {
-    max-width: 60ch;
+    max-width: 58ch;
     margin-bottom: 56px;
   }
 
   .stu-probs {
     margin-top: 52px;
-    display: flex;
-    flex-direction: column;
   }
 
   .stu-prob {
     display: grid;
-    grid-template-columns: 76px 1fr;
-    gap: 18px;
-    padding: 26px 0;
+    grid-template-columns: 66px 1fr;
+    gap: 20px;
+    padding: 28px 0;
     border-top: 1px solid var(--line);
   }
 
@@ -843,27 +961,23 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   }
 
   .stu-prob__n {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: 34px;
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -0.05em;
-    color: transparent;
-    -webkit-text-stroke: 1.3px var(--ink-3);
+    color: var(--ink-3);
+    padding-top: 4px;
   }
 
   .stu-prob h3 {
-    font-size: 1.12rem;
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: 1.2rem;
     font-weight: 700;
-    letter-spacing: -0.025em;
-    margin-bottom: 8px;
+    letter-spacing: -0.035em;
+    margin-bottom: 9px;
   }
 
   .stu-prob p {
-    font-size: 0.95rem;
-    line-height: 1.62;
+    font-size: 0.96rem;
+    line-height: 1.6;
     color: var(--ink-2);
-    max-width: 56ch;
+    max-width: 58ch;
   }
 
   /* ---------- THE HORIZONTAL TRACK ---------- */
@@ -873,11 +987,9 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   }
 
   .stu-track__pin {
-    /* Owns its own clipping. The rail is wider than the viewport, and a pinned
-       element goes position: fixed, which an ancestor's overflow cannot clip. */
     overflow: hidden;
     min-height: 100vh;
-    padding: 62px 0;
+    padding: 60px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -895,9 +1007,6 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     color: var(--ink-3);
     white-space: nowrap;
   }
@@ -905,55 +1014,68 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   .stu-track__rail {
     display: flex;
     width: max-content;
-    gap: 24px;
-    padding-inline: max(28px, calc((100vw - 1200px) / 2 + 28px));
+    gap: 20px;
+    padding-inline: max(36px, calc((100vw - 1440px) / 2 + 36px));
     will-change: transform;
   }
 
   .stu-panel {
-    flex: 0 0 clamp(272px, 27vw, 372px);
-    min-height: 340px;
-    padding: 30px;
-    background: var(--paper);
+    flex: 0 0 clamp(268px, 26vw, 356px);
+    min-height: 328px;
+    padding: 28px;
+    background: var(--paper-3);
     border: 1px solid var(--line);
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    transition: border-color 0.25s ease, transform 0.25s ease;
+    gap: 13px;
+    transition: border-color 0.4s cubic-bezier(0.32, 0.72, 0, 1), transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .stu-panel:hover {
     border-color: var(--ink);
-    transform: translateY(-4px);
+    transform: translateY(-5px);
   }
 
-  .stu-panel__n {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: 58px;
-    font-weight: 800;
-    line-height: 0.82;
-    letter-spacing: -0.06em;
-    color: transparent;
-    -webkit-text-stroke: 1.5px var(--acc);
+  .stu-panel__top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+    color: var(--verm-ink);
+  }
+
+  .stu-panel__of {
+    color: var(--ink-3);
   }
 
   .stu-panel__t {
-    font-size: 1.22rem;
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: 1.3rem;
     font-weight: 700;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.042em;
+    line-height: 1.06;
   }
 
   .stu-panel__b {
     font-size: 0.95rem;
-    line-height: 1.62;
+    line-height: 1.6;
     color: var(--ink-2);
   }
 
-  .stu-panel__rule {
+  .stu-panel__foot {
     margin-top: auto;
-    height: 3px;
-    background: var(--ink);
-    width: 44px;
+    padding-top: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--ink-3);
+  }
+
+  .stu-panel__rule {
+    flex: 1;
+    height: 1px;
+    background: var(--line-2);
   }
 
   .stu-track__foot {
@@ -973,15 +1095,12 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   .stu-track__bar i {
     position: absolute;
     inset: 0;
-    background: var(--acc);
+    background: var(--verm);
     transform: scaleX(0);
     transform-origin: left center;
   }
 
   .stu-track__count {
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     color: var(--ink-3);
     white-space: nowrap;
   }
@@ -991,20 +1110,20 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     margin-top: 26px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
   .stu-stack__row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 18px;
-    background: var(--paper-2);
+    gap: 14px;
+    padding: 15px 17px;
+    background: var(--paper-3);
     border: 1px solid var(--line);
-    font-size: 0.92rem;
-    color: var(--ink-2);
-    margin-left: calc(var(--i) * 14px);
-    transition: transform 0.25s ease, border-color 0.25s ease;
+    font-size: 0.94rem;
+    margin-left: calc(var(--i) * 13px);
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), border-color 0.4s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .stu-stack__row:hover {
@@ -1012,36 +1131,45 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     border-color: var(--ink);
   }
 
-  .stu-stack__row i {
+  .stu-stack__row em {
     font-style: normal;
-    color: var(--acc-ink);
+    color: var(--ink-3);
   }
 
   .stu-stack__hub {
-    margin-top: 12px;
-    padding: 18px;
+    margin-top: 10px;
+    padding: 19px;
     background: var(--ink);
-    color: var(--paper);
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-weight: 800;
-    font-size: 1.15rem;
-    letter-spacing: -0.035em;
+    color: var(--paper-3);
     text-align: center;
   }
 
+  .stu-stack__hub strong {
+    display: block;
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1.18rem;
+    letter-spacing: -0.045em;
+  }
+
+  .stu-stack__hub em {
+    display: block;
+    margin-top: 5px;
+    font-style: normal;
+    opacity: 0.6;
+  }
+
   .stu-checks {
-    margin-top: 34px;
-    display: flex;
-    flex-direction: column;
+    margin-top: 36px;
   }
 
   .stu-checks li {
     display: flex;
-    align-items: center;
-    gap: 14px;
+    align-items: baseline;
+    gap: 18px;
     padding: 16px 0;
     border-top: 1px solid var(--line);
-    font-size: 0.98rem;
+    font-size: 0.99rem;
     color: var(--ink-2);
   }
 
@@ -1050,55 +1178,56 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   }
 
   .stu-checks em {
-    width: 7px;
-    height: 7px;
-    background: var(--acc);
+    font-style: normal;
+    color: var(--verm-ink);
     flex: none;
   }
 
   /* ---------- stats ---------- */
   .stu-stats {
     background: var(--ink);
-    color: var(--paper);
-    padding: 74px 0;
+    color: var(--paper-3);
+    padding: 78px 0;
   }
 
   .stu-stats__row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+    gap: 28px;
+  }
+
+  .stu-stat {
+    padding-left: 22px;
+    border-left: 1px solid rgba(240, 238, 232, 0.24);
   }
 
   .stu-stat strong {
     display: block;
     font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: clamp(2.2rem, 4.4vw, 3.7rem);
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem);
     font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -0.055em;
-    color: var(--acc);
+    line-height: 0.92;
+    letter-spacing: -0.06em;
+    color: var(--verm);
   }
 
   .stu-stat span {
     display: block;
-    margin-top: 12px;
-    font-size: 13px;
-    color: rgba(242, 240, 235, 0.66);
+    margin-top: 14px;
+    color: rgba(240, 238, 232, 0.6);
   }
 
   /* ---------- proof ---------- */
   .stu-quotes {
     margin-top: 46px;
-    display: flex;
-    flex-direction: column;
   }
 
   .stu-quote {
-    padding: 32px 0;
-    border-top: 1px solid var(--line);
     display: grid;
-    grid-template-columns: 1fr 220px;
-    gap: 36px;
+    grid-template-columns: 66px 1fr 210px;
+    gap: 24px;
+    padding: 30px 0;
+    border-top: 1px solid var(--line);
     align-items: start;
   }
 
@@ -1106,12 +1235,17 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     border-bottom: 1px solid var(--line);
   }
 
+  .stu-quote__n {
+    color: var(--ink-3);
+    padding-top: 6px;
+  }
+
   .stu-quote blockquote {
     font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: clamp(1.05rem, 1.7vw, 1.4rem);
-    line-height: 1.32;
+    font-size: clamp(1.06rem, 1.7vw, 1.42rem);
+    line-height: 1.28;
     font-weight: 500;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.038em;
   }
 
   .stu-quote figcaption strong {
@@ -1122,18 +1256,17 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
 
   .stu-quote figcaption em {
     display: block;
+    margin-top: 5px;
     font-style: normal;
-    font-size: 13px;
     color: var(--ink-3);
-    margin-top: 4px;
   }
 
   /* ---------- pricing ---------- */
   .stu-plans {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0;
     border: 1px solid var(--line);
+    background: var(--paper-3);
   }
 
   .stu-plan {
@@ -1158,52 +1291,49 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     gap: 12px;
   }
 
+  .stu-plan__top > span:first-child {
+    color: var(--ink-3);
+  }
+
   .stu-plan__top h3 {
-    font-size: 1.1rem;
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: 1.12rem;
     font-weight: 700;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.035em;
   }
 
   .stu-plan__tag {
-    padding: 4px 10px;
-    background: var(--acc);
+    margin-left: auto;
+    padding: 4px 9px;
+    background: var(--verm);
     color: #fff;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 10px;
   }
 
   .stu-plan__price {
     display: flex;
     align-items: baseline;
-    gap: 9px;
+    gap: 10px;
   }
 
   .stu-plan__price strong {
     font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: 2.9rem;
+    font-size: 3rem;
     font-weight: 800;
-    letter-spacing: -0.06em;
+    letter-spacing: -0.07em;
     line-height: 1;
   }
 
   .stu-plan__price em {
     font-style: normal;
-    font-size: 12.5px;
     color: var(--ink-3);
   }
 
   .stu-plan__blurb {
-    font-size: 0.92rem;
+    font-size: 0.93rem;
     line-height: 1.55;
     color: var(--ink-2);
     min-height: 3em;
-  }
-
-  .stu-plan__feat {
-    display: flex;
-    flex-direction: column;
   }
 
   .stu-plan__feat li {
@@ -1215,35 +1345,37 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
 
   .stu-guar {
     margin-top: 34px;
-    padding: 40px;
+    padding: 42px;
     background: var(--ink);
-    color: var(--paper);
+    color: var(--paper-3);
     display: grid;
-    grid-template-columns: 0.9fr 1fr;
-    gap: 40px;
-    align-items: center;
+    grid-template-columns: 130px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .stu-guar > span {
+    color: var(--verm);
+    padding-top: 6px;
   }
 
   .stu-guar h3 {
     font-family: 'Bricolage Grotesque', system-ui, sans-serif;
     font-size: clamp(1.3rem, 2.4vw, 1.95rem);
     font-weight: 700;
-    line-height: 1.08;
-    letter-spacing: -0.04em;
+    line-height: 1.06;
+    letter-spacing: -0.048em;
+    margin-bottom: 14px;
   }
 
   .stu-guar p {
     font-size: 0.97rem;
-    line-height: 1.66;
-    color: rgba(242, 240, 235, 0.76);
+    line-height: 1.65;
+    color: rgba(240, 238, 232, 0.72);
+    max-width: 64ch;
   }
 
   /* ---------- faq ---------- */
-  .stu-faq {
-    display: flex;
-    flex-direction: column;
-  }
-
   .stu-faq__item {
     border-top: 1px solid var(--line);
   }
@@ -1255,28 +1387,35 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   .stu-faq__item summary {
     list-style: none;
     cursor: pointer;
-    padding: 24px 44px 24px 0;
+    padding: 25px 44px 25px 0;
     position: relative;
-    display: block;
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 14px;
+    align-items: baseline;
   }
 
   .stu-faq__item summary::-webkit-details-marker {
     display: none;
   }
 
+  .stu-faq__item summary > span:first-child {
+    color: var(--ink-3);
+  }
+
   .stu-faq__q {
     font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.13rem;
     font-weight: 600;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.038em;
   }
 
   .stu-faq__ico {
     position: absolute;
-    right: 4px;
+    right: 2px;
     top: 50%;
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
     transform: translateY(-50%);
   }
 
@@ -1285,82 +1424,82 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     content: '';
     position: absolute;
     background: var(--ink);
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .stu-faq__ico::before {
     inset: 6px 0 auto 0;
-    height: 2px;
+    height: 1.8px;
   }
 
   .stu-faq__ico::after {
     inset: 0 6px 0 auto;
-    width: 2px;
+    width: 1.8px;
   }
 
   .stu-faq__item[open] .stu-faq__ico::after {
     transform: scaleY(0);
   }
 
+  .stu-faq__item[open] .stu-faq__ico::before {
+    background: var(--verm);
+  }
+
   .stu-faq__item p {
-    padding: 0 44px 26px 0;
+    padding: 0 44px 26px 66px;
     font-size: 0.96rem;
     line-height: 1.68;
     color: var(--ink-2);
-    max-width: 70ch;
+    max-width: 76ch;
   }
 
   /* ---------- cta ---------- */
   .stu-cta {
-    background: var(--acc);
+    background: var(--verm);
     color: #fff;
-    padding: 128px 0;
+    padding: 122px 0;
   }
 
-  .stu-cta__in {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .stu-cta__label {
+    color: rgba(255, 255, 255, 0.7);
+    padding-bottom: 26px;
+    margin-bottom: 34px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   .stu-cta__h {
     font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: clamp(2.6rem, 8vw, 6.4rem);
+    font-size: clamp(2.7rem, 9vw, 8rem);
     font-weight: 800;
-    line-height: 0.92;
-    letter-spacing: -0.055em;
+    line-height: 0.88;
+    letter-spacing: -0.062em;
+    max-width: 12ch;
+  }
+
+  .stu-cta__row {
+    margin-top: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 34px;
+    flex-wrap: wrap;
   }
 
   .stu-cta__sub {
-    margin-top: 22px;
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
-    line-height: 1.55;
-    max-width: 46ch;
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  .stu-cta .stu-btn {
-    margin-top: 38px;
-    background: #fff;
-    color: var(--ink);
-  }
-
-  .stu-cta .stu-btn:hover {
-    background: var(--ink);
-    color: #fff;
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.5;
+    max-width: 38ch;
+    color: rgba(255, 255, 255, 0.92);
   }
 
   .stu-cta__note {
-    margin-top: 18px;
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.82);
+    margin-top: 26px;
+    color: rgba(255, 255, 255, 0.75);
   }
 
   /* ---------- footer ---------- */
   .stu-foot {
     padding: 70px 0 34px;
-    background: var(--paper);
   }
 
   .stu-foot__in {
@@ -1370,7 +1509,7 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   }
 
   .stu-foot__brand p {
-    margin-top: 14px;
+    margin-top: 16px;
     font-size: 0.92rem;
     line-height: 1.6;
     color: var(--ink-3);
@@ -1378,12 +1517,8 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   }
 
   .stu-foot__col h4 {
-    font-size: 11.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     color: var(--ink-3);
     margin-bottom: 18px;
-    font-weight: 500;
   }
 
   .stu-foot__col ul {
@@ -1396,10 +1531,11 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     font-size: 0.92rem;
     color: var(--ink-2);
     text-decoration: none;
+    transition: color 0.3s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .stu-foot__col a:hover {
-    color: var(--acc-ink);
+    color: var(--verm-ink);
   }
 
   .stu-foot__legal {
@@ -1410,13 +1546,13 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     justify-content: space-between;
     gap: 18px;
     flex-wrap: wrap;
-    font-size: 12.5px;
     color: var(--ink-3);
   }
 
   /* ---------- responsive ---------- */
   @media (max-width: 1040px) {
-    .stu-nav__links {
+    .stu-nav__links,
+    .stu-grid {
       display: none;
     }
 
@@ -1429,24 +1565,44 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
       position: static;
     }
 
-    .stu-hero__row {
+    .stu-hero__grid {
       grid-template-columns: 1fr;
-      gap: 34px;
+      gap: 26px;
+    }
+
+    .stu-rail {
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      padding-top: 0;
+    }
+
+    .stu-rail__line {
+      flex: 1;
+      width: auto;
+    }
+
+    .stu-hero__foot {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .stu-hero__sub,
+    .stu-hero__note {
+      grid-column: 1;
     }
 
     .stu-quote {
-      grid-template-columns: 1fr;
-      gap: 18px;
+      grid-template-columns: 52px 1fr;
     }
 
-    .stu-guar {
-      grid-template-columns: 1fr;
-      gap: 20px;
+    .stu-quote figcaption {
+      grid-column: 2;
     }
 
     .stu-stats__row {
       grid-template-columns: repeat(2, 1fr);
-      gap: 34px 24px;
+      gap: 34px 26px;
     }
 
     .stu-plans {
@@ -1462,6 +1618,11 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
       border-bottom: 0;
     }
 
+    .stu-guar {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
     .stu-foot__in {
       grid-template-columns: 1fr 1fr;
     }
@@ -1472,16 +1633,16 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   @media (max-width: 860px) {
     .stu-track__pin {
       min-height: 0;
-      padding: 74px 0;
-      gap: 32px;
+      padding: 72px 0;
+      gap: 30px;
     }
 
     .stu-track__rail {
       width: auto;
       display: grid;
       grid-template-columns: 1fr;
-      gap: 16px;
-      padding-inline: 28px;
+      gap: 14px;
+      padding-inline: 24px;
     }
 
     .stu-panel {
@@ -1496,8 +1657,22 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
   }
 
   @media (max-width: 680px) {
+    .stu-wrap,
+    .stu-bleed {
+      padding-inline: 24px;
+    }
+
     .stu-hero {
-      padding-top: 64px;
+      padding-top: 42px;
+    }
+
+    .stu-hero__foot {
+      padding-inline: 24px;
+    }
+
+    .stu-h1 {
+      font-size: clamp(2.5rem, 12.4vw, 4.2rem);
+      line-height: 0.94;
     }
 
     .stu-sec {
@@ -1505,18 +1680,19 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
     }
 
     .stu-cta {
-      padding: 92px 0;
+      padding: 88px 0;
     }
 
-    .stu-prob {
+    .stu-prob,
+    .stu-quote {
       grid-template-columns: 1fr;
       gap: 10px;
     }
 
     .stu-marq__item {
-      font-size: 20px;
-      gap: 24px;
-      padding-right: 24px;
+      font-size: 19px;
+      gap: 22px;
+      padding-right: 22px;
     }
 
     .stu-guar {
@@ -1525,6 +1701,11 @@ const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
 
     .stu-hero__act .stu-btn {
       width: 100%;
+      padding-inline: 26px;
+    }
+
+    .stu-faq__item p {
+      padding-left: 0;
     }
 
     .stu-foot__in {
