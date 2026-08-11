@@ -1,0 +1,1541 @@
+---
+/**
+ * SKIN: Studio  ·  archetype: Horizontal Agency  ·  motion: GSAP + ScrollTrigger
+ *
+ * The Webflow award look. Paper cream, hard ink, one hot orange, oversized
+ * Bricolage display type set tight, hairline rules instead of cards.
+ *
+ * Layout engine: PINNED HORIZONTAL TRACK. The features section pins to the
+ * viewport and scrolls sideways. Nothing else in the library scrolls sideways.
+ * The pin is disabled below 861px, where the rail becomes a stacked grid.
+ */
+import { content as c } from '../../lib/content';
+
+const year = 2026;
+const headWords = [...c.hero.headline.split(' '), ...c.hero.headlineAccent.split(' ')];
+const marquee = [...c.logos.items, ...c.logos.items, ...c.logos.items];
+---
+
+<div class="stu">
+  <div class="stu-cursor" data-cursor aria-hidden="true"><span></span></div>
+
+  <header class="stu-nav">
+    <div class="stu-wrap stu-nav__in">
+      <a class="stu-brand" href="#">
+        <span class="stu-brand__mark">{c.brand.mark}</span>
+        <span>{c.brand.name}</span>
+      </a>
+      <nav class="stu-nav__links" aria-label="Primary">
+        {c.nav.links.map((l, i) => (
+          <a href={l.href}>
+            <em>{String(i + 1).padStart(2, '0')}</em>
+            {l.label}
+          </a>
+        ))}
+      </nav>
+      <a class="stu-btn stu-btn--sm" href={c.nav.cta.href}>{c.nav.cta.label}</a>
+    </div>
+  </header>
+
+  <section class="stu-hero">
+    <div class="stu-wrap">
+      <div class="stu-hero__meta" data-anim>
+        <span class="stu-dot"></span>
+        <span>{c.hero.eyebrow}</span>
+        <span class="stu-hero__year">{year}</span>
+      </div>
+
+      <h1 class="stu-h1" aria-label={`${c.hero.headline} ${c.hero.headlineAccent}`}>
+        {
+          headWords.map((w, i) => (
+            <span class:list={['stu-word', { 'stu-word--acc': i >= c.hero.headline.split(' ').length }]} data-anim>
+              <span>{w}</span>
+            </span>
+          ))
+        }
+      </h1>
+
+      <div class="stu-hero__row">
+        <p class="stu-hero__sub" data-anim>{c.hero.sub}</p>
+        <div class="stu-hero__act" data-anim>
+          <a class="stu-btn" href={c.hero.ctaPrimary.href}>
+            {c.hero.ctaPrimary.label}
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 13 13 3M6 3h7v7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a class="stu-link" href={c.hero.ctaSecondary.href}>{c.hero.ctaSecondary.label}</a>
+          <p class="stu-hero__note">{c.hero.note}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="stu-marq" aria-label={c.logos.label}>
+      <div class="stu-marq__track">
+        {
+          marquee.map((n) => (
+            <span class="stu-marq__item">
+              {n}
+              <i>&#9679;</i>
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="stu-sec stu-sec--rule">
+    <div class="stu-wrap stu-two">
+      <div class="stu-two__l">
+        <p class="stu-eyebrow" data-anim>{c.problem.eyebrow}</p>
+      </div>
+      <div class="stu-two__r">
+        <h2 class="stu-h2" data-anim>{c.problem.headline}</h2>
+        <p class="stu-lead" data-anim>{c.problem.body}</p>
+        <div class="stu-probs">
+          {
+            c.problem.points.map((p, i) => (
+              <article class="stu-prob" data-anim>
+                <span class="stu-prob__n">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3>{p.title}</h3>
+                  <p>{p.body}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE HORIZONTAL TRACK. The pinned element owns overflow: hidden so the
+       rail is clipped by the viewport sized box it lives in, never by the page. -->
+  <section class="stu-track" id="features">
+    <div class="stu-track__pin" data-track-pin>
+      <div class="stu-wrap stu-track__head">
+        <div>
+          <p class="stu-eyebrow" data-anim>{c.features.eyebrow}</p>
+          <h2 class="stu-h2 stu-h2--sm" data-anim>{c.features.headline}</h2>
+        </div>
+        <p class="stu-track__hint" data-anim>
+          <span>Keep scrolling</span>
+          <svg width="34" height="10" viewBox="0 0 34 10" fill="none" aria-hidden="true">
+            <path d="M0 5h31M27 1l5 4-5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </p>
+      </div>
+
+      <div class="stu-track__rail" data-track-rail>
+        {
+          c.features.items.map((f) => (
+            <article class="stu-panel" data-anim>
+              <span class="stu-panel__n">{f.glyph}</span>
+              <h3 class="stu-panel__t">{f.title}</h3>
+              <p class="stu-panel__b">{f.body}</p>
+              <span class="stu-panel__rule"></span>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="stu-wrap stu-track__foot">
+        <span class="stu-track__bar"><i data-track-bar></i></span>
+        <span class="stu-track__count">
+          {c.features.items.length} surfaces
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <section class="stu-sec" id="showcase">
+    <div class="stu-wrap stu-two">
+      <div class="stu-two__l">
+        <p class="stu-eyebrow" data-anim>{c.showcase.eyebrow}</p>
+        <div class="stu-stack" data-anim>
+          {
+            ['Google Workspace', 'Slack', 'Stripe', 'Drive'].map((n, i) => (
+              <span class="stu-stack__row" style={`--i:${i}`}>
+                {n}
+                <i>&rarr;</i>
+              </span>
+            ))
+          }
+          <span class="stu-stack__hub">{c.brand.name}</span>
+        </div>
+      </div>
+      <div class="stu-two__r">
+        <h2 class="stu-h2" data-anim>{c.showcase.headline}</h2>
+        <p class="stu-lead" data-anim>{c.showcase.body}</p>
+        <ul class="stu-checks">
+          {
+            c.showcase.bullets.map((b) => (
+              <li data-anim>
+                <em></em>
+                {b}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="stu-stats">
+    <div class="stu-wrap stu-stats__row">
+      {
+        c.stats.map((s) => (
+          <div class="stu-stat" data-anim>
+            <strong>{s.value}</strong>
+            <span>{s.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="stu-sec stu-sec--rule" id="proof">
+    <div class="stu-wrap stu-two">
+      <div class="stu-two__l">
+        <p class="stu-eyebrow" data-anim>{c.proof.eyebrow}</p>
+      </div>
+      <div class="stu-two__r">
+        <h2 class="stu-h2" data-anim>{c.proof.headline}</h2>
+        <div class="stu-quotes">
+          {
+            c.testimonials.map((t) => (
+              <figure class="stu-quote" data-anim>
+                <blockquote>{t.quote}</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong>
+                  <em>{t.role}, {t.company}</em>
+                </figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stu-sec" id="pricing">
+    <div class="stu-wrap">
+      <div class="stu-head">
+        <p class="stu-eyebrow" data-anim>{c.pricing.eyebrow}</p>
+        <h2 class="stu-h2" data-anim>{c.pricing.headline}</h2>
+        <p class="stu-lead" data-anim>{c.pricing.sub}</p>
+      </div>
+      <div class="stu-plans">
+        {
+          c.pricing.plans.map((p) => (
+            <article class:list={['stu-plan', { 'is-feat': p.featured }]} data-anim>
+              <div class="stu-plan__top">
+                <h3>{p.name}</h3>
+                {p.featured && <span class="stu-plan__tag">Most teams</span>}
+              </div>
+              <p class="stu-plan__price">
+                <strong>{p.price}</strong>
+                <em>{p.period}</em>
+              </p>
+              <p class="stu-plan__blurb">{p.blurb}</p>
+              <a class:list={['stu-btn', 'stu-btn--full', { 'stu-btn--out': !p.featured }]} href="#cta">
+                {p.cta}
+              </a>
+              <ul class="stu-plan__feat">
+                {p.features.map((f) => (
+                  <li>{f}</li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="stu-guar" data-anim>
+        <h3>{c.guarantee.headline}</h3>
+        <p>{c.guarantee.body}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stu-sec stu-sec--rule">
+    <div class="stu-wrap stu-two">
+      <div class="stu-two__l">
+        <p class="stu-eyebrow" data-anim>{c.faqHead.eyebrow}</p>
+        <h2 class="stu-h2 stu-h2--sm" data-anim>{c.faqHead.headline}</h2>
+      </div>
+      <div class="stu-two__r">
+        <div class="stu-faq" data-anim>
+          {
+            c.faq.map((f, i) => (
+              <details class="stu-faq__item" open={i === 0}>
+                <summary>
+                  <span class="stu-faq__q">{f.q}</span>
+                  <span class="stu-faq__ico" aria-hidden="true" />
+                </summary>
+                <p>{f.a}</p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stu-cta" id="cta">
+    <div class="stu-wrap stu-cta__in">
+      <h2 class="stu-cta__h" data-anim>{c.cta.headline}</h2>
+      <p class="stu-cta__sub" data-anim>{c.cta.sub}</p>
+      <a class="stu-btn stu-btn--lg" href={c.cta.button.href} data-anim>
+        {c.cta.button.label}
+        <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 13 13 3M6 3h7v7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+      <p class="stu-cta__note" data-anim>{c.cta.note}</p>
+    </div>
+  </section>
+
+  <footer class="stu-foot">
+    <div class="stu-wrap stu-foot__in">
+      <div class="stu-foot__brand">
+        <a class="stu-brand" href="#">
+          <span class="stu-brand__mark">{c.brand.mark}</span>
+          <span>{c.brand.name}</span>
+        </a>
+        <p>{c.brand.tagline}</p>
+      </div>
+      {
+        c.footer.columns.map((col) => (
+          <div class="stu-foot__col">
+            <h4>{col.title}</h4>
+            <ul>
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href}>{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div class="stu-wrap stu-foot__legal">
+      <span>&copy; {year} {c.brand.name}</span>
+      <span>{c.footer.legal}</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+  import gsap from 'gsap';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const root = document.querySelector('.stu');
+  if (root) {
+    const q = (sel) => Array.from(root.querySelectorAll(sel));
+    const anims = q('[data-anim]');
+    const words = q('.stu-word > span');
+    const panels = q('.stu-panel');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const embedded = document.documentElement.classList.contains('embed');
+
+    if (reduced) {
+      gsap.set(anims, { opacity: 1, y: 0 });
+      gsap.set(words, { y: 0 });
+    } else {
+      const heroAnims = q('.stu-hero [data-anim]');
+      const skip = new Set([...heroAnims, ...panels]);
+
+      /* ---- hero ---- */
+      gsap
+        .timeline({ defaults: { ease: 'power3.out' } })
+        .fromTo('.stu-hero__meta', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6 })
+        .to('.stu-word', { opacity: 1, duration: 0.01, stagger: 0.035 }, 0.1)
+        .to('.stu-word > span', { y: '0%', duration: 1.15, stagger: 0.035, ease: 'expo.out' }, 0.1)
+        .fromTo('.stu-hero__sub', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.75 }, 0.55)
+        .fromTo('.stu-hero__act', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.75 }, 0.62);
+
+      /* ---- below the fold. Tight cascade so the tail is never left at
+             opacity 0 once the trigger has fired ---- */
+      ScrollTrigger.batch(
+        anims.filter((el) => !skip.has(el)),
+        {
+          start: 'top 90%',
+          once: true,
+          batchMax: 4,
+          onEnter: (batch) =>
+            gsap.fromTo(
+              batch,
+              { opacity: 0, y: 32 },
+              { opacity: 1, y: 0, duration: 0.65, stagger: 0.05, ease: 'power3.out', overwrite: 'auto' }
+            ),
+        }
+      );
+
+      /* ---- track panels reveal together, before the pin takes over. A trigger
+             per panel would never fire on desktop: once pinned the panels move
+             sideways, and a vertical ScrollTrigger cannot see that ---- */
+      if (panels.length) {
+        ScrollTrigger.create({
+          trigger: '.stu-track',
+          start: 'top 82%',
+          once: true,
+          onEnter: () =>
+            gsap.fromTo(
+              panels,
+              { opacity: 0, y: 40 },
+              { opacity: 1, y: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out' }
+            ),
+        });
+      }
+
+      /* ---- logo marquee. Track holds the list three times ---- */
+      const track = root.querySelector('.stu-marq__track');
+      if (track) gsap.to(track, { xPercent: -33.3333, duration: 26, ease: 'none', repeat: -1 });
+
+      /* ---- THE HORIZONTAL PIN. Desktop only. Below 861px matchMedia reverts
+             it and the rail falls back to the stacked grid the CSS declares ---- */
+      const mm = gsap.matchMedia();
+      mm.add('(min-width: 861px)', () => {
+        const pin = root.querySelector('[data-track-pin]');
+        const rail = root.querySelector('[data-track-rail]');
+        const bar = root.querySelector('[data-track-bar]');
+        if (!pin || !rail) return;
+
+        const distance = () => Math.max(0, rail.scrollWidth - window.innerWidth);
+
+        gsap.to(rail, {
+          x: () => -distance(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: pin,
+            start: 'top top',
+            end: () => '+=' + (distance() + window.innerHeight * 0.35),
+            pin: true,
+            scrub: 0.7,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              if (bar) gsap.set(bar, { scaleX: self.progress });
+            },
+          },
+        });
+      });
+
+      /* ---- trailing cursor ring. Never on touch, never inside the gallery
+             preview iframes. The native cursor stays visible on purpose ---- */
+      if (!embedded && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const cur = root.querySelector('[data-cursor]');
+        if (cur) {
+          cur.classList.add('is-on');
+          const xTo = gsap.quickTo(cur, 'x', { duration: 0.4, ease: 'power3' });
+          const yTo = gsap.quickTo(cur, 'y', { duration: 0.4, ease: 'power3' });
+          let shown = false;
+          window.addEventListener('pointermove', (e) => {
+            xTo(e.clientX);
+            yTo(e.clientY);
+            if (!shown) {
+              shown = true;
+              gsap.to(cur, { opacity: 1, duration: 0.3 });
+            }
+          });
+          q('a, button, summary').forEach((el) => {
+            el.addEventListener('pointerenter', () => gsap.to(cur, { scale: 2.1, opacity: 0.45, duration: 0.3 }));
+            el.addEventListener('pointerleave', () => gsap.to(cur, { scale: 1, opacity: 1, duration: 0.3 }));
+          });
+        }
+      }
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => ScrollTrigger.refresh());
+    }
+  }
+</script>
+
+<style is:global>
+  .stu {
+    --paper: #f2f0eb;
+    --paper-2: #e8e5dd;
+    --ink: #0d0d0d;
+    --ink-2: #45433e;
+    --ink-3: #5f5c56;
+    --line: rgba(13, 13, 13, 0.14);
+    --line-2: rgba(13, 13, 13, 0.28);
+    --acc: #ff4a1c;
+    --acc-ink: #c23409;
+
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+  }
+
+  .stu-wrap {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 28px;
+  }
+
+  /* ---------- cursor ---------- */
+  .stu-cursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9998;
+    pointer-events: none;
+    display: none;
+    opacity: 0;
+    will-change: transform;
+  }
+
+  .stu-cursor.is-on {
+    display: block;
+  }
+
+  .stu-cursor span {
+    display: block;
+    width: 26px;
+    height: 26px;
+    margin: -13px 0 0 -13px;
+    border-radius: 50%;
+    border: 1.5px solid var(--acc);
+    mix-blend-mode: multiply;
+  }
+
+  html.embed .stu-cursor {
+    display: none;
+  }
+
+  /* ---------- nav ---------- */
+  .stu-nav {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: rgba(242, 240, 235, 0.86);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stu-nav__in {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    height: 68px;
+  }
+
+  .stu-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.04em;
+    flex: none;
+  }
+
+  .stu-brand__mark {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 3px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 13px;
+  }
+
+  .stu-nav__links {
+    display: flex;
+    gap: 30px;
+    margin-inline: auto;
+  }
+
+  .stu-nav__links a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .stu-nav__links a:hover {
+    color: var(--acc-ink);
+  }
+
+  .stu-nav__links em {
+    font-style: normal;
+    font-size: 10px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+  }
+
+  /* ---------- buttons ---------- */
+  .stu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    height: 50px;
+    padding: 0 26px;
+    border-radius: 2px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.22s ease, color 0.22s ease, transform 0.22s ease;
+  }
+
+  .stu-btn:hover {
+    background: var(--acc);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  .stu-btn--sm {
+    height: 40px;
+    padding: 0 18px;
+    font-size: 14px;
+    flex: none;
+  }
+
+  .stu-btn--lg {
+    height: 62px;
+    padding: 0 34px;
+    font-size: 17px;
+  }
+
+  .stu-btn--out {
+    background: transparent;
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1.5px var(--ink);
+  }
+
+  .stu-btn--out:hover {
+    background: var(--ink);
+    color: var(--paper);
+    box-shadow: inset 0 0 0 1.5px var(--ink);
+  }
+
+  .stu-btn--full {
+    width: 100%;
+  }
+
+  .stu-link {
+    font-size: 15px;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--line-2);
+    padding-bottom: 3px;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .stu-link:hover {
+    color: var(--acc-ink);
+    border-color: var(--acc);
+  }
+
+  /* ---------- hero ---------- */
+  .stu-hero {
+    padding-top: 92px;
+  }
+
+  .stu-hero__meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 34px;
+  }
+
+  .stu-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--acc);
+  }
+
+  .stu-hero__year {
+    margin-left: auto;
+  }
+
+  .stu-h1 {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: clamp(2.9rem, 8.6vw, 8rem);
+    line-height: 0.9;
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+  }
+
+  .stu-word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.1em;
+    margin-bottom: -0.1em;
+    margin-right: 0.22em;
+  }
+
+  .stu-word > span {
+    display: inline-block;
+  }
+
+  html.js .stu-word > span {
+    transform: translateY(112%);
+  }
+
+  .stu-word--acc > span {
+    color: var(--acc);
+  }
+
+  .stu-hero__row {
+    margin-top: 52px;
+    padding-bottom: 62px;
+    display: grid;
+    grid-template-columns: 1fr 0.82fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .stu-hero__sub {
+    font-size: clamp(1.02rem, 1.5vw, 1.24rem);
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 48ch;
+  }
+
+  .stu-hero__act {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  .stu-hero__note {
+    flex-basis: 100%;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  /* ---------- marquee ---------- */
+  .stu-marq {
+    border-block: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    overflow: hidden;
+    padding: 18px 0;
+  }
+
+  .stu-marq__track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .stu-marq__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 34px;
+    padding-right: 34px;
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    white-space: nowrap;
+  }
+
+  .stu-marq__item i {
+    font-style: normal;
+    font-size: 9px;
+    color: var(--acc);
+  }
+
+  /* ---------- sections ---------- */
+  .stu-sec {
+    padding: 106px 0;
+  }
+
+  .stu-sec--rule {
+    border-top: 1px solid var(--line);
+  }
+
+  .stu-two {
+    display: grid;
+    grid-template-columns: 0.42fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .stu-two__l {
+    position: sticky;
+    top: 110px;
+  }
+
+  .stu-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--acc-ink);
+    margin-bottom: 16px;
+  }
+
+  .stu-h2 {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: clamp(1.95rem, 4vw, 3.35rem);
+    line-height: 1.02;
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .stu-h2--sm {
+    font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+  }
+
+  .stu-lead {
+    margin-top: 20px;
+    font-size: 1.06rem;
+    line-height: 1.62;
+    color: var(--ink-2);
+    max-width: 58ch;
+  }
+
+  .stu-head {
+    max-width: 60ch;
+    margin-bottom: 56px;
+  }
+
+  .stu-probs {
+    margin-top: 52px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stu-prob {
+    display: grid;
+    grid-template-columns: 76px 1fr;
+    gap: 18px;
+    padding: 26px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .stu-prob:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stu-prob__n {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    color: transparent;
+    -webkit-text-stroke: 1.3px var(--ink-3);
+  }
+
+  .stu-prob h3 {
+    font-size: 1.12rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin-bottom: 8px;
+  }
+
+  .stu-prob p {
+    font-size: 0.95rem;
+    line-height: 1.62;
+    color: var(--ink-2);
+    max-width: 56ch;
+  }
+
+  /* ---------- THE HORIZONTAL TRACK ---------- */
+  .stu-track {
+    border-top: 1px solid var(--line);
+    background: var(--paper-2);
+  }
+
+  .stu-track__pin {
+    /* Owns its own clipping. The rail is wider than the viewport, and a pinned
+       element goes position: fixed, which an ancestor's overflow cannot clip. */
+    overflow: hidden;
+    min-height: 100vh;
+    padding: 62px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 44px;
+  }
+
+  .stu-track__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  .stu-track__hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+
+  .stu-track__rail {
+    display: flex;
+    width: max-content;
+    gap: 24px;
+    padding-inline: max(28px, calc((100vw - 1200px) / 2 + 28px));
+    will-change: transform;
+  }
+
+  .stu-panel {
+    flex: 0 0 clamp(272px, 27vw, 372px);
+    min-height: 340px;
+    padding: 30px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+
+  .stu-panel:hover {
+    border-color: var(--ink);
+    transform: translateY(-4px);
+  }
+
+  .stu-panel__n {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: 58px;
+    font-weight: 800;
+    line-height: 0.82;
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--acc);
+  }
+
+  .stu-panel__t {
+    font-size: 1.22rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .stu-panel__b {
+    font-size: 0.95rem;
+    line-height: 1.62;
+    color: var(--ink-2);
+  }
+
+  .stu-panel__rule {
+    margin-top: auto;
+    height: 3px;
+    background: var(--ink);
+    width: 44px;
+  }
+
+  .stu-track__foot {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+
+  .stu-track__bar {
+    flex: 1;
+    height: 2px;
+    background: var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stu-track__bar i {
+    position: absolute;
+    inset: 0;
+    background: var(--acc);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  .stu-track__count {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+
+  /* ---------- showcase ---------- */
+  .stu-stack {
+    margin-top: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .stu-stack__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 18px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    font-size: 0.92rem;
+    color: var(--ink-2);
+    margin-left: calc(var(--i) * 14px);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+
+  .stu-stack__row:hover {
+    transform: translateX(6px);
+    border-color: var(--ink);
+  }
+
+  .stu-stack__row i {
+    font-style: normal;
+    color: var(--acc-ink);
+  }
+
+  .stu-stack__hub {
+    margin-top: 12px;
+    padding: 18px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.035em;
+    text-align: center;
+  }
+
+  .stu-checks {
+    margin-top: 34px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stu-checks li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+    font-size: 0.98rem;
+    color: var(--ink-2);
+  }
+
+  .stu-checks li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stu-checks em {
+    width: 7px;
+    height: 7px;
+    background: var(--acc);
+    flex: none;
+  }
+
+  /* ---------- stats ---------- */
+  .stu-stats {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 74px 0;
+  }
+
+  .stu-stats__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+
+  .stu-stat strong {
+    display: block;
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: clamp(2.2rem, 4.4vw, 3.7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.055em;
+    color: var(--acc);
+  }
+
+  .stu-stat span {
+    display: block;
+    margin-top: 12px;
+    font-size: 13px;
+    color: rgba(242, 240, 235, 0.66);
+  }
+
+  /* ---------- proof ---------- */
+  .stu-quotes {
+    margin-top: 46px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stu-quote {
+    padding: 32px 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 36px;
+    align-items: start;
+  }
+
+  .stu-quote:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stu-quote blockquote {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: clamp(1.05rem, 1.7vw, 1.4rem);
+    line-height: 1.32;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+
+  .stu-quote figcaption strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .stu-quote figcaption em {
+    display: block;
+    font-style: normal;
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+
+  /* ---------- pricing ---------- */
+  .stu-plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+  }
+
+  .stu-plan {
+    padding: 34px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-right: 1px solid var(--line);
+  }
+
+  .stu-plan:last-child {
+    border-right: 0;
+  }
+
+  .stu-plan.is-feat {
+    background: var(--paper-2);
+  }
+
+  .stu-plan__top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .stu-plan__top h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  .stu-plan__tag {
+    padding: 4px 10px;
+    background: var(--acc);
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .stu-plan__price {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+  }
+
+  .stu-plan__price strong {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: 2.9rem;
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    line-height: 1;
+  }
+
+  .stu-plan__price em {
+    font-style: normal;
+    font-size: 12.5px;
+    color: var(--ink-3);
+  }
+
+  .stu-plan__blurb {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--ink-2);
+    min-height: 3em;
+  }
+
+  .stu-plan__feat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stu-plan__feat li {
+    padding: 11px 0;
+    border-top: 1px solid var(--line);
+    font-size: 0.9rem;
+    color: var(--ink-2);
+  }
+
+  .stu-guar {
+    margin-top: 34px;
+    padding: 40px;
+    background: var(--ink);
+    color: var(--paper);
+    display: grid;
+    grid-template-columns: 0.9fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .stu-guar h3 {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: clamp(1.3rem, 2.4vw, 1.95rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+  }
+
+  .stu-guar p {
+    font-size: 0.97rem;
+    line-height: 1.66;
+    color: rgba(242, 240, 235, 0.76);
+  }
+
+  /* ---------- faq ---------- */
+  .stu-faq {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stu-faq__item {
+    border-top: 1px solid var(--line);
+  }
+
+  .stu-faq__item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stu-faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 24px 44px 24px 0;
+    position: relative;
+    display: block;
+  }
+
+  .stu-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .stu-faq__q {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .stu-faq__ico {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    transform: translateY(-50%);
+  }
+
+  .stu-faq__ico::before,
+  .stu-faq__ico::after {
+    content: '';
+    position: absolute;
+    background: var(--ink);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .stu-faq__ico::before {
+    inset: 6px 0 auto 0;
+    height: 2px;
+  }
+
+  .stu-faq__ico::after {
+    inset: 0 6px 0 auto;
+    width: 2px;
+  }
+
+  .stu-faq__item[open] .stu-faq__ico::after {
+    transform: scaleY(0);
+  }
+
+  .stu-faq__item p {
+    padding: 0 44px 26px 0;
+    font-size: 0.96rem;
+    line-height: 1.68;
+    color: var(--ink-2);
+    max-width: 70ch;
+  }
+
+  /* ---------- cta ---------- */
+  .stu-cta {
+    background: var(--acc);
+    color: #fff;
+    padding: 128px 0;
+  }
+
+  .stu-cta__in {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stu-cta__h {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-size: clamp(2.6rem, 8vw, 6.4rem);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.055em;
+  }
+
+  .stu-cta__sub {
+    margin-top: 22px;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    line-height: 1.55;
+    max-width: 46ch;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .stu-cta .stu-btn {
+    margin-top: 38px;
+    background: #fff;
+    color: var(--ink);
+  }
+
+  .stu-cta .stu-btn:hover {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  .stu-cta__note {
+    margin-top: 18px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  /* ---------- footer ---------- */
+  .stu-foot {
+    padding: 70px 0 34px;
+    background: var(--paper);
+  }
+
+  .stu-foot__in {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  .stu-foot__brand p {
+    margin-top: 14px;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--ink-3);
+    max-width: 30ch;
+  }
+
+  .stu-foot__col h4 {
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+
+  .stu-foot__col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stu-foot__col a {
+    font-size: 0.92rem;
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+
+  .stu-foot__col a:hover {
+    color: var(--acc-ink);
+  }
+
+  .stu-foot__legal {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 12.5px;
+    color: var(--ink-3);
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1040px) {
+    .stu-nav__links {
+      display: none;
+    }
+
+    .stu-two {
+      grid-template-columns: 1fr;
+      gap: 34px;
+    }
+
+    .stu-two__l {
+      position: static;
+    }
+
+    .stu-hero__row {
+      grid-template-columns: 1fr;
+      gap: 34px;
+    }
+
+    .stu-quote {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .stu-guar {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .stu-stats__row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 34px 24px;
+    }
+
+    .stu-plans {
+      grid-template-columns: 1fr;
+    }
+
+    .stu-plan {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stu-plan:last-child {
+      border-bottom: 0;
+    }
+
+    .stu-foot__in {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Below the pin breakpoint the rail is a plain stacked grid. matchMedia
+     reverts the horizontal tween, so no transform is left on it. */
+  @media (max-width: 860px) {
+    .stu-track__pin {
+      min-height: 0;
+      padding: 74px 0;
+      gap: 32px;
+    }
+
+    .stu-track__rail {
+      width: auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding-inline: 28px;
+    }
+
+    .stu-panel {
+      flex: none;
+      min-height: 0;
+    }
+
+    .stu-track__hint,
+    .stu-track__foot {
+      display: none;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .stu-hero {
+      padding-top: 64px;
+    }
+
+    .stu-sec {
+      padding: 72px 0;
+    }
+
+    .stu-cta {
+      padding: 92px 0;
+    }
+
+    .stu-prob {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .stu-marq__item {
+      font-size: 20px;
+      gap: 24px;
+      padding-right: 24px;
+    }
+
+    .stu-guar {
+      padding: 28px;
+    }
+
+    .stu-hero__act .stu-btn {
+      width: 100%;
+    }
+
+    .stu-foot__in {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.js .stu-word > span {
+      transform: none;
+    }
+  }
+</style>

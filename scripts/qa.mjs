@@ -12,7 +12,18 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 
 const BASE = process.env.QA_BASE || 'http://127.0.0.1:4411';
 const OUT = process.env.QA_OUT || 'qa-shots';
-const SKIN_IDS = ['linear', 'stripe', 'aesop', 'gumroad', 'longform', 'wire'];
+const SKIN_IDS = [
+  'linear',
+  'stripe',
+  'aesop',
+  'gumroad',
+  'longform',
+  'aurora',
+  'studio',
+  'canvas',
+  'prism',
+  'wire',
+];
 const ROUTES = [{ id: 'index', path: '/' }, ...SKIN_IDS.map((id) => ({ id, path: `/s/${id}/` }))];
 const REQUIRED_ANCHORS = ['features', 'showcase', 'proof', 'pricing', 'cta'];
 const BANNED = /[—–]/; // em dash, en dash
@@ -120,6 +131,13 @@ for (const route of ROUTES) {
     const hidden = [...document.querySelectorAll('[data-reveal]')].filter(
       (el) => getComputedStyle(el).opacity === '0'
     ).length;
+    /* The GSAP skins release [data-anim] from their own timelines instead of the
+       layout observer. Only count elements that actually render: a data-anim
+       element inside a container the breakpoint hides is not a stuck reveal. */
+    const animHidden = [...document.querySelectorAll('[data-anim]')].filter((el) => {
+      const r = el.getBoundingClientRect();
+      return (r.width > 0 || r.height > 0) && getComputedStyle(el).opacity === '0';
+    }).length;
     return {
       scrollWidth: de.scrollWidth,
       innerWidth: window.innerWidth,
@@ -133,6 +151,8 @@ for (const route of ROUTES) {
         .filter((l) => /[—–]/.test(l))
         .slice(0, 3),
       stillHidden: hidden,
+      animTotal: document.querySelectorAll('[data-anim]').length,
+      animHidden,
       skinbar: !!document.querySelector('[data-skinbar]'),
     };
   }, REQUIRED_ANCHORS);
@@ -158,6 +178,9 @@ for (const route of ROUTES) {
 
   if (info.stillHidden > 0) fail(`${info.stillHidden} [data-reveal] elements never revealed`);
   else pass('all reveals fired');
+
+  if (info.animHidden > 0) fail(`${info.animHidden} visible [data-anim] elements never released by GSAP`);
+  else if (info.animTotal) pass(`all ${info.animTotal} GSAP reveals fired`);
 
   if (route.id !== 'index') {
     const missing = REQUIRED_ANCHORS.filter((a) => !info.anchors.includes(a));
@@ -203,12 +226,19 @@ for (const route of ROUTES) {
       })
       .slice(0, 4)
       .map((el) => el.className || el.tagName);
-    return { scrollWidth: de.scrollWidth, innerWidth: window.innerWidth, wide };
+    const animHidden = [...document.querySelectorAll('[data-anim]')].filter((el) => {
+      const r = el.getBoundingClientRect();
+      return (r.width > 0 || r.height > 0) && getComputedStyle(el).opacity === '0';
+    }).length;
+    return { scrollWidth: de.scrollWidth, innerWidth: window.innerWidth, wide, animHidden };
   });
 
   if (mob.scrollWidth > mob.innerWidth + 1)
     fail(`horizontal overflow @375: ${mob.scrollWidth} > ${mob.innerWidth}; culprits ${JSON.stringify(mob.wide)}`);
   else pass('no h-overflow @375');
+
+  if (mob.animHidden > 0) fail(`${mob.animHidden} visible [data-anim] elements never released @375`);
+  else pass('GSAP reveals fired @375');
 
   await page.screenshot({ path: `${OUT}/${route.id}-mobile.png`, fullPage: true });
   await page.close();

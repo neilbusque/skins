@@ -111,3 +111,22 @@ html.js [data-reveal].is-in {
     transition: none;
   }
 }
+
+/* GSAP driven motion. The counterpart of [data-reveal]: same visibility
+   guarantees, but the skin's own timeline owns the release instead of the
+   layout observer. Stays visible with JS off and with reduced motion on.
+   Skins must release these with an explicit fromTo or to. A bare gsap.from()
+   reads the current value as its endpoint, so it would animate 0 to 0. */
+[data-anim] {
+  opacity: 1;
+}
+
+html.js [data-anim] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-anim] {
+    opacity: 1;
+  }
+}

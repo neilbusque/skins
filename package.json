@@ -1,9 +1,9 @@
 {
   "name": "skins",
   "type": "module",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
-  "description": "Six reusable landing page skins that all render one content file. Astro, static, no UI framework.",
+  "description": "Ten reusable landing page skins that all render one content file. Astro, static, no UI framework, GSAP motion on four of them.",
   "license": "MIT",
   "repository": {
     "type": "git",
