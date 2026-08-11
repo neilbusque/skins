@@ -1,23 +1,24 @@
 # Skins
 
-Ten reusable landing page skins. One content file, ten finished looks.
+Twelve reusable landing page skins. One content file, twelve finished looks.
 
 Live: **https://skins.neilb.app** · MIT licensed
 
 [![The Skins gallery](docs/shots/index.png)](https://skins.neilb.app)
 
 Every card in the gallery is the real page, running live at quarter scale. Design DNA for the
-first six lifted from the [swipe](https://swipe.neilb.app) reference library. The four newest each
-run their own layout engine and their own GSAP motion. Astro 5, static output, no UI framework, no
-external assets, Google Fonts only.
+first six lifted from the [swipe](https://swipe.neilb.app) reference library. The six newest each
+run their own layout engine and their own GSAP motion, and the last two are built around
+photography. Astro 5, static output, no UI framework, no CDN assets. Google Fonts, and images that
+ship with the repo.
 
 ---
 
 ## The idea
 
 `src/lib/content.ts` exports one typed object. Every skin renders that object and nothing else.
-Replace the object with a real project's copy and you have ten deployable landing pages before you
-have written any CSS.
+Replace the object with a real project's copy and you have twelve deployable landing pages before
+you have written any CSS.
 
 ```
 src/lib/content.ts        the contract. all copy lives here.
@@ -27,14 +28,15 @@ src/skins/<id>/Page.astro one self-contained skin. all markup, all css.
 src/pages/s/<id>.astro    3-line route that wires the layout to the skin.
 ```
 
-## The ten
+## The twelve
 
-Same words, ten arguments. Every screenshot below is the identical `content.ts` object.
+Same words, twelve arguments. Every screenshot below is the identical `content.ts` object.
 
 | | |
 |---|---|
 | [![Aurora](docs/shots/aurora.png)](https://skins.neilb.app/s/aurora/) **Aurora** · ink and acid lime, on a bento grid | [![Studio](docs/shots/studio.png)](https://skins.neilb.app/s/studio/) **Studio** · concrete and vermilion, scrolling sideways |
 | [![Canvas](docs/shots/canvas.png)](https://skins.neilb.app/s/canvas/) **Canvas** · forest and sand, cut on a diagonal | [![Prism](docs/shots/prism.png)](https://skins.neilb.app/s/prism/) **Prism** · oxblood and bone, on a slab stack |
+| [![Atelier](docs/shots/atelier.png)](https://skins.neilb.app/s/atelier/) **Atelier** · photography, cinematic full bleed | [![Lookbook](docs/shots/lookbook.png)](https://skins.neilb.app/s/lookbook/) **Lookbook** · photography, editorial masonry |
 | [![Linear Dark](docs/shots/linear.png)](https://skins.neilb.app/s/linear/) **Linear Dark** · app and product launches | [![Stripe Corporate](docs/shots/stripe.png)](https://skins.neilb.app/s/stripe/) **Stripe Corporate** · B2B, client sites, trust |
 | [![Aesop Editorial](docs/shots/aesop.png)](https://skins.neilb.app/s/aesop/) **Aesop Editorial** · personal brand, high ticket | [![Gumroad Bold](docs/shots/gumroad.png)](https://skins.neilb.app/s/gumroad/) **Gumroad Bold** · offers that should shout |
 | [![AG1 Longform](docs/shots/longform.png)](https://skins.neilb.app/s/longform/) **AG1 Longform** · long-form sales, VSL, sticky CTA | [![Wireframe](docs/shots/wire.png)](https://skins.neilb.app/s/wire/) **Wireframe** · structure only, annotated |
@@ -53,6 +55,23 @@ skins.
 Motion, in order: masked word reveals on every hero, a marquee, counting stats and a magnetic
 button on Aurora; a sideways pinned track and a trailing cursor on Studio; a stage that swaps scene
 per step on Canvas; slabs that shrink and dim as the next climbs over them on Prism.
+
+### The two photography skins
+
+| Skin | Route | Hero | Layout engine | Palette and type |
+|---|---|---|---|---|
+| **Atelier** | `/s/atelier/` | A photograph fills the first screen, Ken Burns on scroll | Full bleed bands, image and copy alternating to the viewport edge | Warm charcoal, bone, one brass. Bodoni Moda over Instrument Sans |
+| **Lookbook** | `/s/lookbook/` | Type first, the gallery wall is the payoff | Masonry: six tiles, four aspect ratios, twelve columns | Paper white and hard ink, no accent at all. The photographs are the colour. Syne over Familjen Grotesk |
+
+Both read image data from `content.images`. Every photograph is downloaded from
+[Pexels](https://www.pexels.com), resized, converted to WebP and **committed to `public/img`**.
+Fourteen images come to about 500KB total. Nothing is hotlinked, because a template people copy
+into their own projects must not borrow someone else's bandwidth. Photographer credits render in
+the footer of both skins: the Pexels license does not require it, but it costs nothing.
+
+Swapping the photography for a real project's own means replacing the files in `public/img` and
+the `images` block in `content.ts`. Keep `tint` roughly accurate, it is painted behind each lazy
+image so nothing flashes white or shifts.
 
 The original six are static, and pick by job.
 
@@ -86,7 +105,10 @@ Contributions follow the same contract the six ship with:
 
 - Read from `content`. Never hard-code marketing copy in a skin.
 - Unique class prefix. Every selector in the file starts with it.
-- No external images or CDN assets. Build visuals from CSS and inline SVG.
+- No CDN assets and no hotlinking, ever. Most skins build every visual from CSS and inline SVG.
+  The photography skins use committed, optimised WebP under `public/img`, read through
+  `content.images`, with `width`, `height`, `loading` and a `tint` background on every image so the
+  layout never shifts.
 - Use `data-reveal` for scroll reveals. The layout owns the IntersectionObserver.
 - For GSAP driven motion use `data-anim` instead, and release it with an explicit `fromTo` or `to`.
   A bare `gsap.from()` reads the element's current value as its endpoint, and the CSS gate has
@@ -119,9 +141,9 @@ npm run build && (python3 -m http.server 4411 --directory dist &) && sleep 1 && 
 QA_BASE=http://127.0.0.1:4411 npm run shots
 ```
 
-QA asserts, for all eleven routes at 1440px and 375px: HTTP 200, no console errors, no failed
+QA asserts, for all thirteen routes at 1440px and 375px: HTTP 200, no console errors, no failed
 requests, exactly one `h1`, no horizontal overflow, all section anchors, all `data-reveal` and all
-rendered `data-anim` elements released, no em dashes, ten live previews on the gallery, and that
+rendered `data-anim` elements released, no em dashes, twelve live previews on the gallery, and that
 embed mode hides the switcher bar and suppresses the longform entry modal. Screenshots land in
 `qa-shots/`.
 

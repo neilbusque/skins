@@ -16,7 +16,7 @@ import puppeteer from 'puppeteer';
 import { mkdirSync, copyFileSync, existsSync } from 'node:fs';
 
 const BASE = process.env.QA_BASE || 'http://127.0.0.1:4411';
-const SKIN_IDS = ['wire', 'linear', 'stripe', 'aesop', 'gumroad', 'longform', 'aurora', 'studio', 'canvas', 'prism'];
+const SKIN_IDS = ['wire', 'linear', 'stripe', 'aesop', 'gumroad', 'longform', 'aurora', 'studio', 'canvas', 'prism', 'atelier', 'lookbook'];
 
 mkdirSync('docs/shots', { recursive: true });
 

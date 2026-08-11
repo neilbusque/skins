@@ -1,0 +1,1516 @@
+---
+/**
+ * SKIN: Lookbook  ·  archetype: Editorial Masonry  ·  motion: GSAP + ScrollTrigger
+ *
+ * A gallery wall. Paper white, hard ink, and no accent colour at all, because
+ * the photographs are the colour. Syne carries the display, Familjen Grotesk the
+ * text. Images are self hosted WebP from content.images, never hotlinked.
+ *
+ * Layout engine: MASONRY. Six feature tiles on a twelve column grid at four
+ * different aspect ratios, each image wiping in behind a clip path and
+ * parallaxing inside its own frame.
+ */
+import { content as c } from '../../lib/content';
+
+const year = 2026;
+const headWords = c.hero.headline.replace(/,\s*$/, '').split(' ');
+const accentWords = c.hero.headlineAccent.split(' ');
+
+/* Six tiles, four shapes. The rhythm is the design: a pair, then a triptych,
+   then one full width plate. */
+const shapes = ['a', 'b', 'c', 'c', 'c', 'd'];
+const tiles = c.features.items.map((f, i) => ({
+  ...f,
+  shape: shapes[i] || 'c',
+  photo: c.images.gallery[i % c.images.gallery.length],
+}));
+const strip = c.images.gallery.slice(6, 9);
+const credits = c.images.gallery;
+---
+
+<div class="lbk">
+  <header class="lbk-nav">
+    <div class="lbk-wrap lbk-nav__in">
+      <a class="lbk-brand" href="#">
+        <span class="lbk-brand__mark">{c.brand.mark}</span>
+        <span>{c.brand.name}</span>
+      </a>
+      <nav class="lbk-nav__links" aria-label="Primary">
+        {c.nav.links.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+      <a class="lbk-btn lbk-btn--sm" href={c.nav.cta.href}>{c.nav.cta.label}</a>
+    </div>
+  </header>
+
+  <section class="lbk-hero">
+    <div class="lbk-wrap">
+      <div class="lbk-hero__meta" data-anim>
+        <span class="lbk-mono">{c.brand.domain}</span>
+        <span class="lbk-mono lbk-hero__beta">{c.hero.eyebrow}</span>
+        <span class="lbk-mono">Index {year}</span>
+      </div>
+
+      <h1 class="lbk-h1" aria-label={`${c.hero.headline} ${c.hero.headlineAccent}`}>
+        {
+          headWords.map((w) => (
+            <span class="lbk-word" data-anim>
+              <span>{w}</span>
+            </span>
+          ))
+        }
+        <span class="lbk-h1__acc">
+          {
+            accentWords.map((w) => (
+              <span class="lbk-word" data-anim>
+                <span>{w}</span>
+              </span>
+            ))
+          }
+        </span>
+      </h1>
+
+      <div class="lbk-hero__foot">
+        <p class="lbk-hero__sub" data-anim>{c.hero.sub}</p>
+        <div class="lbk-hero__act" data-anim>
+          <a class="lbk-btn" href={c.hero.ctaPrimary.href}>
+            {c.hero.ctaPrimary.label}
+            <i class="lbk-btn__ico" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 9.5 9.5 2.5M4.5 2.5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </i>
+          </a>
+          <a class="lbk-link" href={c.hero.ctaSecondary.href}>{c.hero.ctaSecondary.label}</a>
+          <p class="lbk-mono lbk-hero__note">{c.hero.note}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE WALL. Six tiles, four shapes, on twelve columns. -->
+  <section class="lbk-wall" id="features">
+    <div class="lbk-wrap">
+      <div class="lbk-wallHead">
+        <p class="lbk-mono lbk-eyebrow" data-anim>{c.features.eyebrow}</p>
+        <h2 class="lbk-h2" data-anim>{c.features.headline}</h2>
+        <p class="lbk-lead" data-anim>{c.features.sub}</p>
+      </div>
+
+      <div class="lbk-grid">
+        {
+          tiles.map((t) => (
+            <article class={`lbk-tile lbk-tile--${t.shape}`}>
+              <div class="lbk-tile__frame" style={`background-color:${t.photo.tint}`} data-tile>
+                <img
+                  src={t.photo.src}
+                  alt={t.photo.alt}
+                  width={t.photo.w}
+                  height={t.photo.h}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="lbk-tile__cap" data-anim>
+                <span class="lbk-mono lbk-tile__n">{t.glyph}</span>
+                <h3>{t.title}</h3>
+                <p>{t.body}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="lbk-sec lbk-sec--rule">
+    <div class="lbk-wrap lbk-two">
+      <div class="lbk-two__l">
+        <p class="lbk-mono lbk-eyebrow" data-anim>{c.problem.eyebrow}</p>
+      </div>
+      <div class="lbk-two__r">
+        <h2 class="lbk-h2" data-anim>{c.problem.headline}</h2>
+        <p class="lbk-lead" data-anim>{c.problem.body}</p>
+        <div class="lbk-rows">
+          {
+            c.problem.points.map((p, i) => (
+              <article class="lbk-row" data-anim>
+                <span class="lbk-mono lbk-row__n">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3>{p.title}</h3>
+                  <p>{p.body}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- A three up plate strip. Atmosphere, no copy. -->
+  <section class="lbk-strip" aria-label="Studio">
+    {
+      strip.map((p) => (
+        <div class="lbk-strip__item" style={`background-color:${p.tint}`} data-tile>
+          <img src={p.src} alt={p.alt} width={p.w} height={p.h} loading="lazy" decoding="async" />
+        </div>
+      ))
+    }
+  </section>
+
+  <section class="lbk-sec" id="showcase">
+    <div class="lbk-wrap lbk-two">
+      <div class="lbk-two__l">
+        <p class="lbk-mono lbk-eyebrow" data-anim>{c.showcase.eyebrow}</p>
+      </div>
+      <div class="lbk-two__r">
+        <h2 class="lbk-h2" data-anim>{c.showcase.headline}</h2>
+        <p class="lbk-lead" data-anim>{c.showcase.body}</p>
+        <ul class="lbk-checks">
+          {
+            c.showcase.bullets.map((b, i) => (
+              <li data-anim>
+                <em class="lbk-mono">{String(i + 1).padStart(2, '0')}</em>
+                {b}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="lbk-stats">
+    <div class="lbk-wrap lbk-stats__row">
+      {
+        c.stats.map((s) => (
+          <div class="lbk-stat" data-anim>
+            <strong data-count={s.value}>{s.value}</strong>
+            <span class="lbk-mono">{s.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="lbk-sec lbk-sec--rule" id="proof">
+    <div class="lbk-wrap lbk-two">
+      <div class="lbk-two__l">
+        <p class="lbk-mono lbk-eyebrow" data-anim>{c.proof.eyebrow}</p>
+      </div>
+      <div class="lbk-two__r">
+        <h2 class="lbk-h2" data-anim>{c.proof.headline}</h2>
+        <div class="lbk-quotes">
+          {
+            c.testimonials.map((t, i) => (
+              <figure class="lbk-quote" data-anim>
+                <span class="lbk-mono lbk-quote__n">{String(i + 1).padStart(2, '0')}</span>
+                <blockquote>{t.quote}</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong>
+                  <em class="lbk-mono">{t.role} / {t.company}</em>
+                </figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lbk-sec lbk-sec--rule" id="pricing">
+    <div class="lbk-wrap">
+      <div class="lbk-wallHead">
+        <p class="lbk-mono lbk-eyebrow" data-anim>{c.pricing.eyebrow}</p>
+        <h2 class="lbk-h2" data-anim>{c.pricing.headline}</h2>
+        <p class="lbk-lead" data-anim>{c.pricing.sub}</p>
+      </div>
+      <div class="lbk-plans">
+        {
+          c.pricing.plans.map((p, i) => (
+            <article class:list={['lbk-plan', { 'is-feat': p.featured }]} data-anim>
+              <header>
+                <span class="lbk-mono">{String(i + 1).padStart(2, '0')}</span>
+                <h3>{p.name}</h3>
+                {p.featured && <span class="lbk-mono lbk-plan__tag">Most teams</span>}
+              </header>
+              <p class="lbk-plan__price">
+                <strong>{p.price}</strong>
+                <em class="lbk-mono">{p.period}</em>
+              </p>
+              <p class="lbk-plan__blurb">{p.blurb}</p>
+              <a class:list={['lbk-btn', 'lbk-btn--full', { 'lbk-btn--out': !p.featured }]} href="#cta">
+                {p.cta}
+              </a>
+              <ul>
+                {p.features.map((f) => (
+                  <li>{f}</li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+      <div class="lbk-guar" data-anim>
+        <span class="lbk-mono">Guarantee</span>
+        <h3>{c.guarantee.headline}</h3>
+        <p>{c.guarantee.body}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lbk-sec">
+    <div class="lbk-wrap lbk-two">
+      <div class="lbk-two__l">
+        <p class="lbk-mono lbk-eyebrow" data-anim>{c.faqHead.eyebrow}</p>
+        <h2 class="lbk-h2 lbk-h2--sm" data-anim>{c.faqHead.headline}</h2>
+      </div>
+      <div class="lbk-two__r">
+        <div class="lbk-faq" data-anim>
+          {
+            c.faq.map((f, i) => (
+              <details class="lbk-faq__item" open={i === 0}>
+                <summary>
+                  <span class="lbk-mono">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="lbk-faq__q">{f.q}</span>
+                  <span class="lbk-faq__ico" aria-hidden="true" />
+                </summary>
+                <p>{f.a}</p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lbk-cta" id="cta">
+    <div class="lbk-wrap lbk-cta__in">
+      <p class="lbk-mono lbk-cta__label" data-anim>{c.brand.tagline}</p>
+      <h2 class="lbk-cta__h" data-anim>{c.cta.headline}</h2>
+      <div class="lbk-cta__row">
+        <p class="lbk-cta__sub" data-anim>{c.cta.sub}</p>
+        <a class="lbk-btn lbk-btn--lg lbk-btn--inv" href={c.cta.button.href} data-anim>
+          {c.cta.button.label}
+          <i class="lbk-btn__ico" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
+              <path d="M2.5 9.5 9.5 2.5M4.5 2.5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </i>
+        </a>
+      </div>
+      <p class="lbk-mono lbk-cta__note" data-anim>{c.cta.note}</p>
+    </div>
+  </section>
+
+  <footer class="lbk-foot">
+    <div class="lbk-wrap lbk-foot__in">
+      <div class="lbk-foot__brand">
+        <a class="lbk-brand" href="#">
+          <span class="lbk-brand__mark">{c.brand.mark}</span>
+          <span>{c.brand.name}</span>
+        </a>
+        <p>{c.brand.tagline}</p>
+      </div>
+      {
+        c.footer.columns.map((col) => (
+          <div class="lbk-foot__col">
+            <h4 class="lbk-mono">{col.title}</h4>
+            <ul>
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href}>{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div class="lbk-wrap lbk-credits">
+      <span class="lbk-mono">{c.images.creditLabel}</span>
+      <p>
+        {
+          credits.map((p, i) => (
+            <>
+              <a href={p.href} target="_blank" rel="noopener">{p.credit}</a>
+              {i < credits.length - 1 ? ', ' : ''}
+            </>
+          ))
+        }
+      </p>
+    </div>
+    <div class="lbk-wrap lbk-foot__legal lbk-mono">
+      <span>&copy; {year} {c.brand.name}</span>
+      <span>{c.footer.legal}</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+  import gsap from 'gsap';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const root = document.querySelector('.lbk');
+  if (root) {
+    const q = (sel) => Array.from(root.querySelectorAll(sel));
+    const anims = q('[data-anim]');
+    const words = q('.lbk-word > span');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduced) {
+      gsap.set(anims, { opacity: 1, y: 0 });
+      gsap.set(words, { y: 0 });
+    } else {
+      const heroAnims = q('.lbk-hero [data-anim]');
+      const heroSet = new Set(heroAnims);
+
+      gsap
+        .timeline({ defaults: { ease: 'power3.out' } })
+        .fromTo('.lbk-hero__meta', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.55 })
+        .to('.lbk-word', { opacity: 1, duration: 0.01, stagger: 0.04 }, 0.1)
+        .to('.lbk-word > span', { y: '0%', duration: 1.15, stagger: 0.04, ease: 'expo.out' }, 0.1)
+        .fromTo('.lbk-hero__sub', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, 0.5)
+        .fromTo('.lbk-hero__act', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, 0.56);
+
+      ScrollTrigger.batch(
+        anims.filter((el) => !heroSet.has(el)),
+        {
+          start: 'top 90%',
+          once: true,
+          batchMax: 4,
+          onEnter: (batch) =>
+            gsap.fromTo(
+              batch,
+              { opacity: 0, y: 26 },
+              { opacity: 1, y: 0, duration: 0.65, stagger: 0.05, ease: 'power3.out', overwrite: 'auto' }
+            ),
+        }
+      );
+
+      /* ---- Every plate wipes in behind a clip path, then parallaxes inside its
+             own frame. The wipe is created INSIDE onEnter rather than as a
+             scroll triggered fromTo, because a fromTo applies its start state on
+             load: any tile whose trigger never fired would sit clipped to
+             nothing forever. Built this way, an unfired tile is simply a normal
+             visible image ---- */
+      q('[data-tile]').forEach((frame) => {
+        const img = frame.querySelector('img');
+        if (!img) return;
+
+        ScrollTrigger.create({
+          trigger: frame,
+          start: 'top 88%',
+          once: true,
+          onEnter: () =>
+            gsap.fromTo(
+              frame,
+              { clipPath: 'inset(100% 0% 0% 0%)' },
+              { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.1, ease: 'expo.out' }
+            ),
+        });
+
+        gsap.fromTo(
+          img,
+          { yPercent: -6 },
+          {
+            yPercent: 6,
+            ease: 'none',
+            scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: 0.7 },
+          }
+        );
+      });
+    }
+
+    /* ---- counting stats ---- */
+    q('[data-count]').forEach((el) => {
+      const raw = el.getAttribute('data-count') || '';
+      const m = raw.match(/^(\D*)([\d.,]+)(.*)$/);
+      if (!m || reduced) return;
+      const [, pre, num, post] = m;
+      const target = parseFloat(num.replace(/,/g, ''));
+      if (!isFinite(target)) return;
+      const decimals = (num.split('.')[1] || '').length;
+      const grouped = num.indexOf(',') > -1;
+      const proxy = { v: 0 };
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 94%',
+        once: true,
+        onEnter: () =>
+          gsap.to(proxy, {
+            v: target,
+            duration: 1.5,
+            ease: 'power2.out',
+            onUpdate: () => {
+              const fixed = proxy.v.toFixed(decimals);
+              el.textContent = pre + (grouped ? Number(fixed).toLocaleString('en-US') : fixed) + post;
+            },
+            onComplete: () => {
+              el.textContent = raw;
+            },
+          }),
+      });
+    });
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => ScrollTrigger.refresh());
+    }
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+  }
+</script>
+
+<style is:global>
+  .lbk {
+    --paper: #f6f5f1;
+    --paper-2: #ebe9e3;
+    --paper-3: #ffffff;
+    --ink: #101010;
+    --ink-2: #43423e;
+    --ink-3: #6a6862;
+    --line: rgba(16, 16, 16, 0.14);
+    --line-2: rgba(16, 16, 16, 0.3);
+
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Familjen Grotesk', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    letter-spacing: -0.011em;
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+  }
+
+  .lbk-wrap {
+    width: 100%;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: 34px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .lbk-mono {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- nav ---------- */
+  .lbk-nav {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: rgba(246, 245, 241, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lbk-nav__in {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    height: 68px;
+  }
+
+  .lbk-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-family: 'Syne', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 19px;
+    letter-spacing: -0.03em;
+    flex: none;
+  }
+
+  .lbk-brand__mark {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 2px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Familjen Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .lbk-nav__links {
+    display: flex;
+    gap: 30px;
+    margin-inline: auto;
+    font-size: 14px;
+  }
+
+  .lbk-nav__links a {
+    color: var(--ink-2);
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .lbk-nav__links a:hover {
+    border-bottom-color: var(--ink);
+  }
+
+  /* ---------- buttons ---------- */
+  .lbk-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 50px;
+    padding: 0 11px 0 25px;
+    border-radius: 2px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.4s cubic-bezier(0.32, 0.72, 0, 1), color 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .lbk-btn:hover {
+    background: var(--ink-2);
+  }
+
+  .lbk-btn:active {
+    transform: scale(0.985);
+  }
+
+  .lbk-btn__ico {
+    width: 29px;
+    height: 29px;
+    display: grid;
+    place-items: center;
+    border-radius: 1px;
+    background: rgba(246, 245, 241, 0.15);
+    flex: none;
+    transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1), background 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .lbk-btn:hover .lbk-btn__ico {
+    transform: translate(2px, -2px);
+    background: rgba(246, 245, 241, 0.26);
+  }
+
+  .lbk-btn--sm {
+    height: 38px;
+    padding: 0 17px;
+    font-size: 13.5px;
+    flex: none;
+  }
+
+  .lbk-btn--lg {
+    height: 60px;
+    padding: 0 13px 0 30px;
+    font-size: 16.5px;
+  }
+
+  .lbk-btn--out {
+    background: transparent;
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1.5px var(--ink);
+    padding-inline: 25px;
+  }
+
+  .lbk-btn--out:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .lbk-btn--inv {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .lbk-btn--inv .lbk-btn__ico {
+    background: rgba(16, 16, 16, 0.1);
+  }
+
+  .lbk-btn--inv:hover {
+    background: var(--paper-2);
+    color: var(--ink);
+  }
+
+  .lbk-btn--full {
+    width: 100%;
+    padding-inline: 25px;
+  }
+
+  .lbk-link {
+    font-size: 15px;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--line-2);
+    padding-bottom: 3px;
+    transition: border-color 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .lbk-link:hover {
+    border-color: var(--ink);
+  }
+
+  /* ---------- hero ---------- */
+  .lbk-hero {
+    padding: 66px 0 58px;
+  }
+
+  .lbk-hero__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-3);
+    flex-wrap: wrap;
+  }
+
+  .lbk-hero__beta {
+    color: var(--ink);
+  }
+
+  .lbk-h1 {
+    padding: 44px 0 0;
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: clamp(2.7rem, 8vw, 7.2rem);
+    line-height: 0.92;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+  }
+
+  .lbk-h1__acc {
+    display: block;
+    padding-left: clamp(0px, 9vw, 168px);
+  }
+
+  .lbk-word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.1em;
+    margin-bottom: -0.1em;
+    margin-right: 0.2em;
+  }
+
+  .lbk-word > span {
+    display: inline-block;
+  }
+
+  html.js .lbk-word > span {
+    transform: translateY(110%);
+  }
+
+  .lbk-hero__foot {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 44px;
+    align-items: start;
+  }
+
+  .lbk-hero__sub {
+    font-size: clamp(1rem, 1.3vw, 1.18rem);
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 44ch;
+  }
+
+  .lbk-hero__act {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .lbk-hero__note {
+    flex-basis: 100%;
+    text-align: right;
+    color: var(--ink-3);
+  }
+
+  /* ---------- THE WALL ---------- */
+  .lbk-wall {
+    padding-bottom: 104px;
+  }
+
+  .lbk-wallHead {
+    max-width: 58ch;
+    margin-bottom: 52px;
+  }
+
+  .lbk-eyebrow {
+    color: var(--ink-3);
+    margin-bottom: 14px;
+  }
+
+  .lbk-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px 20px;
+  }
+
+  .lbk-tile--a {
+    grid-column: span 7;
+  }
+
+  .lbk-tile--b {
+    grid-column: span 5;
+  }
+
+  .lbk-tile--c {
+    grid-column: span 4;
+  }
+
+  .lbk-tile--d {
+    grid-column: span 12;
+  }
+
+  .lbk-tile__frame {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+
+  .lbk-tile--b .lbk-tile__frame {
+    aspect-ratio: 4 / 4.6;
+  }
+
+  .lbk-tile--c .lbk-tile__frame {
+    aspect-ratio: 1 / 1;
+  }
+
+  .lbk-tile--d .lbk-tile__frame {
+    aspect-ratio: 21 / 8;
+  }
+
+  /* The image is taller than its frame so the parallax never exposes an edge. */
+  .lbk-tile__frame img,
+  .lbk-strip__item img {
+    position: absolute;
+    inset: -7% 0;
+    width: 100%;
+    height: 114%;
+    object-fit: cover;
+    will-change: transform;
+    transition: scale 0.7s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .lbk-tile:hover .lbk-tile__frame img {
+    scale: 1.035;
+  }
+
+  .lbk-tile__cap {
+    padding-top: 18px;
+  }
+
+  .lbk-tile__n {
+    display: block;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+
+  .lbk-tile__cap h3 {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: 1.24rem;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+  }
+
+  .lbk-tile__cap p {
+    margin-top: 9px;
+    font-size: 0.94rem;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 48ch;
+  }
+
+  /* ---------- strip ---------- */
+  .lbk-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .lbk-strip__item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+
+  /* ---------- sections ---------- */
+  .lbk-sec {
+    padding: 104px 0;
+  }
+
+  .lbk-sec--rule {
+    border-top: 1px solid var(--line);
+  }
+
+  .lbk-two {
+    display: grid;
+    grid-template-columns: 0.34fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .lbk-two__l {
+    position: sticky;
+    top: 108px;
+  }
+
+  .lbk-h2 {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: clamp(1.9rem, 3.7vw, 3.1rem);
+    line-height: 1.04;
+    font-weight: 700;
+    letter-spacing: -0.042em;
+    text-wrap: balance;
+  }
+
+  .lbk-h2--sm {
+    font-size: clamp(1.6rem, 2.5vw, 2.15rem);
+  }
+
+  .lbk-lead {
+    margin-top: 18px;
+    font-size: 1.04rem;
+    line-height: 1.62;
+    color: var(--ink-2);
+    max-width: 56ch;
+  }
+
+  .lbk-rows {
+    margin-top: 50px;
+  }
+
+  .lbk-row {
+    display: grid;
+    grid-template-columns: 62px 1fr;
+    gap: 20px;
+    padding: 26px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .lbk-row:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lbk-row__n {
+    color: var(--ink-3);
+    padding-top: 5px;
+  }
+
+  .lbk-row h3 {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: 1.12rem;
+    font-weight: 700;
+    letter-spacing: -0.032em;
+    margin-bottom: 8px;
+  }
+
+  .lbk-row p {
+    font-size: 0.95rem;
+    line-height: 1.62;
+    color: var(--ink-2);
+    max-width: 58ch;
+  }
+
+  .lbk-checks {
+    margin-top: 34px;
+  }
+
+  .lbk-checks li {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+    font-size: 0.98rem;
+    color: var(--ink-2);
+  }
+
+  .lbk-checks li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lbk-checks em {
+    font-style: normal;
+    color: var(--ink-3);
+    flex: none;
+  }
+
+  /* ---------- stats ---------- */
+  .lbk-stats {
+    padding: 78px 0;
+    background: var(--paper-2);
+  }
+
+  .lbk-stats__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px;
+  }
+
+  .lbk-stat {
+    padding-left: 22px;
+    border-left: 1px solid var(--line-2);
+  }
+
+  .lbk-stat strong {
+    display: block;
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: clamp(2.1rem, 4.2vw, 3.4rem);
+    font-weight: 800;
+    line-height: 0.96;
+    letter-spacing: -0.05em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lbk-stat span {
+    display: block;
+    margin-top: 14px;
+    color: var(--ink-3);
+  }
+
+  /* ---------- proof ---------- */
+  .lbk-quotes {
+    margin-top: 44px;
+  }
+
+  .lbk-quote {
+    display: grid;
+    grid-template-columns: 62px 1fr 210px;
+    gap: 24px;
+    padding: 30px 0;
+    border-top: 1px solid var(--line);
+    align-items: start;
+  }
+
+  .lbk-quote:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lbk-quote__n {
+    color: var(--ink-3);
+    padding-top: 7px;
+  }
+
+  .lbk-quote blockquote {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: clamp(1.08rem, 1.7vw, 1.4rem);
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+
+  .lbk-quote figcaption strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .lbk-quote figcaption em {
+    display: block;
+    margin-top: 5px;
+    font-style: normal;
+    color: var(--ink-3);
+  }
+
+  /* ---------- pricing ---------- */
+  .lbk-plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--line);
+    background: var(--paper-3);
+  }
+
+  .lbk-plan {
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-right: 1px solid var(--line);
+  }
+
+  .lbk-plan:last-child {
+    border-right: 0;
+  }
+
+  .lbk-plan.is-feat {
+    background: var(--paper-2);
+  }
+
+  .lbk-plan header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .lbk-plan header > span:first-child {
+    color: var(--ink-3);
+  }
+
+  .lbk-plan h3 {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+  }
+
+  .lbk-plan__tag {
+    margin-left: auto;
+    padding: 4px 9px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 10px;
+  }
+
+  .lbk-plan__price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .lbk-plan__price strong {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: 2.7rem;
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    line-height: 1;
+  }
+
+  .lbk-plan__price em {
+    font-style: normal;
+    color: var(--ink-3);
+  }
+
+  .lbk-plan__blurb {
+    font-size: 0.91rem;
+    line-height: 1.55;
+    color: var(--ink-2);
+    min-height: 2.9em;
+  }
+
+  .lbk-plan li {
+    padding: 11px 0;
+    border-top: 1px solid var(--line);
+    font-size: 0.89rem;
+    color: var(--ink-2);
+  }
+
+  .lbk-guar {
+    margin-top: 22px;
+    padding: 38px;
+    background: var(--ink);
+    color: var(--paper);
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 30px;
+    align-items: start;
+  }
+
+  .lbk-guar > span {
+    color: rgba(246, 245, 241, 0.55);
+    padding-top: 6px;
+  }
+
+  .lbk-guar h3 {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: clamp(1.25rem, 2.3vw, 1.8rem);
+    font-weight: 700;
+    letter-spacing: -0.042em;
+    line-height: 1.08;
+    margin-bottom: 13px;
+  }
+
+  .lbk-guar p {
+    font-size: 0.96rem;
+    line-height: 1.66;
+    color: rgba(246, 245, 241, 0.72);
+    max-width: 64ch;
+  }
+
+  /* ---------- faq ---------- */
+  .lbk-faq__item {
+    border-top: 1px solid var(--line);
+  }
+
+  .lbk-faq__item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lbk-faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 24px 40px 24px 0;
+    position: relative;
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 14px;
+    align-items: baseline;
+  }
+
+  .lbk-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .lbk-faq__item summary > span:first-child {
+    color: var(--ink-3);
+  }
+
+  .lbk-faq__q {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: 1.08rem;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+
+  .lbk-faq__ico {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    width: 13px;
+    height: 13px;
+    transform: translateY(-50%);
+  }
+
+  .lbk-faq__ico::before,
+  .lbk-faq__ico::after {
+    content: '';
+    position: absolute;
+    background: var(--ink);
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .lbk-faq__ico::before {
+    inset: 6px 0 auto 0;
+    height: 1.6px;
+  }
+
+  .lbk-faq__ico::after {
+    inset: 0 6px 0 auto;
+    width: 1.6px;
+  }
+
+  .lbk-faq__item[open] .lbk-faq__ico::after {
+    transform: scaleY(0);
+  }
+
+  .lbk-faq__item p {
+    padding: 0 40px 26px 64px;
+    font-size: 0.94rem;
+    line-height: 1.68;
+    color: var(--ink-2);
+    max-width: 76ch;
+  }
+
+  /* ---------- cta ---------- */
+  .lbk-cta {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 118px 0;
+  }
+
+  .lbk-cta__label {
+    color: rgba(246, 245, 241, 0.55);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid rgba(246, 245, 241, 0.2);
+  }
+
+  .lbk-cta__h {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: clamp(2.6rem, 8vw, 6.6rem);
+    line-height: 0.92;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    max-width: 13ch;
+  }
+
+  .lbk-cta__row {
+    margin-top: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 34px;
+    flex-wrap: wrap;
+  }
+
+  .lbk-cta__sub {
+    font-size: clamp(1rem, 1.4vw, 1.18rem);
+    line-height: 1.55;
+    max-width: 38ch;
+    color: rgba(246, 245, 241, 0.76);
+  }
+
+  .lbk-cta__note {
+    margin-top: 24px;
+    color: rgba(246, 245, 241, 0.55);
+  }
+
+  /* ---------- footer ---------- */
+  .lbk-foot {
+    padding: 68px 0 32px;
+  }
+
+  .lbk-foot__in {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  .lbk-foot__brand p {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ink-3);
+    max-width: 30ch;
+  }
+
+  .lbk-foot__col h4 {
+    color: var(--ink-3);
+    margin-bottom: 17px;
+  }
+
+  .lbk-foot__col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  .lbk-foot__col a {
+    font-size: 0.9rem;
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+
+  .lbk-foot__col a:hover {
+    color: var(--ink);
+  }
+
+  .lbk-credits {
+    margin-top: 46px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+
+  .lbk-credits > span {
+    color: var(--ink-3);
+    flex: none;
+  }
+
+  .lbk-credits p {
+    font-size: 0.88rem;
+    color: var(--ink-3);
+  }
+
+  .lbk-credits a {
+    color: var(--ink-2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lbk-credits a:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .lbk-foot__legal {
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+    color: var(--ink-3);
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1040px) {
+    .lbk-nav__links {
+      display: none;
+    }
+
+    .lbk-two {
+      grid-template-columns: 1fr;
+      gap: 34px;
+    }
+
+    .lbk-two__l {
+      position: static;
+    }
+
+    .lbk-hero__foot {
+      grid-template-columns: 1fr;
+      gap: 26px;
+    }
+
+    .lbk-hero__act {
+      justify-content: flex-start;
+    }
+
+    .lbk-hero__note {
+      text-align: left;
+    }
+
+    /* Six columns keeps the pair-then-triptych rhythm without going single file
+       too early. */
+    .lbk-grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .lbk-tile--a,
+    .lbk-tile--b,
+    .lbk-tile--d {
+      grid-column: span 6;
+    }
+
+    .lbk-tile--c {
+      grid-column: span 3;
+    }
+
+    .lbk-tile--b .lbk-tile__frame {
+      aspect-ratio: 4 / 3;
+    }
+
+    .lbk-tile--d .lbk-tile__frame {
+      aspect-ratio: 16 / 9;
+    }
+
+    .lbk-plans {
+      grid-template-columns: 1fr;
+    }
+
+    .lbk-plan {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .lbk-plan:last-child {
+      border-bottom: 0;
+    }
+
+    .lbk-stats__row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px 26px;
+    }
+
+    .lbk-quote {
+      grid-template-columns: 50px 1fr;
+    }
+
+    .lbk-quote figcaption {
+      grid-column: 2;
+    }
+
+    .lbk-guar {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .lbk-foot__in {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .lbk-wrap {
+      padding-inline: 22px;
+    }
+
+    .lbk-hero {
+      padding: 46px 0 44px;
+    }
+
+    .lbk-h1 {
+      padding-top: 30px;
+      font-size: clamp(2.4rem, 12vw, 4rem);
+    }
+
+    .lbk-h1__acc {
+      padding-left: 0;
+    }
+
+    .lbk-sec,
+    .lbk-wall {
+      padding-top: 70px;
+      padding-bottom: 70px;
+    }
+
+    .lbk-cta {
+      padding: 86px 0;
+    }
+
+    .lbk-grid {
+      grid-template-columns: 1fr;
+      gap: 34px;
+    }
+
+    .lbk-tile--a,
+    .lbk-tile--b,
+    .lbk-tile--c,
+    .lbk-tile--d {
+      grid-column: span 1;
+    }
+
+    .lbk-tile__frame,
+    .lbk-tile--b .lbk-tile__frame,
+    .lbk-tile--c .lbk-tile__frame,
+    .lbk-tile--d .lbk-tile__frame {
+      aspect-ratio: 4 / 3;
+    }
+
+    .lbk-strip {
+      grid-template-columns: 1fr;
+    }
+
+    .lbk-row,
+    .lbk-quote {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .lbk-hero__act .lbk-btn {
+      width: 100%;
+      padding-inline: 25px;
+    }
+
+    .lbk-faq__item p {
+      padding-left: 0;
+    }
+
+    .lbk-guar {
+      padding: 26px;
+    }
+
+    .lbk-foot__in {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.js .lbk-word > span {
+      transform: none;
+    }
+  }
+</style>

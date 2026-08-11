@@ -22,6 +22,8 @@ const SKIN_IDS = [
   'studio',
   'canvas',
   'prism',
+  'atelier',
+  'lookbook',
   'wire',
 ];
 const ROUTES = [{ id: 'index', path: '/' }, ...SKIN_IDS.map((id) => ({ id, path: `/s/${id}/` }))];

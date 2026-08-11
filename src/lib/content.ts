@@ -18,6 +18,23 @@ export interface Link {
   href: string;
 }
 
+/** A photograph that ships with the repo. Nothing here is hotlinked. */
+export interface Photo {
+  /** Path under /img. Every file is committed and optimised. No CDN, ever: a
+   *  template people copy into their own projects must not hotlink someone
+   *  else's bandwidth. */
+  src: string;
+  alt: string;
+  /** Mean colour of the image. Paint it behind a lazy image so the layout never
+   *  flashes white and never shifts. */
+  tint: string;
+  /** Pexels photographer. The license does not require credit. Give it anyway. */
+  credit: string;
+  href: string;
+  w: number;
+  h: number;
+}
+
 export interface SiteContent {
   brand: {
     name: string;
@@ -107,6 +124,17 @@ export interface SiteContent {
   footer: {
     columns: { title: string; links: Link[] }[];
     legal: string;
+  };
+
+  /** Photography. Used by the image led skins. The other eleven ignore it. */
+  images: {
+    /** The single full bleed opener. */
+    hero: Photo;
+    /** Wide plates for full width bands. */
+    bands: Photo[];
+    /** Gallery tiles. Mixed subjects on purpose, a grid wants variety. */
+    gallery: Photo[];
+    creditLabel: string;
   };
 }
 
@@ -368,5 +396,139 @@ export const content: SiteContent = {
       },
     ],
     legal: 'Demo content. Every word on this page comes from src/lib/content.ts.',
+  },
+
+  images: {
+    hero: {
+        src: '/img/hall.webp',
+        alt: 'Explore the symmetry and simplicity of a modern concrete hallway in black and white.',
+        tint: '#626262',
+        credit: 'IAN',
+        href: 'https://www.pexels.com/photo/corner-of-hallway-15663488/',
+        w: 1800,
+        h: 1200,
+      },
+    bands: [
+      {
+        src: '/img/curve.webp',
+        alt: 'Bright modern hallway with curved walls and soft lighting, showcasing minimalist interior design.',
+        tint: '#bcb0a6',
+        credit: 'DOAN THANH BINH',
+        href: 'https://www.pexels.com/photo/modern-minimalist-interior-hallway-with-soft-lighting-36887535/',
+        w: 1400,
+        h: 933,
+      },
+      {
+        src: '/img/spiral.webp',
+        alt: 'Abstract view of a modern spiral staircase, showcasing geometric curves and light dynamics.',
+        tint: '#6d6d6d',
+        credit: 'Masood Aslami',
+        href: 'https://www.pexels.com/photo/a-black-and-white-photo-of-a-spiral-staircase-27781606/',
+        w: 1400,
+        h: 933,
+      },
+      {
+        src: '/img/maker.webp',
+        alt: 'A focused architect working on a design at home with ambient daylight.',
+        tint: '#5a4e45',
+        credit: 'Ron Lach',
+        href: 'https://www.pexels.com/photo/architect-working-at-desk-in-home-9618112/',
+        w: 1400,
+        h: 933,
+      },
+      {
+        src: '/img/corridor.webp',
+        alt: 'Perspective view of empty hallway with entrance door and illuminated ceiling in contemporary workplace',
+        tint: '#878682',
+        credit: 'Max Vakhtbovych',
+        href: 'https://www.pexels.com/photo/long-corridor-in-modern-office-7534167/',
+        w: 1400,
+        h: 935,
+      },
+    ],
+    gallery: [
+      {
+        src: '/img/atelier.webp',
+        alt: 'Fashion designers working together in a modern atelier with sewing machines and patterns.',
+        tint: '#7d6d5e',
+        credit: 'Ron Lach',
+        href: 'https://www.pexels.com/photo/people-working-in-an-atelier-9850083/',
+        w: 900,
+        h: 600,
+      },
+      {
+        src: '/img/drafting.webp',
+        alt: 'A creative architect working at home, reviewing blueprints with coffee.',
+        tint: '#5b5149',
+        credit: 'Ron Lach',
+        href: 'https://www.pexels.com/photo/architect-working-at-home-at-desk-9618104/',
+        w: 900,
+        h: 600,
+      },
+      {
+        src: '/img/sketch.webp',
+        alt: 'From above of sketchbook with sketches of new collection of clothes placed on white table in modern light professional studio with various folders',
+        tint: '#807e7a',
+        credit: 'Anete Lusina',
+        href: 'https://www.pexels.com/photo/sketchbook-with-design-of-clothes-7256861/',
+        w: 900,
+        h: 601,
+      },
+      {
+        src: '/img/blueprint.webp',
+        alt: 'A creative workspace with architectural tools, blueprints, and sketches for design projects.',
+        tint: '#75726d',
+        credit: 'Tima Miroshnichenko',
+        href: 'https://www.pexels.com/photo/floor-plans-on-white-table-6615036/',
+        w: 900,
+        h: 600,
+      },
+      {
+        src: '/img/meeting.webp',
+        alt: 'A diverse team gathered for a meeting in a modern office with creative decor, discussing plans.',
+        tint: '#968a7a',
+        credit: 'RDNE Stock project',
+        href: 'https://www.pexels.com/photo/business-people-having-a-meeting-7889241/',
+        w: 900,
+        h: 600,
+      },
+      {
+        src: '/img/loft.webp',
+        alt: 'Bright minimalist interior space with white walls and modern equipment cart.',
+        tint: '#d3d4d3',
+        credit: 'The Juggle Studio',
+        href: 'https://www.pexels.com/photo/a-cart-with-an-equipment-in-a-white-apartment-20314949/',
+        w: 900,
+        h: 600,
+      },
+      {
+        src: '/img/facade.webp',
+        alt: 'A modern concrete building facade with repetitive windows creating a minimalistic architectural pattern.',
+        tint: '#747a6d',
+        credit: 'David Yu',
+        href: 'https://www.pexels.com/photo/a-brown-concrete-building-with-glass-windows-and-stained-wall-9473066/',
+        w: 900,
+        h: 601,
+      },
+      {
+        src: '/img/workshop.webp',
+        alt: 'A diverse group of professionals in a creative workspace discussing ideas and planning on a whiteboard.',
+        tint: '#ac9a72',
+        credit: 'Moe Magners',
+        href: 'https://www.pexels.com/photo/men-presenting-using-a-whiteboard-7495605/',
+        w: 900,
+        h: 600,
+      },
+      {
+        src: '/img/glass.webp',
+        alt: 'Modern architectural detail showcasing a bridge with glass facade and sleek design.',
+        tint: '#6d7577',
+        credit: 'Mathias Reding',
+        href: 'https://www.pexels.com/photo/low-angle-view-of-overpass-bridge-joining-buildings-9845176/',
+        w: 900,
+        h: 600,
+      },
+    ],
+    creditLabel: 'Photography from Pexels',
   },
 };

@@ -43,7 +43,7 @@ const ogImage = Astro.site ? new URL('/og.png', Astro.site).href : '/og.png';
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:alt" content="The Skins gallery: ten landing page skins rendered from one content file" />
+    <meta property="og:image:alt" content="The Skins gallery: twelve landing page skins rendered from one content file" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -63,8 +63,18 @@ const ogImage = Astro.site ? new URL('/og.png', Astro.site).href : '/og.png';
          page furniture (switcher bar, entry modals) inside those iframes. */
       if (/[?&]embed=1/.test(location.search)) document.documentElement.classList.add('embed');
     </script>
-    <!-- Sonar analytics (sonar.neilb.app). First-party, self-hosted. -->
-    <script defer src="https://sonar.neilb.app/t.js"></script>
+    <!-- Sonar analytics (sonar.neilb.app). First-party, self-hosted.
+         Injected rather than hard coded, because the gallery embeds every skin
+         as a live iframe: a static tag would fire one beacon per preview and
+         report 13 pageviews for a single visit to the gallery. -->
+    <script is:inline>
+      if (!/[?&]embed=1/.test(location.search)) {
+        var s = document.createElement('script');
+        s.defer = true;
+        s.src = 'https://sonar.neilb.app/t.js';
+        document.head.appendChild(s);
+      }
+    </script>
   </head>
   <body>
     <slot />
